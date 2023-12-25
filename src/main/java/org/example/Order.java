@@ -42,9 +42,9 @@ public class Order {
         this.sendEmailCancel = sendEmailCancel;
     }
 
-  public  static final  boolean sendEmailConfirmation=false;
-  public  static final  boolean sendEmailReceiving=false;
-  public  static final  boolean sendEmailCancel=false;
+  public  static   boolean sendEmailConfirmation=false;
+  public  static   boolean sendEmailReceiving=false;
+  public  static   boolean sendEmailCancel=false;
 
     public void  ifEmailSending (String status){
 
