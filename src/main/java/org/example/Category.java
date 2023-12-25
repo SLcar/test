@@ -111,7 +111,7 @@ public class Category
         try (
                 RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
             String s;
-                    numberOfLine =-1;
+                    numberOfLine = -1;
             while ((s = ref.readLine()) != null) {
                 numberOfLine = numberOfLine +1;
                 if (s.equals(CategoryName)) {
