@@ -20,7 +20,7 @@ jobs:
         run: mvn --batch-mode -DskipTests package
 
       - name: Step4 - Run test cases
-        run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
+        run: mvn -e -X --batch-mode -Dmaven.test.failure.ignore=true test
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
