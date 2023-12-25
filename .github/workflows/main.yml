@@ -3,8 +3,7 @@ name: GitHub Actions Maven Build Example
 on:
   push:
     branches: [ master ]
-    
-  jobs:
+jobs:
   
   build-on-ubuntu:
   
