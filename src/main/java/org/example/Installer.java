@@ -96,8 +96,9 @@ public class Installer {
     ArrayList<String> listPrint = new ArrayList<>();
 
 
+     private Random random = new Random();
+
     public void randomNumberGenerator() {
-        Random random = new Random();
         long min = 1000000000L; // Minimum 10-digit number
         long max = 9999999999L; // Maximum 10-digit number
 
@@ -422,10 +423,9 @@ public class Installer {
 
 
     public void writeToFile(String s) {
+        RandomAccessFile file=null;
         try {
-
-
-            RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw");
+        file = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw");
             file.seek(file.length());
             file.writeBytes(s);
             file.close();
@@ -433,6 +433,14 @@ public class Installer {
         catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            if (file != null) {
+                try {
+                    file.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }}
 
     }
 
@@ -839,10 +847,11 @@ public class Installer {
        dataTrueOrNO();
     }
 
-    public void addThisInstallerRequest() {
+   public void addThisInstallerRequest() {
+        RandomAccessFile file=null;
         data = getIdInstallerRequest()+","+getIdCustomer()+","+getPhoneCustomer()+","+getCustomerName()+","+getGmail()+","+getProduct()+","+getPreferredDate()+","+getPreferredHour()+","+getLocationInstalling()+","+getStatusInstalling()+","+getCompletionDate()+"\n";
         try {
-            RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw");
+             file = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw");
             file.seek(file.length());
             file.writeBytes(data);
 
@@ -850,6 +859,14 @@ public class Installer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            if (file != null) {
+                try {
+                    file.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }}
     }
     /////////////////////////////////////////////////////////////////////////////////////////
 
