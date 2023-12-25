@@ -84,9 +84,10 @@ public class Category
     }
 
 
-    public void addThisCategory(String name) {
+  public void addThisCategory(String name) {
+        RandomAccessFile file=null;
         try {
-            RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw");
+            file = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw");
             file.seek(file.length());
             file.writeBytes(name+"\n");
             file.close();
@@ -96,12 +97,21 @@ public class Category
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            if (file != null) {
+                try {
+                    file.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     public void deleteTheCategory(String CategoryName){
-        numberOfLine =-1;
         try (
                 RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
             String s;
+                    numberOfLine =-1;
             while ((s = ref.readLine()) != null) {
                 numberOfLine = numberOfLine +1;
                 if (s.equals(CategoryName)) {
@@ -116,11 +126,12 @@ public class Category
     }
 
     public void deleteThisCategory (String name){
+                RandomAccessFile raf=null;
         try {
             String ff ="src/main/resources/Data/"+name+".txt";
             Path filePath = Paths.get(ff);
             Files.delete(filePath);
-            RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw");
+            raf = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw");
             long start = 0;
             long currentPos = raf.getFilePointer();
             int currentLine = -1;
@@ -246,7 +257,7 @@ public class Category
     }
 
     public void editTheName(String categoryName) {
-        numberOfLine =-1;
+        numberOfLine = 0-1;
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
             String s;
 
