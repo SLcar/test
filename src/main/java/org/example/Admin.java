@@ -438,24 +438,26 @@ public void fileFunction(){
         }
 
     }
-    public void writeToFile(String dataToWrite){
+     public void writeToFile(String dataToWrite){
+        RandomAccessFile file = null;
         try {
-
-
-        RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw");
-
-        // Go to the end of the file
+            file = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw");
         file.seek(file.length());
 
-        // Write the string to the file
         file.writeBytes(dataToWrite);
-
-        // Close the file
         file.close();
     }
 catch (IOException e) {
         e.printStackTrace();
-    }
+    } finally {
+            if (file != null) {
+                try {
+                    file.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 
