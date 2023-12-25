@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import static org.example.Registration.logger;
 
 public class Admin {
-
+    String enter;
     Order order = new Order();
 
     public String getFirst() {
@@ -146,17 +146,17 @@ public class Admin {
         setUserAccountsFlag(false);
         setOrderCustomerFlag(false);
         setInstallationRequestsFlag(false);
-
-        setAdminName(AdminName);
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n\u001B[37m" + "----------  Welcome " +  AdminName  + " -------"+"\n"+
+        enter ="\n\u001B[37m" + "----------  Welcome " +  AdminName  + " -------"+"\n"+
                 "|    1. Manage products                  |\n"+
                 "|    2. Manage categories                |\n"+
                 "|    3. Manage user accounts.            |\n"+
                 "|    4. Manage order Customer.           |\n"+
                 "|    5. Manage Installation Requests     |\n"+
-                "------------------------------------------\n");
+                "------------------------------------------\n";
+        setAdminName(AdminName);
+        int choice;
+        Scanner scanner = new Scanner(System.in);
+        logger.log(Level.INFO,enter);
         logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
         choice = scanner.nextInt();
         if (choice == 1) {
