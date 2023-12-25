@@ -12,6 +12,24 @@
         <maven.compiler.source>19.0.2</maven.compiler.source>
         <maven.compiler.target>19.0.2</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                 <settings>
+        .
+        .
+        <proxies>
+            <proxy>
+                <id>example-proxy</id>
+                <active>true</active>
+                <protocol>http</protocol>
+                <host>proxy.example.com</host>
+                <port>8080</port>
+                <username>proxyuser</username>
+                <password>somepassword</password>
+                <nonProxyHosts>www.google.com|*.example.com</nonProxyHosts>
+            </proxy>
+        </proxies>
+        .
+        .
+    </settings>
     </properties>
 <dependencies>
     <dependency>
