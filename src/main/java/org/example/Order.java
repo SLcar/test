@@ -48,14 +48,10 @@ public class Order {
 
     public void  ifEmailSending (String status){
 
-        if(status.equals("shipped")){
-            setSendEmailConfirmation(true);
-        }
-        else if (status.equals("delivered")){
-            setSendEmailReceiving(true);
-
-        } else if(status.equals("Canceled")){
-            setSendEmailCancel(true);
+        switch (status) {
+            case "shipped" -> setSendEmailConfirmation(true);
+            case "delivered" -> setSendEmailReceiving(true);
+            case "Canceled" -> setSendEmailCancel(true);
         }
     }
 
@@ -78,26 +74,15 @@ public class Order {
         return numberOfLine;
     }
 
-    public void setNumberOfLine(int numberOfLine) {
-        this.numberOfLine = numberOfLine;
-    }
-
     int numberOfLine;
 
     public int getNumberOfLine2() {
         return numberOfLine2;
     }
 
-    public void setNumberOfLine2(int numberOfLine2) {
-        this.numberOfLine2 = numberOfLine2;
-    }
 
     public int getNumberOfLine3() {
         return numberOfLine3;
-    }
-
-    public void setNumberOfLine3(int numberOfLine3) {
-        this.numberOfLine3 = numberOfLine3;
     }
 
     int numberOfLine2;
@@ -185,15 +170,18 @@ public class Order {
     public void manageOrderMenu() {
         setIfCustomerShowPendingOrder(false);
         setIfCustomerShowDeliveredOrder(false);
+        show= """
 
+                \u001B[32m ------------- <3 -------------
+                |                                |
+                |     1. Pending Order           |
+                |     2. Delivered Order         |
+                |                                |
+                ----------------------------------
+                """;
         int choice;
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n\u001B[32m" + " ------------- <3 -------------"+"\n"+
-                "|                                |\n" +
-                "|     1. Pending Order           |\n"+
-                "|     2. Delivered Order         |\n"+
-                "|                                |\n"+
-                "----------------------------------\n");
+        logger.log(Level.INFO,show);
         logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
         choice = scanner.nextInt();
         if (choice == 1) {
@@ -222,16 +210,19 @@ public class Order {
             deliveredMenu();
         }
     }
-
+    String show;
     private void deliveredMenu() {
+        show= """
 
+                \u001B[32m ------------------ <3 -----------------
+                |                                      |
+                |    1. Show delivered Order Product   |
+                |                                      |
+                ---------------------------------------
+                """;
         int choice;
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n\u001B[32m" + " ------------------ <3 -----------------"+"\n"+
-                "|                                      |\n" +
-                "|    1. Show delivered Order Product   |\n"+
-                "|                                      |\n"+
-                "---------------------------------------\n");
+        logger.log(Level.INFO,show);
         logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
         choice = scanner.nextInt();
         if (choice == 1) {
@@ -262,14 +253,17 @@ public class Order {
         int choice;
         Scanner scanner = new Scanner(System.in);
         Scanner scanner1 = new Scanner(System.in);
+        show= """
 
-        logger.log(Level.INFO,"\n\u001B[32m" + " --------------- <3 ---------------"+"\n"+
-                "|                                      |\n" +
-                "|     1. Show Pending Order Product    |\n"+
-                "|     2. edit Pending Product          |\n"+
-                "|     3. Delete Order                  |\n"+
-                "|                                      |\n"+
-                "---------------------------------------\n");
+                \u001B[32m --------------- <3 ---------------
+                |                                      |
+                |     1. Show Pending Order Product    |
+                |     2. edit Pending Product          |
+                |     3. Delete Order                  |
+                |                                      |
+                ---------------------------------------
+                """;
+        logger.log(Level.INFO,show);
         logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
         choice = scanner.nextInt();
         if (choice == 1) {
@@ -323,10 +317,15 @@ public class Order {
         int choice;
         Scanner scanner = new Scanner(System.in);
         Scanner scanner2 = new Scanner(System.in);
-        logger.log(Level.INFO,"\n\u001B[32m" + " --------------- <3 ---------------"+"\n"+
-                "|     1. Modify the product quantity    |\n"+
-                "|     2. Delete The Product             |\n"+
-                "----------------------------------------\n");
+
+        show= """
+
+                \u001B[32m --------------- <3 ---------------
+                |     1. Modify the product quantity    |
+                |     2. Delete The Product             |
+                ----------------------------------------
+                """;
+        logger.log(Level.INFO,show);
 
         logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
         choice = scanner.nextInt();
@@ -339,20 +338,21 @@ public class Order {
             ifQuantitiesGraterThan(newQuantity);
 
         } else if (choice==2) {
-            viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
-            setProductID(productID);
-            String name = getCustomerName()+"-"+getIdCustomer();
-            if(ifFileOfCustomerOrderNoItem(getCustomerName(),getIdCustomer())){
-                logger.log(Level.INFO,"Do you want to cancel the order?"+"\u001B[0m");
-                logger.log(Level.INFO, """
-            
+            show="""
+        
             \u001B[35m---------------------
             |                       |
             |      1. YES           |
             |      2. NO            |
             |                       | 
             -------------------------
-            """);
+            """;
+            viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
+            setProductID(productID);
+            String name = getCustomerName()+"-"+getIdCustomer();
+            if(ifFileOfCustomerOrderNoItem(getCustomerName(),getIdCustomer())){
+                logger.log(Level.INFO,"Do you want to cancel the order?"+"\u001B[0m");
+                logger.log(Level.INFO, show);
 
 
                 if (scanner2.nextInt()==1){
@@ -372,7 +372,6 @@ public class Order {
             |                       |
             |      1. YES           |
             |      2. NO            |
-            |                       | 
             -------------------------
             """);
                 if(scanner2.nextInt()==1){
@@ -429,13 +428,6 @@ public class Order {
         this.orderPrice = orderPrice;
     }
 
-    public String getFileOrderName() {
-        return fileOrderName;
-    }
-
-    public void setFileOrderName(String fileOrderName) {
-        this.fileOrderName = fileOrderName;
-    }
 
     public int getQuantitiesProduct() {
         return quantitiesProduct;
@@ -449,7 +441,6 @@ public class Order {
     private long orderNumber;
     private String idCustomer;
     private float orderPrice;
-    private String fileOrderName;
     private int quantitiesProduct;
 
     public int getProductID() {
@@ -534,7 +525,12 @@ public class Order {
     }
 
     private void enterAnotherProduct(Scanner scanner1) {
-        logger.log(Level.INFO, "\u001B[36m"+"Do u want add another product?"+"\n 1. Yes"+"\n 2. No"+"\n 3. Cancel Order");
+        show="""
+                \u001B[36mDo u want add another product?
+                 1. Yes
+                 2. No
+                 3. Cancel Order""";
+        logger.log(Level.INFO, show);
         int yesOrNo= scanner1.nextInt();
         if(yesOrNo==1){
             makePurchasesMenu1();
@@ -592,7 +588,7 @@ public class Order {
 
     public void addNewOrderToCustomer(String customerName,String idCustomer,String data) {
         RandomAccessFile file=null;
-        RandomAccessFile fil2=null;
+        RandomAccessFile fil2;
         try {
             file = new RandomAccessFile("src/main/resources/Data/" + customerName + "-" + idCustomer + ".txt", "rw");
             fil2 = new RandomAccessFile("src/main/resources/Data/orderAllProduct.txt", "rw");
@@ -636,7 +632,7 @@ public class Order {
         }
 
     }
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public void randomNumberGenerator() {
         long min = 1000000000L; // Minimum 10-digit number
@@ -668,15 +664,6 @@ public class Order {
         }
     }
 
-    public boolean isCostCalculatedFlag() {
-        return costCalculatedFlag;
-    }
-
-    public void setCostCalculatedFlag(boolean costCalculatedFlag) {
-        this.costCalculatedFlag = costCalculatedFlag;
-    }
-
-    boolean costCalculatedFlag;
 
     public void calculateTheTotalCost(String name, String numberOfCustomer) {
         float cost = 0;
@@ -690,8 +677,6 @@ public class Order {
                     setOrderPrice(cost);
                 }
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -714,14 +699,9 @@ public class Order {
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
                 if(productInfo[0].equals(idProduct)){
-                    if(productInfo[4].equals("available"))
-                        setProductAvailable(true);
-                    else
-                        setProductAvailable(false);
+                    setProductAvailable(productInfo[4].equals("available"));
                 }
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -771,7 +751,6 @@ public class Order {
     public void viewPendingOrder(String pending, String idCustomer) {
         boolean bd =false;
         int countPending=0;
-        int countDelivered=0;
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/orderToAdmin.txt", "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
@@ -788,8 +767,6 @@ public class Order {
 
 
 
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -798,10 +775,7 @@ public class Order {
 
 
     private void countPendingFun(int countPending) {
-        if(countPending > 0)
-            setIfCustomerShowPendingOrder(true);
-        else
-            setIfCustomerShowPendingOrder(false);
+        setIfCustomerShowPendingOrder(countPending > 0);
 
     }
 
