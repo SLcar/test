@@ -591,9 +591,11 @@ public class Order {
     String customerName;
 
     public void addNewOrderToCustomer(String customerName,String idCustomer,String data) {
+        RandomAccessFile file=null;
+         RandomAccessFile fil2=null;
         try {
-            RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/" + customerName + "-" + idCustomer + ".txt", "rw");
-            RandomAccessFile fil2 = new RandomAccessFile("src/main/resources/Data/orderAllProduct.txt", "rw");
+            file = new RandomAccessFile("src/main/resources/Data/" + customerName + "-" + idCustomer + ".txt", "rw");
+            fil2 = new RandomAccessFile("src/main/resources/Data/orderAllProduct.txt", "rw");
             file.seek(file.length());
             file.writeBytes(data);
             file.close();
@@ -602,24 +604,41 @@ public class Order {
             fil2.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+        if (file != null) {
+            try {
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
 
     }
     public void addNewOrderPending(String data) {
+        RandomAccessFile file=null;
         try {
-            RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/orderToAdmin.txt", "rw");
+            file = new RandomAccessFile("src/main/resources/Data/orderToAdmin.txt", "rw");
             file.seek(file.length());
             file.writeBytes(data);
 
             file.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }finally {
+        if (file != null) {
+            try {
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 
+    }
+    private Random random = new Random();
+
     public void randomNumberGenerator() {
-        Random random = new Random();
         long min = 1000000000L; // Minimum 10-digit number
         long max = 9999999999L; // Maximum 10-digit number
 
