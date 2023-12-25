@@ -197,21 +197,22 @@ public class Registration {
     }
 
     public void storeDataToFile(String dataToWrite) {
+         RandomAccessFile file =null;
         try {
-            // Open the file in write mode
-            RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw");
-
-            // Go to the end of the file
+            file = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw");
             file.seek(file.length());
-
-            // Write the string to the file
             file.writeBytes(dataToWrite);
-
-            // Close the file
             file.close();
 
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+        if (file != null) {
+            try {
+                file.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
