@@ -15,8 +15,8 @@ import static org.example.Registration.logger;
 
 public class Order {
     ArrayList<Integer> lines = new ArrayList<>();
-  protected  static final  String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
-  protected  static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
+    protected  static final  String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
+    protected  static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
 
     public boolean isSendEmailConfirmation() {
         return sendEmailConfirmation;
@@ -42,9 +42,9 @@ public class Order {
         this.sendEmailCancel = sendEmailCancel;
     }
 
-  public  static   boolean sendEmailConfirmation=false;
-  public  static   boolean sendEmailReceiving=false;
-  public  static   boolean sendEmailCancel=false;
+       boolean sendEmailConfirmation=false;
+      boolean sendEmailReceiving=false;
+       boolean sendEmailCancel=false;
 
     public void  ifEmailSending (String status){
 
@@ -140,7 +140,7 @@ public class Order {
         this.totalPriceProduct = totalPriceProduct;
     }
     public void fullProductPrice(){
-       setTotalPriceProduct(getProductPrice() * getQuantitiesProduct());
+        setTotalPriceProduct(getProductPrice() * getQuantitiesProduct());
 
     }
 
@@ -286,7 +286,7 @@ public class Order {
 
         }
         else if (choice == 2) {
-           ifOrderExit(scanner1);
+            ifOrderExit(scanner1);
             if(isIfOrderExist()){
                 viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
                 extractedEdit(scanner1);
@@ -318,7 +318,7 @@ public class Order {
             logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31mInvalid choice! Please enter a valid choice." + "\u001B[0m");
         }}
     private void editProductMenu() {
-       int productID = getProductID();
+        int productID = getProductID();
 
         int choice;
         Scanner scanner = new Scanner(System.in);
@@ -342,9 +342,9 @@ public class Order {
             viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
             setProductID(productID);
             String name = getCustomerName()+"-"+getIdCustomer();
-                if(ifFileOfCustomerOrderNoItem(getCustomerName(),getIdCustomer())){
-                    logger.log(Level.INFO,"Do you want to cancel the order?"+"\u001B[0m");
-                    logger.log(Level.INFO, """
+            if(ifFileOfCustomerOrderNoItem(getCustomerName(),getIdCustomer())){
+                logger.log(Level.INFO,"Do you want to cancel the order?"+"\u001B[0m");
+                logger.log(Level.INFO, """
             
             \u001B[35m---------------------
             |                       |
@@ -355,18 +355,18 @@ public class Order {
             """);
 
 
-                    if (scanner2.nextInt()==1){
-                        deleteOrder(name);
-                        logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m The Order is canceled Successfully" + "\u001B[0m");
+                if (scanner2.nextInt()==1){
+                    deleteOrder(name);
+                    logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m The Order is canceled Successfully" + "\u001B[0m");
 
-                    }
-                        else {
-                        editProductMenu();
-                    }
                 }
-                else{
-                        logger.log(Level.INFO,"Do you want to delete the product?"+"\u001B[0m");
-                        logger.log(Level.INFO, """
+                else {
+                    editProductMenu();
+                }
+            }
+            else{
+                logger.log(Level.INFO,"Do you want to delete the product?"+"\u001B[0m");
+                logger.log(Level.INFO, """
             
             \u001B[35m---------------------
             |                       |
@@ -375,7 +375,7 @@ public class Order {
             |                       | 
             -------------------------
             """);
-                 if(scanner2.nextInt()==1){
+                if(scanner2.nextInt()==1){
                     deleteThisProductFromCustomer(name,getNumberOfLine());
                     deleteThisProductFromCustomer("orderToAdmin",getNumberOfLine2());
                     deleteThisProductFromCustomer("orderAllProduct",getNumberOfLine3());
@@ -387,12 +387,12 @@ public class Order {
                     addNewOrderPending(product2);
                     logger.log(Level.INFO,"The product is deleted and the Total cost is :" +getOrderPrice() + "\u001B[0m");
 
-                 }
-                    else{
-                     logger.log(Level.INFO,"The product Not deleted"+"\u001B[0m");
-                        }
+                }
+                else{
+                    logger.log(Level.INFO,"The product Not deleted"+"\u001B[0m");
                 }
             }
+        }
 
         else{
             logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31mInvalid value " + "\u001B[0m");
@@ -475,24 +475,24 @@ public class Order {
 
 
     public void makePurchasesMenu() {
-            randomNumberGenerator();
-            ifRandomNumberGeneratorNotFound();
-            makePurchasesMenu1();
+        randomNumberGenerator();
+        ifRandomNumberGeneratorNotFound();
+        makePurchasesMenu1();
     }
     public void makePurchasesMenu1(){
-            Scanner scanner1 = new Scanner(System.in);
-            Scanner scanner2 = new Scanner(System.in);
+        Scanner scanner1 = new Scanner(System.in);
+        Scanner scanner2 = new Scanner(System.in);
 
         product.printAllCategory();
         logger.log(Level.INFO, "\u001B[35m"+"Enter The category of product to add : ");
         setCategoryName(scanner2.nextLine());
         product.ifCategoryExist(getCategoryName());
         if(product.isCategoryExistFlag()){
-        product.printAllProductAndCategories(getCategoryName());
-        logger.log(Level.INFO, "\u001B[36m"+"Enter The ID of product to add : ");
-           setProductID(Integer.parseInt(scanner1.nextLine()));
-           product.ifProductIdExist(getCategoryName(), String.valueOf(getProductID()));
-        extracted1(scanner1);}
+            product.printAllProductAndCategories(getCategoryName());
+            logger.log(Level.INFO, "\u001B[36m"+"Enter The ID of product to add : ");
+            setProductID(Integer.parseInt(scanner1.nextLine()));
+            product.ifProductIdExist(getCategoryName(), String.valueOf(getProductID()));
+            extracted1(scanner1);}
         else {
             logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m" + "The category Not exist.\u001B[0m");
             makePurchasesMenu1();
@@ -562,18 +562,18 @@ public class Order {
 
 
     public void returnEnterQuantities(){
-       Scanner scanner1 = new Scanner(System.in);
-       logger.log(Level.INFO, "Enter the quantity you want of this product (the quantity is greater than 0): ");
-       setQuantitiesProduct(scanner1.nextInt());
-       ifQuantitiesAllowed(String.valueOf(getQuantitiesProduct()));
-       if(isQuantitiesAllowedFlag()) {
-           return;
-       }
-       else{
-           logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31m The quantity is greater than 0."+"\u001B[0m");
-           returnEnterQuantities();
-       }
-   }
+        Scanner scanner1 = new Scanner(System.in);
+        logger.log(Level.INFO, "Enter the quantity you want of this product (the quantity is greater than 0): ");
+        setQuantitiesProduct(scanner1.nextInt());
+        ifQuantitiesAllowed(String.valueOf(getQuantitiesProduct()));
+        if(isQuantitiesAllowedFlag()) {
+            return;
+        }
+        else{
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31m The quantity is greater than 0."+"\u001B[0m");
+            returnEnterQuantities();
+        }
+    }
 
     public void ifQuantitiesAllowed(String quantity) {
         setQuantitiesAllowedFlag(Integer.parseInt(quantity) > 0);
@@ -592,7 +592,7 @@ public class Order {
 
     public void addNewOrderToCustomer(String customerName,String idCustomer,String data) {
         RandomAccessFile file=null;
-         RandomAccessFile fil2=null;
+        RandomAccessFile fil2=null;
         try {
             file = new RandomAccessFile("src/main/resources/Data/" + customerName + "-" + idCustomer + ".txt", "rw");
             fil2 = new RandomAccessFile("src/main/resources/Data/orderAllProduct.txt", "rw");
@@ -605,14 +605,14 @@ public class Order {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-        if (file != null) {
-            try {
-                file.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (file != null) {
+                try {
+                    file.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-    }
 
     }
     public void addNewOrderPending(String data) {
@@ -626,14 +626,14 @@ public class Order {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-        if (file != null) {
-            try {
-                file.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (file != null) {
+                try {
+                    file.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-    }
 
     }
     private Random random = new Random();
@@ -678,26 +678,26 @@ public class Order {
 
     boolean costCalculatedFlag;
 
-public void calculateTheTotalCost(String name, String numberOfCustomer) {
+    public void calculateTheTotalCost(String name, String numberOfCustomer) {
         float cost = 0;
-    try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + name + "-" + numberOfCustomer + ".txt", "rw")) {
-        String s;
-        while ((s = ref.readLine()) != null) {
-            String[] productInfo = s.split(",");
-            if(getOrderNumber()== Long.parseLong(productInfo[1])) {
-                float productCost = Float.parseFloat(productInfo[5]);
-                cost = productCost + cost;
-                setOrderPrice(cost);
+        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + name + "-" + numberOfCustomer + ".txt", "rw")) {
+            String s;
+            while ((s = ref.readLine()) != null) {
+                String[] productInfo = s.split(",");
+                if(getOrderNumber()== Long.parseLong(productInfo[1])) {
+                    float productCost = Float.parseFloat(productInfo[5]);
+                    cost = productCost + cost;
+                    setOrderPrice(cost);
+                }
             }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-    } catch (FileNotFoundException e) {
-        throw new RuntimeException(e);
-    } catch (IOException e) {
-        throw new RuntimeException(e);
+
+
     }
-
-
-}
 
     public boolean isProductAvailable() {
         return productAvailable;
@@ -708,24 +708,24 @@ public void calculateTheTotalCost(String name, String numberOfCustomer) {
     }
 
     boolean productAvailable;
-public void ifProductAvailable(String categoryName,String idProduct){
-    try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
-        String s;
-        while ((s = ref.readLine()) != null) {
-            String[] productInfo = s.split(",");
-            if(productInfo[0].equals(idProduct)){
-                if(productInfo[4].equals("available"))
-                    setProductAvailable(true);
-                else
-                    setProductAvailable(false);
+    public void ifProductAvailable(String categoryName,String idProduct){
+        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
+            String s;
+            while ((s = ref.readLine()) != null) {
+                String[] productInfo = s.split(",");
+                if(productInfo[0].equals(idProduct)){
+                    if(productInfo[4].equals("available"))
+                        setProductAvailable(true);
+                    else
+                        setProductAvailable(false);
+                }
             }
+        }catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-    }catch (FileNotFoundException e) {
-        throw new RuntimeException(e);
-    } catch (IOException e) {
-        throw new RuntimeException(e);
     }
-}
 
 ///////////////////////////////////////////////////////view orders./////////////////////////////////////////////
 
@@ -779,7 +779,7 @@ public void ifProductAvailable(String categoryName,String idProduct){
                 if(productInfo[6].equals(pending) && productInfo[2].equals(idCustomer)){
                     countPending=countPending+1;
                     countPendingFun( countPending);
-                     bd = true;
+                    bd = true;
                 }
             }
             if (!bd){
@@ -798,10 +798,10 @@ public void ifProductAvailable(String categoryName,String idProduct){
 
 
     private void countPendingFun(int countPending) {
-       if(countPending > 0)
-           setIfCustomerShowPendingOrder(true);
-       else
-        setIfCustomerShowPendingOrder(false);
+        if(countPending > 0)
+            setIfCustomerShowPendingOrder(true);
+        else
+            setIfCustomerShowPendingOrder(false);
 
     }
 
@@ -833,7 +833,7 @@ public void ifProductAvailable(String categoryName,String idProduct){
         if(countDelivered>0)
             setIfCustomerShowDeliveredOrder(true);
         else
-        setIfCustomerShowDeliveredOrder(false);
+            setIfCustomerShowDeliveredOrder(false);
     }
 
     public void viewPendingOrder1(String pending, String idCustomer, String name) {
@@ -870,14 +870,14 @@ public void ifProductAvailable(String categoryName,String idProduct){
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
 
-                    setOrderNumber(Long.parseLong(productInfo[0]));
-                    setCustomerName(productInfo[1]);
-                    setIdCustomer(productInfo[2]);
-                    setOrderPrice(Float.parseFloat(productInfo[3]));
-                    setOrderDate(productInfo[4]);
-                    setDateOfReceiptOfTheOrder(productInfo[5]);
-                    setStatusOrder(productInfo[6]);
-                    extractedPrintThePendingId();
+                setOrderNumber(Long.parseLong(productInfo[0]));
+                setCustomerName(productInfo[1]);
+                setIdCustomer(productInfo[2]);
+                setOrderPrice(Float.parseFloat(productInfo[3]));
+                setOrderDate(productInfo[4]);
+                setDateOfReceiptOfTheOrder(productInfo[5]);
+                setStatusOrder(productInfo[6]);
+                extractedPrintThePendingId();
 
             }
         }catch (FileNotFoundException e) {
@@ -895,16 +895,16 @@ public void ifProductAvailable(String categoryName,String idProduct){
 
                 String[] productInfo = s.split(",");
                 if(productInfo[1].equals(idOrder)){
-                setCategoryName(productInfo[0]);
-                setOrderNumber(Long.parseLong(productInfo[1]));
-                setIdCustomer(productInfo[2]);
-                setProductID(Integer.parseInt(productInfo[3]));
-                setQuantitiesProduct(Integer.parseInt(productInfo[4]));
-                setTotalPriceProduct(Float.parseFloat(productInfo[5]));
-                extractedPrintThePendingId2Product();
-                product.ifProductIdExist(getCategoryName(), String.valueOf(getProductID()));
-                product.extractedSearchById(getCategoryName(),getProductID());
-            }}
+                    setCategoryName(productInfo[0]);
+                    setOrderNumber(Long.parseLong(productInfo[1]));
+                    setIdCustomer(productInfo[2]);
+                    setProductID(Integer.parseInt(productInfo[3]));
+                    setQuantitiesProduct(Integer.parseInt(productInfo[4]));
+                    setTotalPriceProduct(Float.parseFloat(productInfo[5]));
+                    extractedPrintThePendingId2Product();
+                    product.ifProductIdExist(getCategoryName(), String.valueOf(getProductID()));
+                    product.extractedSearchById(getCategoryName(),getProductID());
+                }}
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -945,9 +945,9 @@ public void ifProductAvailable(String categoryName,String idProduct){
                 numberOfLine2=numberOfLine2+1;
                 String[] productInfo = s.split(",");
                 if(productInfo[0].equals(idOrder)&&productInfo[6].equals("pending")){
-                setIfOrderExist(true);
-                setIfCustomerCancelPendingOrder(true);
-                return;
+                    setIfOrderExist(true);
+                    setIfCustomerCancelPendingOrder(true);
+                    return;
                 }
 
                 setIfOrderExist(false);
@@ -1045,13 +1045,13 @@ public void ifProductAvailable(String categoryName,String idProduct){
         String s;
         int lineToDelete=-1;
         try {
-           RandomAccessFile raf2 = new RandomAccessFile("src/main/resources/Data/"+name+".txt", "rw");
+            RandomAccessFile raf2 = new RandomAccessFile("src/main/resources/Data/"+name+".txt", "rw");
 
             while ((s = raf2.readLine()) != null) {
                 lineToDelete=lineToDelete+1;
                 String[] productInfo = s.split(",");
                 if (productInfo[nm].equals(orderNumber)) {
-                       lines.add(lineToDelete);
+                    lines.add(lineToDelete);
                     lineToDelete=lineToDelete-1;
 
                 }
@@ -1095,18 +1095,18 @@ public void ifProductAvailable(String categoryName,String idProduct){
 
     private void ifQuantitiesGraterThan(int quantitiesProduct) {
         if(isQuantitiesAllowedFlag()){
-                ifProductAvailable(getCategoryName(), String.valueOf(getProductID()));
-                if(isProductAvailable()){
+            ifProductAvailable(getCategoryName(), String.valueOf(getProductID()));
+            if(isProductAvailable()){
 
-                    setQuantitiesProduct(quantitiesProduct);
-                    calculateThePriceOfNewProduct(getProductID(),getCategoryName());
-                    fullProductPrice();
-                    deleteAndEdit();
-                }
-                else{
-                    logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m This product is no longer available" + "\u001B[0m");
+                setQuantitiesProduct(quantitiesProduct);
+                calculateThePriceOfNewProduct(getProductID(),getCategoryName());
+                fullProductPrice();
+                deleteAndEdit();
+            }
+            else{
+                logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m This product is no longer available" + "\u001B[0m");
 
-                }
+            }
 
         }
         else{
@@ -1133,28 +1133,28 @@ public void ifProductAvailable(String categoryName,String idProduct){
 
     }
 
-   public boolean ifFileOfCustomerOrderNoItem(String nameCustomer,String customerId){
+    public boolean ifFileOfCustomerOrderNoItem(String nameCustomer,String customerId){
         countOfLine=-1;
-       try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" +nameCustomer+"-"+idCustomer + ".txt", "rw")) {
-           String s;
-           setProductExitFlag(false);
-           while ((s = ref.readLine()) != null) {
-                   setCountOfLine(countOfLine+1);
-               }
-           if (getCountOfLine()==0){
-               return true;
+        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" +nameCustomer+"-"+idCustomer + ".txt", "rw")) {
+            String s;
+            setProductExitFlag(false);
+            while ((s = ref.readLine()) != null) {
+                setCountOfLine(countOfLine+1);
+            }
+            if (getCountOfLine()==0){
+                return true;
 
-           } else if (getCountOfLine()>0) {
-               return false;
-           }
-       }
-       catch (IOException e) {
-           throw new RuntimeException(e);
-       }
+            } else if (getCountOfLine()>0) {
+                return false;
+            }
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-      System.out.println("out");
-       return false;
-   }
+        System.out.println("out");
+        return false;
+    }
 
 
     private void calculateThePriceOfNewProduct(int idProduct,String category) {
@@ -1205,7 +1205,7 @@ public void ifProductAvailable(String categoryName,String idProduct){
                     setTotalPriceProduct(Float.parseFloat(productInfo[5]));
                     setProductExitFlag(true);
 
-                   return;
+                    return;
                 }
 
             }
@@ -1299,9 +1299,9 @@ public void ifProductAvailable(String categoryName,String idProduct){
             logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m The Order is shipped " +
                     "Successfully and send email to customer" + "\u001B[0m");}
         else if (getStatusOrder().equals("delivered")){
-        gmail.sendEmail(getGmailIs(),arrayOfTopic[1],arrayOfMsg[1]);
-        logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m The Order is updated " +
-                "Successfully and send email to customer" + "\u001B[0m");}
+            gmail.sendEmail(getGmailIs(),arrayOfTopic[1],arrayOfMsg[1]);
+            logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m The Order is updated " +
+                    "Successfully and send email to customer" + "\u001B[0m");}
     }
 
 
