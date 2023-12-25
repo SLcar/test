@@ -16,6 +16,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 19.0.2
+          
+      - name: Step3 - Build Maven Project
+        run:  mvn -e -X --batch-mode -DskipTests package
 
       - name: Step4 - Run test cases
         run: mvn  --batch-mode -Dmaven.test.failure.ignore=true test 
