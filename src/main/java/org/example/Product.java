@@ -589,7 +589,7 @@ public void ifProductAvailabilityExist(String categoryName, String availability)
     }
 
     public void ifProductIdExist(String CategoryName, String iD) {
-        numberOfLine =-1;
+        numberOfLine = -1;
 
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + CategoryName + ".txt", "rw")) {
             String s;
