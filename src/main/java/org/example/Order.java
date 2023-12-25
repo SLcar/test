@@ -15,8 +15,8 @@ import static org.example.Registration.logger;
 
 public class Order {
     ArrayList<Integer> lines = new ArrayList<>();
-  public   String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
-  public   String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
+  public  static final  String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
+  public  static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
 
     public boolean isSendEmailConfirmation() {
         return sendEmailConfirmation;
@@ -42,9 +42,9 @@ public class Order {
         this.sendEmailCancel = sendEmailCancel;
     }
 
-  public   boolean sendEmailConfirmation=false;
-  public   boolean sendEmailReceiving=false;
-  public   boolean sendEmailCancel=false;
+  public  static final  boolean sendEmailConfirmation=false;
+  public  static final  boolean sendEmailReceiving=false;
+  public  static final  boolean sendEmailCancel=false;
 
     public void  ifEmailSending (String status){
 
