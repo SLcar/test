@@ -12,7 +12,8 @@
         <maven.compiler.source>19.0.2</maven.compiler.source>
         <maven.compiler.target>19.0.2</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-         
+  <sonar.organization>slcar</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>        
     </properties>
 <dependencies>
     <dependency>
