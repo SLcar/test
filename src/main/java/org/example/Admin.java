@@ -140,6 +140,11 @@ public class Admin {
     }
 
     String adminName;
+    public static final String EntChoice ="Enter your choice: ";
+     String defaultColor="\u001B[0m";
+    String bold ="\u001B[1m";
+    String s1 ="\u001B[31mInvalid choice! Please enter a valid choice.";
+    
     public void Admin_menu (String AdminName){
         setProductsFlag(false);
         setCategoriesFlag(false);
@@ -157,7 +162,7 @@ public class Admin {
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO,enter);
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO,EntChoice+defaultColor);
         choice = scanner.nextInt();
         if (choice == 1) {
             productsFlag=true;
@@ -182,7 +187,7 @@ public class Admin {
 
         }
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+            logger.log(Level.WARNING,bold+s1+defaultColor);
             Admin_menu(AdminName);
         }
 
@@ -212,7 +217,7 @@ public class Admin {
                 "|     2. edit Customer Order    |\n"+
                 "|     3. back                   |\n"+
                 "---------------------------------n");
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO,EntChoice+defaultColor);
         choice = scanner.nextInt();
         if (choice == 1) {
            order.viewAllOrderToAdmin();
@@ -226,7 +231,7 @@ public class Admin {
             Admin_menu(getAdminName());}
 
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+            logger.log(Level.WARNING,bold+s1+defaultColor);
             menuOrderCustomer();
         }
 
@@ -235,7 +240,7 @@ public class Admin {
     private void enterData() {
         Scanner scanner4 = new Scanner(System.in);
         int choice;
-        logger.log(Level.INFO,"Enter The Number Of Order: "+"\u001B[0m");
+        logger.log(Level.INFO,"Enter The Number Of Order: "+defaultColor);
         order.setOrderNumber(Long.parseLong(scanner4.next()));
         order.ifEnterOrderExitToChangeSt(order.getOrderNumber());
 
@@ -252,7 +257,7 @@ public class Admin {
             |                              |
             --------------------------------
             """);
-            logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+            logger.log(Level.INFO,EntChoice+defaultColor);
 
             choice = scanner4.nextInt();
             if (choice==1) {
@@ -264,7 +269,7 @@ public class Admin {
                 order.setStatusOrder("canceled");
 
             } else {
-                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m\n");
+                logger.log(Level.WARNING,bold+s1+"\u001B[0m\n");
                 menuOrderCustomer();
             }
 
@@ -275,7 +280,7 @@ public class Admin {
         }
 
         else{
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The order Not Found" + "\u001B[0m");
+            logger.log(Level.WARNING, bold + "\u001B[31m The order Not Found" + defaultColor);
             menuOrderCustomer();
         }
     }
@@ -290,7 +295,7 @@ public void menuManageAccountUser(){
             "|     3. Installer     |\n"+
             "|     4. Back          |\n"+
             "-----------------------\n");
-    logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+    logger.log(Level.INFO,EntChoice+defaultColor);
     choice = scanner.nextInt();
     if (choice == 1) {
         editAdminProfile();
@@ -305,7 +310,7 @@ public void menuManageAccountUser(){
         Admin_menu(getAdminName());
     }
     else {
-        logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+        logger.log(Level.WARNING,bold+s1+defaultColor);
         menuManageAccountUser();
     }
 
@@ -322,7 +327,7 @@ public void editAdminProfile(){
             "|   3. edit Gmail      |\n"+
             "|   4. back            |\n"+
             "-----------------------\n");
-    logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+    logger.log(Level.INFO,EntChoice+defaultColor);
     choice = scanner.nextInt();
     String choice2 ;
     String oldPass ;
@@ -330,28 +335,28 @@ public void editAdminProfile(){
     String newPassCon ;
 
     if (choice == 1) {
-        logger.log(Level.INFO,"Enter The new user Name:"+"\u001B[0m");
+        logger.log(Level.INFO,"Enter The new user Name:"+defaultColor);
         choice2 = scanner1.nextLine();
         editeUserName(choice2);
-        logger.log(Level.INFO,"The user name has been changed successfully"+"\u001B[0m");
+        logger.log(Level.INFO,"The user name has been changed successfully"+defaultColor);
         editAdminProfile();
     }
     else if (choice ==2) {
-        logger.log(Level.INFO,"Enter The old password:"+"\u001B[0m");
+        logger.log(Level.INFO,"Enter The old password:"+defaultColor);
         oldPass = scanner1.nextLine();
-        logger.log(Level.INFO,"Enter The new password:"+"\u001B[0m");
+        logger.log(Level.INFO,"Enter The new password:"+defaultColor);
         newPass = scanner1.nextLine();
-        logger.log(Level.INFO,"Confirm The  password:"+"\u001B[0m");
+        logger.log(Level.INFO,"Confirm The  password:"+defaultColor);
         newPassCon = scanner1.nextLine();
         editePassword(oldPass,newPass,newPassCon);
         editAdminProfile();
 
     }
     else if (choice ==3) {
-        logger.log(Level.INFO,"Enter The new Gmail:"+"\u001B[0m");
+        logger.log(Level.INFO,"Enter The new Gmail:"+defaultColor);
         choice2 = scanner1.nextLine();
         editeGmail(choice2);
-        logger.log(Level.INFO,"The Gmail has been changed successfully"+"\u001B[0m");
+        logger.log(Level.INFO,"The Gmail has been changed successfully"+defaultColor);
         editAdminProfile();
 
     }
@@ -359,7 +364,7 @@ public void editAdminProfile(){
 
     }
     else {
-        logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+        logger.log(Level.WARNING,bold+s1+defaultColor);
     }
 }
 
@@ -371,30 +376,31 @@ public void editAdminProfile(){
     }
     private void editePassword(String oldPass, String newPass, String newPassCon) {
         fileFunction();
-        if(truepass(oldPass,getThird())){
-        if(truepass(newPass,newPassCon)){
+        if (!truepass(oldPass, getThird())) {
+            logger.log(Level.WARNING,bold+"\u001B[31mThe password is incorrect"+defaultColor);
+        } else {
+        if(truepass(newPass,newPassCon))
+        {
             deleteFileFunction();
             writeToFile(getFirst()+","+getSec()+","+newPass);
-            logger.log(Level.INFO,"\u001B[35m"+"The Password has been changed successfully"+"\u001B[0m");
+            logger.log(Level.INFO,"\u001B[35m"+"The Password has been changed successfully"+defaultColor);
 
         }
         else
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe Two password does not match"+"\u001B[0m");
+            logger.log(Level.WARNING,bold+"\u001B[31mThe Two password does not match"+defaultColor);
 
           }
-        else
-        logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe password is incorrect"+"\u001B[0m");
-
-    }
 
     private void editeUserName(String choice2) {
         fileFunction();
         deleteFileFunction();
         writeToFile(choice2+","+getSec()+","+getThird());
     }
+
+    String adminBath= "src/main/resources/Data/AdminData.txt";
 public void fileFunction(){
 
-    try (RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw")) {
+    try (RandomAccessFile raf = new RandomAccessFile(adminBath, "rw")) {
         String s;
         while ((s = raf.readLine()) != null) {
             String[] loginCustomer = s.split(",");
@@ -410,7 +416,7 @@ public void fileFunction(){
 }
     public void deleteFileFunction(){
 
-        try (RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw")) {
+        try (RandomAccessFile raf = new RandomAccessFile(adminBath, "rw")) {
             // Seek to the beginning of the file
             long start = 0;
             long currentPos = raf.getFilePointer();
@@ -441,7 +447,7 @@ public void fileFunction(){
      public void writeToFile(String dataToWrite){
         RandomAccessFile file = null;
         try {
-            file = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw");
+            file = new RandomAccessFile(adminBath, "rw");
         file.seek(file.length());
 
         file.writeBytes(dataToWrite);
