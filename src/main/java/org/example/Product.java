@@ -42,14 +42,14 @@ public class Product {
 
 
     public String getCategoryName() {
-        return CategoryName;
+        return categoryName;
     }
 
     public void setCategoryName(String categoryName) {
-        CategoryName = categoryName;
+        this.categoryName = categoryName;
     }
 
-    private String CategoryName;
+    private String categoryName;
 
     public boolean isCategoryExistFlag() {
         return categoryExistFlag;
@@ -198,7 +198,7 @@ public class Product {
     }
     //////////////////////////////////////////////////////////////////////////////////////////////
     public void searchOfProducts() {
-      searchMenu();
+        searchMenu();
     }
     public void deleteProducts() {
         deleteProductsMenu();
@@ -245,8 +245,8 @@ public class Product {
         logger.log(Level.INFO, "\u001B[36m" + "new categories" + "\u001B[0m");
         logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
 
-        CategoryName = scanner.nextLine();
-        if (CategoryName.equals("new categories")) {
+        categoryName = scanner.nextLine();
+        if (categoryName.equals("new categories")) {
             logger.log(Level.INFO, "Enter The name of category");
             String names = scanner.next();
             ifCategoryExist(names);
@@ -274,7 +274,7 @@ public class Product {
         if(isiDExistFlag())
             logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis ID Of Product is already exist."+"\u001B[0m\n");
         else
-            addNewProducts(CategoryName,addOrUpdate);
+            addNewProducts(categoryName,addOrUpdate);
     }
 
     public void addNewProducts(String catName,String addOrUpdate) {
@@ -307,13 +307,13 @@ public class Product {
         printAllCategory();
 
         logger.log(Level.INFO, "\u001B[35m What is the product category you would like to modify?");
-        CategoryName = scanner.nextLine();
-        ifCategoryExist(CategoryName);
+        categoryName = scanner.nextLine();
+        ifCategoryExist(categoryName);
         if(isCategoryExistFlag()){
-            printAllProductAndCategories(CategoryName);
+            printAllProductAndCategories(categoryName);
             logger.log(Level.INFO, "\u001B[34m" + "What is the product ID that you want to modify?");
             String id = scanner.nextLine();
-            editProducts1(CategoryName,id);
+            editProducts1(categoryName,id);
         }
         else
             logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category does not exist."+"\u001B[0m\n");
@@ -349,30 +349,30 @@ public class Product {
 ////////////////////////////////////////update product////////////////////////////////////////////////////////
 ////////////////////////////////////////delete product////////////////////////////////////////////////////////
 
-   public void deleteProductsMenu(){
-       Scanner scanner = new Scanner(System.in);
-       printAllCategory();
+    public void deleteProductsMenu(){
+        Scanner scanner = new Scanner(System.in);
+        printAllCategory();
 
-       logger.log(Level.INFO, "\u001B[35m What is the category of product?");
-       CategoryName = scanner.nextLine();
-       ifCategoryExist(CategoryName);
-       if(isCategoryExistFlag()){
-           printAllProductAndCategories(CategoryName);
-           logger.log(Level.INFO, "\u001B[34m" + "What is the product ID that you want to delete?");
-           String id = scanner.nextLine();
-           ifProductIdExist(CategoryName,id);
-           if(isiDExistFlag()) {
-               deleteThisProduct(CategoryName, id);
-               logger.log(Level.INFO, "The product deleted successfully");
-           }
-           else
-               logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis product does not exist."+"\u001B[0m\n");
+        logger.log(Level.INFO, "\u001B[35m What is the category of product?");
+        categoryName = scanner.nextLine();
+        ifCategoryExist(categoryName);
+        if(isCategoryExistFlag()){
+            printAllProductAndCategories(categoryName);
+            logger.log(Level.INFO, "\u001B[34m" + "What is the product ID that you want to delete?");
+            String id = scanner.nextLine();
+            ifProductIdExist(categoryName,id);
+            if(isiDExistFlag()) {
+                deleteThisProduct(categoryName, id);
+                logger.log(Level.INFO, "The product deleted successfully");
+            }
+            else
+                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis product does not exist."+"\u001B[0m\n");
 
-       }
-       else
-           logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category does not exist."+"\u001B[0m\n");
+        }
+        else
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category does not exist."+"\u001B[0m\n");
 
-   }
+    }
 
 
     public void  deleteThisProduct(String categoryName,String id){
@@ -405,24 +405,24 @@ public class Product {
 
     }
 
-////////////////////////////////////////delete product////////////////////////////////////////////////////////
+    ////////////////////////////////////////delete product////////////////////////////////////////////////////////
 ////////////////////////////////////////Search product////////////////////////////////////////////////////////
-public void ifProductAvailabilityExist(String categoryName, String availability) {
+    public void ifProductAvailabilityExist(String categoryName, String availability) {
         count=0;
-    try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
-        String s;
-        while ((s = ref.readLine()) != null) {
-            String[] productInfo = s.split(",");
-            String idProduct = productInfo[4];
-            if (availability.toLowerCase().equals(idProduct.toLowerCase())) {
-              count=count+1;
-                ifProductNameExist2(count);
+        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
+            String s;
+            while ((s = ref.readLine()) != null) {
+                String[] productInfo = s.split(",");
+                String idProduct = productInfo[4];
+                if (availability.toLowerCase().equals(idProduct.toLowerCase())) {
+                    count=count+1;
+                    ifProductNameExist2(count);
+                }
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-    } catch (IOException e) {
-        throw new RuntimeException(e);
     }
-}
     public void PrintProductAvailabilityExist(String categoryName, String availability) {
         count=0;
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
@@ -462,40 +462,40 @@ public void ifProductAvailabilityExist(String categoryName, String availability)
         printAllCategory();
 
         logger.log(Level.INFO, "\u001B[35m What is the category of product?");
-        CategoryName = scanner.nextLine();
-        ifCategoryExist(CategoryName);
+        categoryName = scanner.nextLine();
+        ifCategoryExist(categoryName);
         if(isCategoryExistFlag()){
-           searchMenuPrint(CategoryName);
+            searchMenuPrint(categoryName);
         }
         else
-        logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category does not exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category does not exist."+"\u001B[0m\n");
 
     }
-   public void ifProductNameExist(String catName, String productName) {
-         count = 0;
-       try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw")) {
-           String s;
-           while ((s = ref.readLine()) != null) {
-               String[] productInfo = s.split(",");
-               String productToSearch1 = productInfo[1];
-               String[] productToSearch2 =productToSearch1.split(" ");
-               if(productName.toLowerCase().equals(productToSearch1 .toLowerCase())){
-                   count=count+1;
-                   ifProductNameExist2(count);
-               }
-               else{
-               for (String i : productToSearch2 ) {
-                   if (productName.toLowerCase().equals(i.toLowerCase())) {
-                       count=count+1;
-                       ifProductNameExist2(count);
-                   }
-               }}}
-       } catch (FileNotFoundException e) {
-           throw new RuntimeException(e);
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
-   }
+    public void ifProductNameExist(String catName, String productName) {
+        count = 0;
+        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw")) {
+            String s;
+            while ((s = ref.readLine()) != null) {
+                String[] productInfo = s.split(",");
+                String productToSearch1 = productInfo[1];
+                String[] productToSearch2 =productToSearch1.split(" ");
+                if(productName.toLowerCase().equals(productToSearch1 .toLowerCase())){
+                    count=count+1;
+                    ifProductNameExist2(count);
+                }
+                else{
+                    for (String i : productToSearch2 ) {
+                        if (productName.toLowerCase().equals(i.toLowerCase())) {
+                            count=count+1;
+                            ifProductNameExist2(count);
+                        }
+                    }}}
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public boolean ifProductNameExist2(int count){
         return count > 0;
     }
@@ -510,11 +510,11 @@ public void ifProductAvailabilityExist(String categoryName, String availability)
                     extractedStoreData(productInfo);
                 }
                 else{
-                for (String i : productToSearch2 ) {
-                    if (productName.toLowerCase().equals(i.toLowerCase())) {
-                        extractedStoreData(productInfo);
-                    }
-                }}}
+                    for (String i : productToSearch2 ) {
+                        if (productName.toLowerCase().equals(i.toLowerCase())) {
+                            extractedStoreData(productInfo);
+                        }
+                    }}}
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -632,12 +632,12 @@ public void ifProductAvailabilityExist(String categoryName, String availability)
         }
     }
 
-  public void   searchMenuPrint(String catName){
-      int choice;
-      Scanner scanner = new Scanner(System.in);
-      Scanner scanner2 = new Scanner(System.in);
+    public void   searchMenuPrint(String catName){
+        int choice;
+        Scanner scanner = new Scanner(System.in);
+        Scanner scanner2 = new Scanner(System.in);
 
-      logger.info( """
+        logger.info( """
 
                 \u001B[33m----------------------------------
                 |                                 |
@@ -648,40 +648,40 @@ public void ifProductAvailabilityExist(String categoryName, String availability)
                 |                                 |
                 ----------------------------------
                 """);
-      logger.info( "Enter your choice: " + "\u001B[0m");
+        logger.info( "Enter your choice: " + "\u001B[0m");
 
-      choice = scanner.nextInt();
-      if(choice==1)
-      {
-          logger.info( "Enter The id to search: " + "\u001B[0m");
-          int productID = scanner.nextInt();
-          ifProductIdExist(catName, String.valueOf(productID));
-          extractedSearchById(catName, productID);
-      }
-      else if (choice==2) {
-          logger.info( "Enter The name to search: " + "\u001B[0m");
-          String productName = scanner2.nextLine();
-          ifProductNameExist(catName,productName);
-          extractedSearchByName(catName,productName);
-      }
-      else if (choice==3) {
-          logger.info( "Enter The description to search: " + "\u001B[0m");
-          String productDescription = scanner2.nextLine();
-          ifProductDescriptionsExist(catName,productDescription);
-          extractedSerachByDescription(catName,productDescription);
-      }
-      else if (choice==4) {
-          logger.info( "Enter The (available/not available) to search: " + "\u001B[0m");
-          String productAvailable = scanner2.nextLine();
-          ifProductAvailabilityExist(catName,productAvailable);
-         extractedSearchByAvailability(catName,productAvailable);
-      }
+        choice = scanner.nextInt();
+        if(choice==1)
+        {
+            logger.info( "Enter The id to search: " + "\u001B[0m");
+            int productID = scanner.nextInt();
+            ifProductIdExist(catName, String.valueOf(productID));
+            extractedSearchById(catName, productID);
+        }
+        else if (choice==2) {
+            logger.info( "Enter The name to search: " + "\u001B[0m");
+            String productName = scanner2.nextLine();
+            ifProductNameExist(catName,productName);
+            extractedSearchByName(catName,productName);
+        }
+        else if (choice==3) {
+            logger.info( "Enter The description to search: " + "\u001B[0m");
+            String productDescription = scanner2.nextLine();
+            ifProductDescriptionsExist(catName,productDescription);
+            extractedSerachByDescription(catName,productDescription);
+        }
+        else if (choice==4) {
+            logger.info( "Enter The (available/not available) to search: " + "\u001B[0m");
+            String productAvailable = scanner2.nextLine();
+            ifProductAvailabilityExist(catName,productAvailable);
+            extractedSearchByAvailability(catName,productAvailable);
+        }
 
-      else {
-          logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m" + "Invalid choice! Please enter a valid choice.\u001B[0m");
-          menuProduct();
-      }
-  }
+        else {
+            logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m" + "Invalid choice! Please enter a valid choice.\u001B[0m");
+            menuProduct();
+        }
+    }
 
     public void extractedSearchById(String catName, int productID) {
         if (isiDExistFlag()){
@@ -719,5 +719,4 @@ public void ifProductAvailabilityExist(String categoryName, String availability)
         }
     }
 }
-
 
