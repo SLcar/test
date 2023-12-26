@@ -414,43 +414,16 @@ private static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! 
         }
 
     }
-    public void writeToFile(String dataToWrite)
-    {
-         RandomAccessFile file= null;
-        try {
-
-
-             file = new RandomAccessFile(FILE_PATH, "rw");
-
-            // Go to the end of the file
-            file.seek(file.length());
-
-            // Write the string to the file
-            file.writeBytes(dataToWrite);
-
-            // Close the file
-            file.close();
-        }
-        catch (IOException e) 
-            {
-           logger.log(Level.SEVERE, "An error occurred", e);
-            }
-        finally 
-            {
-                if (file != null) 
-                {
-            try 
-                {
-                // Close the file in the finally block
-                file.close();
-                } 
-            catch (IOException e)
-                {
-               logger.log(Level.SEVERE, "An error occurred", e);
-                }
-                }
-            }
+   public void writeToFile(String dataToWrite) {
+    try (RandomAccessFile file = new RandomAccessFile(FILE_PATH, "rw")) {
+        // Go to the end of the file
+        file.seek(file.length());
+        // Write the string to the file
+        file.writeBytes(dataToWrite);
+    } catch (IOException e) {
+        logger.log(Level.SEVERE, "An error occurred", e);
     }
+}
 
 
 
