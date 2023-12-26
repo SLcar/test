@@ -154,7 +154,7 @@ public class Product {
                 back();
             }
             else {
-                logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31mThis category does not exist." + "\u001B[0m\n");
+                logger.log(Level.WARNING, getString4() + "\u001B[31mThis category does not exist." + getString3() +"\n");
                 back();
             }
 
@@ -175,9 +175,13 @@ public class Product {
             back();
         }
         else {
-            logger.log(Level.INFO, "\u001B[1m" + "\u001B[31" + "Invalid choice! Please enter a valid choice.\u001B[0m");
+            logger.log(Level.INFO, getString4() + "\u001B[31" + "Invalid choice! Please enter a valid choice.\u001B[0m");
             menuProduct();
         }
+    }
+
+    private static String getString3() {
+        return "\u001B[0m";
     }
 
     private static String getString1() {
@@ -257,7 +261,7 @@ public class Product {
             String names = scanner.next();
             ifCategoryExist(names);
             if(isCategoryExistFlag()){
-                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category exist."+"\u001B[0m\n");
+                logger.log(Level.WARNING, getString4() +"\u001B[31mThis category exist."+"\u001B[0m\n");
 
             }
             else
@@ -269,22 +273,26 @@ public class Product {
                 extractedIfProduct("added");
             }
             else
-                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category does not exist."+"\u001B[0m\n");
+                logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
 
         }
     }
 
     private static String getString2() {
-        return "\u001B[0m";
+        return getString3();
     }
 
     public void extractedIfProduct(String addOrUpdate) {
         enterDataOfProduct();
         ifProductIdExist(getCategoryName(), String.valueOf(getID()));
         if(isiDExistFlag())
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis ID Of Product is already exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() +"\u001B[31mThis ID Of Product is already exist."+"\u001B[0m\n");
         else
             addNewProducts(categoryName,addOrUpdate);
+    }
+
+    private static String getString4() {
+        return "\u001B[1m";
     }
 
     public void addNewProducts(String catName,String addOrUpdate) {
@@ -326,7 +334,7 @@ public class Product {
             editProducts1(categoryName,id);
         }
         else
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category does not exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
 
     }
 
@@ -342,8 +350,12 @@ public class Product {
             extractedIfProduct("updated");
         }
         else
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis product does not exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() + getString5() +"This product does not exist."+"\u001B[0m\n");
 
+    }
+
+    private static String getString5() {
+        return "\u001B[31m";
     }
 
     private void extractedPrintTheProduct() {
@@ -376,11 +388,11 @@ public class Product {
                 logger.log(Level.INFO, "The product deleted successfully");
             }
             else
-                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis product does not exist."+"\u001B[0m\n");
+                logger.log(Level.WARNING, getString4() +"\u001B[31mThis product does not exist."+"\u001B[0m\n");
 
         }
         else
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category does not exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
 
     }
 
@@ -476,7 +488,7 @@ public class Product {
             searchMenuPrint(categoryName);
         }
         else
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category does not exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
 
     }
     public void ifProductNameExist(String catName, String productName) {
@@ -676,7 +688,7 @@ enter= """
         }
 
         else {
-            logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m" + "Invalid choice! Please enter a valid choice.\u001B[0m");
+            logger.log(Level.INFO, getString4() + getString5() + "Invalid choice! Please enter a valid choice.\u001B[0m");
             menuProduct();
         }
     }
@@ -691,7 +703,7 @@ enter= """
             extractedPrintTheProduct();
         }
         else {
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The product Not found" + "\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
         }
     }
 
@@ -700,7 +712,7 @@ enter= """
             printTheResultSearchByName(catName,productName,1);
         }
         else {
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The product Not found" + "\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
         }
     }
     private void  extractedSerachByDescription(String catName,String productDescription){
@@ -708,7 +720,7 @@ enter= """
             printTheResultSearchByName(catName,productDescription,2);
         }
         else {
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The product Not found" + "\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
         }
     }
 
@@ -717,7 +729,7 @@ enter= """
             PrintProductAvailabilityExist(catName,productAvailability);
         }
         else {
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The product Not found" + "\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
         }
     }
 }
