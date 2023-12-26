@@ -596,30 +596,47 @@ public class Order {
 
     String customerName;
 
-    public void addNewOrderToCustomer(String customerName,String idCustomer,String data) {
-        RandomAccessFile file=null;
-        RandomAccessFile fil2;
-        try {
+    public void addNewOrderToCustomer(String customerName,String idCustomer,String data)
+    {
+        RandomAccessFile file = null;
+        RandomAccessFile fil2=null;
+        try
+        {
             file = new RandomAccessFile("src/main/resources/Data/" + customerName + "-" + idCustomer + ".txt", "rw");
             fil2 = new RandomAccessFile("src/main/resources/Data/orderAllProduct.txt", "rw");
             file.seek(file.length());
             file.writeBytes(data);
-            file.close();
+            //file.close();
             fil2.seek(fil2.length());
             fil2.writeBytes(data);
             fil2.close();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
-        }finally {
-            if (file != null) {
-                try {
+        }
+        finally
+        {
+            if (file != null)
+            {
+                try
+                {
                     file.close();
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            if (fil2 != null)
+            {
+                try
+                {
+                    fil2.close();
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
             }
         }
-
     }
     public void addNewOrderPending(String data) {
         RandomAccessFile file=null;
@@ -1012,7 +1029,7 @@ public class Order {
         }
     }
 
-    public void deleteOrder1(int nm,String name,String orderNumber){
+   public void deleteOrder1(int nm,String name,String orderNumber){
         RandomAccessFile raf2=null;
         String s;
         int lineToDelete=-1;
@@ -1030,6 +1047,19 @@ public class Order {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+        finally
+        {
+            if (raf2 != null)
+            {
+                try
+                {
+                    raf2.close();
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
@@ -1264,12 +1294,15 @@ public class Order {
     }
 
 
-    public void searchAboutCustomer(String name,long orderNumber) {
+   public void searchAboutCustomer(String name,long orderNumber)
+    {
         String s;
         int lineToDelete=-1;
-        try {
+        RandomAccessFile raf2 =null;
+        try
+        {
 
-            RandomAccessFile raf2 = new RandomAccessFile("src/main/resources/Data/"+name+".txt", "rw");
+            raf2 = new RandomAccessFile("src/main/resources/Data/"+name+".txt", "rw");
 
             String or = String.valueOf(orderNumber);
             while ((s = raf2.readLine()) != null) {
@@ -1288,15 +1321,27 @@ public class Order {
                 }
             }
 
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             throw new RuntimeException(e);
+        }
+        finally
+        {
+            if (raf2 != null) {
+                try {
+                    raf2.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public void searchAboutGmail() {
         String s;
+        RandomAccessFile raf3 =null;
         try {
-            RandomAccessFile raf3 = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw");
+            raf3 = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw");
             while ((s = raf3.readLine()) != null) {
                 String[] productInfo = s.split(",");
                 if (productInfo[4].equals(getIdCustomer())) {
@@ -1306,6 +1351,16 @@ public class Order {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+        finally
+        {
+            if (raf3 != null) {
+                try {
+                    raf3.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }
