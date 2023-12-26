@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import java.security.SecureRandom;
 import static org.example.Registration.logger;
 
 public class Order {
@@ -20,7 +20,8 @@ public class Order {
     ArrayList<Integer> lines = new ArrayList<>();
     protected  static final  String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
     protected  static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
-private static final Logger logger = Logger.getLogger(Order.class.getName());
+    private static final Logger logger = Logger.getLogger(Order.class.getName());
+    private final SecureRandom secureRandom = new SecureRandom();
     public boolean isSendEmailConfirmation() {
         return sendEmailConfirmation;
     }
@@ -660,13 +661,13 @@ private static final Logger logger = Logger.getLogger(Order.class.getName());
         }
 
     }
-    private final Random random = new Random();
+    
 
     public void randomNumberGenerator() {
         long min = 1000000000L; // Minimum 10-digit number
         long max = 9999999999L; // Maximum 10-digit number
 
-        long randomNum = min + ((long) (random.nextDouble() * (max - min)));
+        long randomNum = min + ((long) (secureRandom.nextDouble() * (max - min)));
         setOrderNumber(randomNum);
     }
 
