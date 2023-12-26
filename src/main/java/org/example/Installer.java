@@ -13,8 +13,8 @@ public class Installer {
     String data ;
     Order order = new Order();
     Gmail gmailSend = new Gmail();
-    private String[] arrayOfTopic =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
-    private String[] arrayOfMsg = {"The Installation has been confirmed","We are sorry, but the Installation Request has been canceled due to logistical restrictions beyond our store's control","Thank you for using our company"}; // Creating an array that can hold 3 strings
+    public String[] arrayOfTopic =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
+    public String[] arrayOfMsg = {"The Installation has been confirmed","We are sorry, but the Installation Request has been canceled due to logistical restrictions beyond our store's control","Thank you for using our company"}; // Creating an array that can hold 3 strings
     private String first;
     private static final Logger logger = Logger.getLogger(Installer.class.getName());
 
