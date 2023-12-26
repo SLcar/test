@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
-
+import java.security.SecureRandom;
 
 import static org.example.Registration.logger;
 
@@ -659,7 +659,7 @@ public class Order {
         }
 
     }
-    private final Random random = new Random();
+    private final SecureRandom secureRandom = new SecureRandom();
 
     public void randomNumberGenerator() {
         long min = 1000000000L; // Minimum 10-digit number
