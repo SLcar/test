@@ -9,7 +9,7 @@ import static org.example.Registration.logger;
 
 public class Admin {
     String enter ;
-
+private static final Logger logger = Logger.getLogger(Admin.class.getName());
     Order order = new Order();
 
     public String getFirst() {
@@ -418,7 +418,8 @@ public class Admin {
         }
 
     }
-    public void writeToFile(String dataToWrite){
+    public void writeToFile(String dataToWrite)
+    {
         try {
 
 
@@ -433,9 +434,25 @@ public class Admin {
             // Close the file
             file.close();
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        catch (IOException e) 
+            {
+           logger.log(Level.SEVERE, "An error occurred", e);
+            }
+        finally 
+            {
+                if (file != null) 
+                {
+            try 
+                {
+                // Close the file in the finally block
+                file.close();
+                } 
+            catch (IOException e)
+                {
+               logger.log(Level.SEVERE, "An error occurred", e);
+                }
+                }
+            }
     }
 
 
