@@ -1,114 +1,445 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+package org.example;
 
-    <groupId>org.example</groupId>
-    <artifactId>test</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <properties>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-       <sonar.organization>slcar</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    </properties>
-<dependencies>
-    <dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-java</artifactId>
-        <version>7.14.0</version>
-    </dependency>
-    <dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-core</artifactId>
-        <version>7.14.0</version>
-    </dependency>
-    <dependency>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.7</version>
-    </dependency>
-    <dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-junit</artifactId>
-        <version>7.14.0</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-picocontainer</artifactId>
-        <version>7.14.0</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-api</artifactId>
-        <version>2.19.0</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>log4j-core</artifactId>
-        <version>2.19.0</version>
-    </dependency>
-    <dependency>
-        <groupId>javax.mail</groupId>
-        <artifactId>javax.mail-api</artifactId>
-        <version>1.6.2</version>
-    </dependency>
-    <dependency>
-        <groupId>javax.activation</groupId>
-        <artifactId>activation</artifactId>
-        <version>1.1</version>
-    </dependency>
-    <dependency>
-        <groupId>com.sun.mail</groupId>
-        <artifactId>javax.mail</artifactId>
-        <version>1.6.2</version>
-    </dependency>
-</dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.12.1</version>
-                <configuration>
-                    <source>15</source>
-                    <target>15</target>
-                </configuration>
-            </plugin>
-        </plugins>
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.Scanner;
+import java.util.logging.Level;
 
-            <pluginManagement>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.22.2</version>
-                        <configuration/>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>report</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </pluginManagement>
+import static org.example.Registration.logger;
 
-    </build>
+public class Admin {
+    String enter;
+    Order order = new Order();
+
+    public String getFirst() {
+        return first;
+    }
+
+    public String getSec() {
+        return sec;
+    }
+
+    public String getThird() {
+        return third;
+    }
+
+    String first ;
+    String sec;
+    String third ;
+
+    public boolean isAdminLogin() {
+        return adminLogin;
+    }
+
+    public void setAdminLogin(boolean adminLogin) {
+        this.adminLogin = adminLogin;
+    }
+
+    private boolean adminLogin ;
+
+    public boolean isProductsFlag() {
+        return productsFlag;
+    }
+
+    public void setProductsFlag(boolean productsFlag) {
+        this.productsFlag = productsFlag;
+    }
+
+    public boolean isCategoriesFlag() {
+        return categoriesFlag;
+    }
+
+    public void setCategoriesFlag(boolean categoriesFlag) {
+        this.categoriesFlag = categoriesFlag;
+    }
+
+    public boolean isUserAccountsFlag() {
+        return userAccountsFlag;
+    }
+
+    public void setUserAccountsFlag(boolean userAccountsFlag) {
+        this.userAccountsFlag = userAccountsFlag;
+    }
+
+    private boolean productsFlag;
+    private boolean categoriesFlag;
+    private boolean userAccountsFlag;
 
 
-</project>
+    public void setOrderCustomerFlag(boolean orderCustomerFlag) {
+        this.orderCustomerFlag = orderCustomerFlag;
+    }
+
+
+    public void setInstallationRequestsFlag(boolean installationRequestsFlag) {
+        this.installationRequestsFlag = installationRequestsFlag;
+    }
+
+    private boolean orderCustomerFlag;
+    private boolean installationRequestsFlag;
+    Product product = new Product();
+    Category category = new Category();
+    Customer customer = new Customer();
+    Installer installer =new Installer();
+    public Admin() {
+        adminLogin = true;
+        productsFlag=false;
+        categoriesFlag=false;
+        userAccountsFlag=false;
+    }
+    public void whatAdminEnter(String AdminChoice){
+        switch (AdminChoice) {
+            case "1" -> setProductsFlag(true);
+            case "2" -> setCategoriesFlag(true);
+            case "3" -> setUserAccountsFlag(true);
+            default -> {
+                setCategoriesFlag(false);
+                setUserAccountsFlag(false);
+                setProductsFlag(false);
+            }
+        }
+    }
+
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
+    }
+    String color="\u001B[0m";
+    String adminName;
+    public void Admin_menu (String AdminName){
+        setProductsFlag(false);
+        setCategoriesFlag(false);
+        setUserAccountsFlag(false);
+        setOrderCustomerFlag(false);
+        setInstallationRequestsFlag(false);
+        enter ="\n\u001B[37m" + "----------  Welcome " +  AdminName  + " -------"+"\n"+
+                "|    1. Manage products                  |\n"+
+                "|    2. Manage categories                |\n"+
+                "|    3. Manage user accounts.            |\n"+
+                "|    4. Manage order Customer.           |\n"+
+                "|    5. Manage Installation Requests     |\n"+
+                "------------------------------------------\n";
+        setAdminName(AdminName);
+        int choice;
+        Scanner scanner = new Scanner(System.in);
+        logger.log(Level.INFO,enter);
+        logger.log(Level.INFO,s +color);
+        choice = scanner.nextInt();
+        if (choice == 1) {
+            productsFlag=true;
+            userAccountMenu();
+        } else if (choice == 2) {
+            categoriesFlag=true;
+            userAccountMenu();
+
+        } else if (choice == 3) {
+            userAccountsFlag =true;
+            userAccountMenu();
+
+        }
+        else if (choice == 4) {
+            orderCustomerFlag=true;
+            userAccountMenu();
+
+        }
+        else if (choice == 5) {
+            installationRequestsFlag=true;
+            userAccountMenu();
+
+        }
+        else {
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+color);
+            Admin_menu(AdminName);
+        }
+
+    }
+    public void userAccountMenu(){
+        if (productsFlag){
+            product.menuProduct();
+        }
+        else if (categoriesFlag) {
+            category.menuCategory();
+        }
+        else if (userAccountsFlag) {
+            menuManageAccountUser();
+        }
+        else if (orderCustomerFlag) {
+            menuOrderCustomer();
+        }
+        else if (installationRequestsFlag) {
+            installer.installer_menu(getAdminName());
+        }
+    }
+    public void menuOrderCustomer(){
+        int choice;
+        Scanner scanner = new Scanner(System.in);
+        enter="""
+
+                \u001B[34m----- Manage Order Customer -----
+                |     1. Show All Order         |
+                |     2. edit Customer Order    |
+                |     3. back                   |
+                ---------------------------------n""";
+        logger.log(Level.INFO,enter );
+        logger.log(Level.INFO,s +color);
+        choice = scanner.nextInt();
+        if (choice == 1) {
+            order.viewAllOrderToAdmin();
+            menuOrderCustomer();
+        }
+        else if (choice ==2) {
+            enterData();
+            menuOrderCustomer();
+        }
+        else if (choice ==3) {
+            Admin_menu(getAdminName());}
+
+        else {
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+color);
+            menuOrderCustomer();
+        }
+
+    }
+    private void enterData() {
+        Scanner scanner4 = new Scanner(System.in);
+        int choice;
+        logger.log(Level.INFO,"Enter The Number Of Order: "+color);
+        order.setOrderNumber(Long.parseLong(scanner4.next()));
+        order.ifEnterOrderExitToChangeSt(order.getOrderNumber());
+
+        if(order.isIfOrderExist()){
+            order.searchAboutCustomer("orderToAdmin",order.getOrderNumber());
+            order.searchAboutGmail();
+            enter="""
+            
+            \u001B[35m-------------------------------
+            |                              |
+            |        1. shipped            |
+            |        2. delivered          |
+            |        3. canceled           |
+            |                              |
+            --------------------------------
+            """;
+            logger.log(Level.INFO,enter);
+            logger.log(Level.INFO,s +color);
+
+            choice = scanner4.nextInt();
+            if (choice==1) {
+                order.setStatusOrder("shipped");
+
+            } else if (choice == 2) {
+                order.setStatusOrder("delivered");
+            } else if (choice == 3) {
+                order.setStatusOrder("canceled");
+
+            } else {
+                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+color+"\n");
+
+                menuOrderCustomer();
+            }
+
+            order.editTheOrder();
+            menuOrderCustomer();
+
+
+        }
+
+        else{
+            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The order Not Found" + "\u001B[0m");
+            menuOrderCustomer();
+        }
+    }
+
+
+    public void menuManageAccountUser(){
+        int choice;
+        Scanner scanner = new Scanner(System.in);
+        enter="""
+
+                \u001B[34m----- Manage user -----
+                |     1. Admin         |
+                |     2. Customer      |
+                |     3. Installer     |
+                |     4. Back          |
+                -----------------------
+                """;
+        logger.log(Level.INFO, enter);
+        logger.log(Level.INFO,s +color);
+        choice = scanner.nextInt();
+        if (choice == 1) {
+            editAdminProfile();
+        }
+        else if (choice ==2) {
+            customer.menuCustomerAdmin();
+        }
+        else if (choice ==3) {
+            installer.menuInstallerAdmin();
+        }
+        else if (choice ==4) {
+            Admin_menu(getAdminName());
+        }
+        else {
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+color);
+            menuManageAccountUser();
+        }
+
+    }
+    String s = "Enter your choice: ";
+    public void editAdminProfile(){
+        int choice;
+        Scanner scanner = new Scanner(System.in);
+        Scanner scanner1 = new Scanner(System.in);
+        enter="""
+
+                \u001B[36m----- Admin Profile -----
+                |   1. edit userName   |
+                |   2. edit Password   |
+                |   3. edit Gmail      |
+                -----------------------
+                """;
+        logger.log(Level.INFO, enter);
+        logger.log(Level.INFO, s +color);
+        choice = scanner.nextInt();
+        String choice2 ;
+        String oldPass ;
+        String newPass ;
+        String newPassCon ;
+
+        if (choice == 1) {
+            logger.log(Level.INFO,s +color);
+            choice2 = scanner1.nextLine();
+            editeUserName(choice2);
+            logger.log(Level.INFO,"The user name has been changed successfully"+color);
+            editAdminProfile();
+        }
+        else if (choice ==2) {
+            logger.log(Level.INFO,"Enter The old password:"+color);
+            oldPass = scanner1.nextLine();
+            logger.log(Level.INFO,"Enter The new password:"+color);
+            newPass = scanner1.nextLine();
+            logger.log(Level.INFO,"Confirm The  password:"+color);
+            newPassCon = scanner1.nextLine();
+            editePassword(oldPass,newPass,newPassCon);
+            editAdminProfile();
+
+        }
+        else if (choice ==3) {
+            logger.log(Level.INFO,"Enter The new Gmail:"+color);
+            choice2 = scanner1.nextLine();
+            editeGmail(choice2);
+            logger.log(Level.INFO,"The Gmail has been changed successfully"+color);
+            editAdminProfile();
+
+        }
+        else {
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+color);
+        }
+    }
+
+    private void editeGmail(String choice2) {
+        fileFunction();
+        deleteFileFunction();
+        writeToFile(getFirst()+","+choice2+","+getThird());
+
+    }
+    private void editePassword(String oldPass, String newPass, String newPassCon) {
+        fileFunction();
+        if(truepass(oldPass,getThird())){
+            if(truepass(newPass,newPassCon)){
+                deleteFileFunction();
+                writeToFile(getFirst()+","+getSec()+","+newPass);
+                logger.log(Level.INFO,"\u001B[35m"+"The Password has been changed successfully"+color);
+
+            }
+            else
+                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe Two password does not match"+color);
+
+        }
+        else
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe password is incorrect"+color);
+
+    }
+
+    private void editeUserName(String choice2) {
+        fileFunction();
+        deleteFileFunction();
+        writeToFile(choice2+","+getSec()+","+getThird());
+    }
+    public void fileFunction(){
+
+        try (RandomAccessFile raf = new RandomAccessFile(getString(), "rw")) {
+            String s;
+            while ((s = raf.readLine()) != null) {
+                String[] loginCustomer = s.split(",");
+                first=loginCustomer[0];
+                sec=loginCustomer[1];
+                third=loginCustomer[2];
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public void deleteFileFunction(){
+
+        try (RandomAccessFile raf = new RandomAccessFile(getString(), "rw")) {
+            // Seek to the beginning of the file
+            long start = 0;
+            long currentPos = raf.getFilePointer();
+            int currentLine = -1;
+
+            while (currentLine < 0) {
+                start = currentPos;
+                raf.readLine();
+                currentPos = raf.getFilePointer();
+                currentLine++;
+            }
+
+            // Save the rest of the file after the line to be deleted
+            long end = raf.length();
+            byte[] remainingBytes = new byte[(int) (end - currentPos)];
+            raf.read(remainingBytes);
+
+            raf.seek(start);
+            raf.write(remainingBytes);
+            raf.setLength(start + remainingBytes.length);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public void writeToFile(String dataToWrite){
+        RandomAccessFile file = null;
+        try {
+            file = new RandomAccessFile(getString(), "rw");
+            file.seek(file.length());
+
+            file.writeBytes(dataToWrite);
+            file.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (file != null) {
+                try {
+                    file.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static String getString() {
+        return "src/main/resources/Data/AdminData.txt";
+    }
+
+
+    public boolean truepass (String pass, String ConfirmPass){
+        return pass.equals(ConfirmPass);
+    }
+}
