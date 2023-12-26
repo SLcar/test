@@ -87,8 +87,8 @@ public class Admin {
         categoriesFlag=false;
         userAccountsFlag=false;
     }
-    public void whatAdminEnter(String AdminChoice){
-        switch (AdminChoice) {
+    public void whatAdminEnter(String adminChoice){
+        switch (adminChoice) {
             case "1" -> setProductsFlag(true);
             case "2" -> setCategoriesFlag(true);
             case "3" -> setUserAccountsFlag(true);
@@ -109,24 +109,24 @@ public class Admin {
     }
 
     String adminName;
-    public void Admin_menu (String AdminName){
+    public void adminMenu(String adminName){
         setProductsFlag(false);
         setCategoriesFlag(false);
         setUserAccountsFlag(false);
         setOrderCustomerFlag(false);
         setInstallationRequestsFlag(false);
 
-        setAdminName(AdminName);
+        setAdminName(adminName);
         int choice;
         Scanner scanner = new Scanner(System.in);
-
-        logger.log(Level.INFO,"\n\u001B[37m" + "----------  Welcome " +  AdminName  + " -------"+"\n"+
+        enter="\n\u001B[37m" + "----------  Welcome " +  adminName  + " -------"+"\n"+
                 "|    1. Manage products                  |\n"+
                 "|    2. Manage categories                |\n"+
                 "|    3. Manage user accounts.            |\n"+
                 "|    4. Manage order Customer.           |\n"+
                 "|    5. Manage Installation Requests     |\n"+
-                "------------------------------------------\n");
+                "------------------------------------------\n";
+        logger.log(Level.INFO,enter);
         logger.log(Level.INFO, getMsg());
         choice = scanner.nextInt();
         if (choice == 1) {
@@ -152,8 +152,8 @@ public class Admin {
 
         }
         else {
-            logger.log(Level.WARNING, color2() + getString() + color());
-            Admin_menu(AdminName);
+            logger.log(Level.WARNING, String.format("%s%s%s", color2(), getString(), color()));
+            adminMenu(adminName);
         }
 
     }
@@ -191,7 +191,7 @@ public class Admin {
             menuOrderCustomer();
         }
         else if (choice ==3) {
-            Admin_menu(getAdminName());}
+            adminMenu(getAdminName());}
 
         else {
             logger.log(Level.WARNING, color2() + getString() + color());
@@ -291,7 +291,7 @@ public class Admin {
             installer.menuInstallerAdmin();
         }
         else if (choice ==4) {
-            Admin_menu(getAdminName());
+            adminMenu(getAdminName());
         }
         else {
             logger.log(Level.WARNING, color2() + getString() + color());
@@ -447,3 +447,4 @@ enter="""
         return pass.equals(ConfirmPass);
     }
 }
+
