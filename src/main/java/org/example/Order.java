@@ -45,13 +45,16 @@ public class Order {
        boolean sendEmailConfirmation=false;
       boolean sendEmailReceiving=false;
        boolean sendEmailCancel=false;
-
+String delivered ="delivered";
     public void  ifEmailSending (String status){
 
         switch (status) {
             case "shipped" -> setSendEmailConfirmation(true);
             case "delivered" -> setSendEmailReceiving(true);
             case "Canceled" -> setSendEmailCancel(true);
+            default ->{
+                logger.log(Level.INFO,"enter true data"+"\u001B[0m");
+            }
         }
     }
 
@@ -96,7 +99,7 @@ public class Order {
         this.dateOfReceiptOfTheOrder = dateOfReceiptOfTheOrder;
     }
 
-     String dateOfReceiptOfTheOrder;
+    String dateOfReceiptOfTheOrder;
 
     public String getStatusOrder() {
         return statusOrder;
@@ -110,7 +113,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
- String orderDate;
+    String orderDate;
 
     public void setStatusOrder(String statusOrder) {
         this.statusOrder = statusOrder;
@@ -130,7 +133,7 @@ public class Order {
     }
 
 
-   float totalPriceProduct;
+    float totalPriceProduct;
 
     public long getOrderNumber() {
         return orderNumber;
@@ -189,7 +192,7 @@ public class Order {
             userAccountMenu();
 
         } else if (choice == 2) {
-            viewDeliveredOrder("delivered",getIdCustomer());
+            viewDeliveredOrder(delivered,getIdCustomer());
             userAccountMenu();
 
         } else {
@@ -200,13 +203,13 @@ public class Order {
 
     private void userAccountMenu() {
         if(isIfCustomerShowPendingOrder()){
-            viewPendingOrder1("pending",getIdCustomer(),getCustomerName());
+            viewPendingOrder1("pending",getIdCustomer());
             viewPendingOrder("pending",getIdCustomer());
             pendingMenu();
         }
         else if (isIfCustomerShowDeliveredOrder()) {
-            viewPendingOrder1("delivered",getIdCustomer(),getCustomerName());
-            viewPendingOrder("delivered",getIdCustomer());
+            viewPendingOrder1(delivered,getIdCustomer());
+            viewPendingOrder(delivered,getIdCustomer());
             deliveredMenu();
         }
     }
@@ -338,19 +341,19 @@ public class Order {
             ifQuantitiesGraterThan(newQuantity);
 
         } else if (choice==2) {
-            show="""
+            show= """
         
             \u001B[35m---------------------
             |                       |
             |      1. YES           |
             |      2. NO            |
-            |                       | 
+            |                       |\s
             -------------------------
             """;
             viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
             setProductID(productID);
             String name = getCustomerName()+"-"+getIdCustomer();
-            if(ifFileOfCustomerOrderNoItem(getCustomerName(),getIdCustomer())){
+            if(ifFileOfCustomerOrderNoItem(getCustomerName())){
                 logger.log(Level.INFO,"Do you want to cancel the order?"+"\u001B[0m");
                 logger.log(Level.INFO, show);
 
@@ -796,21 +799,16 @@ public class Order {
             if (!dv){
                 logger.info("There is no delivered Orders");
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void countDeliveredFun(int countDelivered) {
-        if(countDelivered>0)
-            setIfCustomerShowDeliveredOrder(true);
-        else
-            setIfCustomerShowDeliveredOrder(false);
+        setIfCustomerShowDeliveredOrder(countDelivered > 0);
     }
 
-    public void viewPendingOrder1(String pending, String idCustomer, String name) {
+    public void viewPendingOrder1(String pending, String idCustomer) {
         try (
                 RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/orderToAdmin.txt", "rw"
                 )) {
@@ -828,8 +826,6 @@ public class Order {
                     extractedPrintThePendingId();
                 }
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -854,8 +850,6 @@ public class Order {
                 extractedPrintThePendingId();
 
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -880,8 +874,6 @@ public class Order {
                     product.extractedSearchById(getCategoryName(),getProductID());
                 }}
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -927,8 +919,6 @@ public class Order {
                 setIfOrderExist(false);
                 setIfCustomerCancelPendingOrder(false);
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -949,8 +939,6 @@ public class Order {
 
                 setIfOrderExist(false);
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -968,8 +956,6 @@ public class Order {
                 }
                 setIfOrderExist(false);
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -1016,10 +1002,11 @@ public class Order {
     }
 
     public void deleteOrder1(int nm,String name,String orderNumber){
+        RandomAccessFile raf2=null;
         String s;
         int lineToDelete=-1;
         try {
-            RandomAccessFile raf2 = new RandomAccessFile("src/main/resources/Data/"+name+".txt", "rw");
+            raf2 = new RandomAccessFile("src/main/resources/Data/"+name+".txt", "rw");
 
             while ((s = raf2.readLine()) != null) {
                 lineToDelete=lineToDelete+1;
@@ -1033,6 +1020,7 @@ public class Order {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
     }
     public void deleteOrder2(String name,int id){
         try {
@@ -1107,7 +1095,7 @@ public class Order {
 
     }
 
-    public boolean ifFileOfCustomerOrderNoItem(String nameCustomer,String customerId){
+    public boolean ifFileOfCustomerOrderNoItem(String nameCustomer){
         countOfLine=-1;
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" +nameCustomer+"-"+idCustomer + ".txt", "rw")) {
             String s;
@@ -1146,20 +1134,6 @@ public class Order {
         }
     }
 
-
-    private void editThisProductImCustomer(String data) {
-        try (RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/" + customerName+"-"+idCustomer + ".txt", "rw")) {
-            file.seek(file.length());
-            file.writeBytes(data);
-            file.close();
-            logger.log(Level.INFO, "The product Order updated successfully");
-
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public void ifProductExitToEdit(int productID, long order, String name, String idCustomer) {
         numberOfLine = -1;
@@ -1250,7 +1224,7 @@ public class Order {
     }
 
 
-    public void editTheOrder(String statusOrder) {
+    public void editTheOrder() {
         for (Integer i : lines){
             deleteOrder2("orderToAdmin",i);
         }
