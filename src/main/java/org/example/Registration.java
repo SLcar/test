@@ -15,12 +15,8 @@ public class Registration {
         return numberOfLine;
     }
 
-    public void setNumberOfLine(int numberOfLine) {
-        this.numberOfLine = numberOfLine;
-    }
-
     private int numberOfLine;
-    private String AdminName ;
+    private String adminMenu;
     private String customerName;
     Admin admin = new Admin();
     Customer customer = new Customer();
@@ -59,25 +55,6 @@ public class Registration {
     private boolean adminloged;
     private boolean customerLogin;
     private boolean installerLogin;
-    private boolean customerLoged;
-
-    public boolean isCustomerLoged() {
-        return customerLoged;
-    }
-
-    public void setCustomerLoged(boolean customerLoged) {
-        this.customerLoged = customerLoged;
-    }
-
-    public boolean isInstallerLoged() {
-        return installerLoged;
-    }
-
-    public void setInstallerLoged(boolean installerLoged) {
-        this.installerLoged = installerLoged;
-    }
-
-    private boolean installerLoged;
 
     public boolean isIfEmailFound() {
         return ifEmailFound;
@@ -179,13 +156,7 @@ public class Registration {
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////
-    private Registration(String name, String email, String password, String comPassword, int id) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.comPassword = comPassword;
-        this.id = id;
-    }
+
 
     public Registration() {
         theUser = 0;
@@ -197,7 +168,7 @@ public class Registration {
     }
 
     public void storeDataToFile(String dataToWrite) {
-         RandomAccessFile file =null;
+        RandomAccessFile file =null;
         try {
             file = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw");
             file.seek(file.length());
@@ -207,15 +178,15 @@ public class Registration {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-        if (file != null) {
-            try {
-                file.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (file != null) {
+                try {
+                    file.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
-    }
 
 
 
@@ -226,7 +197,7 @@ public class Registration {
 
 
 
-    public boolean truepass (Registration ob, String pass, String ConfirmPass){
+    public boolean truepass (String pass, String ConfirmPass){
         if(pass.equals(ConfirmPass)){
             return true;
         }
@@ -235,9 +206,9 @@ public class Registration {
 
 
 
-    public void isCustomerRegistrationCompleted (Registration o ,String pass, String conformPass){
+    public void isCustomerRegistrationCompleted (String pass, String conformPass){
         setCustomerRegistrationCompleted(false);
-        if((truepass(o,pass,conformPass))){
+        if((truepass(pass,conformPass))){
             setCustomerRegistrationCompleted(true);
         }
 
@@ -321,7 +292,7 @@ public class Registration {
             while ((s = ref.readLine()) != null) {
 
                 String[] loginCustomer = s.split(",");
-                AdminName = loginCustomer[0];
+                adminMenu = loginCustomer[0];
                 TrueEmail = loginCustomer[1];
                 TruePassword = loginCustomer[2];
 
@@ -470,15 +441,15 @@ public class Registration {
             String enterEmail = enterEmail();
             String enterPassword = enterPass();
             AdminLogin(enterEmail,enterPassword);
-            if (adminloged == true)
-                admin.Admin_menu(AdminName);
+            if (adminloged)
+                admin.adminMenu(adminMenu);
         }
 
         else if (getTheUser() == 2) {
             String enterEmail = enterEmail();
             String enterPassword = enterPass();
             customerIslLogin(enterEmail,enterPassword);
-            if(customerLogin==true);
+            if(customerLogin);
             customer.Customer_menu(customerName);
             customer.setTheCustomerIs(getNumberOfLine());
 
@@ -486,7 +457,7 @@ public class Registration {
             String enterEmail = enterEmail();
             String enterPassword = enterPass();
             installerIsLogin(enterEmail,enterPassword);
-            if(installerLogin==true)
+            if(installerLogin)
                 installer.installer_menu(installerName);
         }
 
@@ -550,7 +521,7 @@ public class Registration {
             returnEnterEmail();
 
         }
-        else if(!truepass(this,getPassword(),getComPassword())){
+        else if(!truepass(getPassword(),getComPassword())){
             returnEnterPass(this);
         }
         else {
@@ -569,7 +540,7 @@ public class Registration {
         if(isIfEmailFound()){
             returnEnterEmail();
         }
-        else if (!truepass(this,getPassword(),getComPassword())) {
+        else if (!truepass(getPassword(),getComPassword())) {
             returnEnterPass(this);
         }
         else {
@@ -587,7 +558,7 @@ public class Registration {
         ob.setPassword(scanner.next());
         logger.log(Level.INFO,"Confirm your Password:");
         ob.setComPassword(scanner.next());
-        if(truepass(ob,ob.getPassword(), ob.getComPassword())){
+        if(truepass(ob.getPassword(), ob.getComPassword())){
             String dD =getName()+"," +getEmail() + "," + getPassword() + "," + getComPassword() + "," + getId()+","+getPhone()+","+"\n";
             storeDataToFile(dD);
             logger.log(Level.INFO,"The registration process was completed successfully\n");
@@ -631,4 +602,3 @@ public class Registration {
         }
     }
 }
-
