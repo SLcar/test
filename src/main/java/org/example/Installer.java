@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.example.Registration.logger;
+import java.security.SecureRandom;
 
 public class Installer {
     String data ;
@@ -97,13 +98,13 @@ public class Installer {
     ArrayList<String> listPrint = new ArrayList<>();
 
 
-     private Random random = new Random();
+    private final SecureRandom secureRandom = new SecureRandom();
 
     public void randomNumberGenerator() {
         long min = 1000000000L; // Minimum 10-digit number
         long max = 9999999999L; // Maximum 10-digit number
 
-        long randomNum = min + ((long) (random.nextDouble() * (max - min)));
+        long randomNum = min + ((long) (secureRandom.nextDouble() * (max - min)));
         setIdInstallerRequest(randomNum);
     }
     public void ifRandomNumberGeneratorNotFound() {
