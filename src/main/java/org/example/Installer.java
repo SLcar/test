@@ -174,17 +174,16 @@ public class Installer {
         setScheduleAppointmentFlag(false);
         int choice;
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO, String.format(
-                "\n\u001B[35m------- Welcome  %s  ------\n" +
-                        "%s\n" +
-                        "|     1. Send new day and hour.    |\n" +
-                        "|     2. Change day.               |\n" +
-                        "|     3. Change Hour.              |\n" +
-                        "%s\n" +
-                        " ---------------------------------- \n",
-                installerName, LINE_SEPARATOR, LINE_SEPARATOR));
-        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+"\u001B[37m");
-
+        logger.log(Level.INFO, """
+                \u001B[35m------- Welcome  %s  ------
+                %s
+                |     1. Send new day and hour.    |
+                |     2. Change day.               |
+                |     3. Change Hour.              |
+                %s
+                 ----------------------------------
+                """.formatted(installerName, LINE_SEPARATOR, LINE_SEPARATOR));
+        logger.log(Level.INFO, ENTER_CHOICE_MESSAGE + "\u001B[37m");
         choice = scanner.nextInt();
         if (choice == 1) {
             setViewRequestsFlag(true);
@@ -192,11 +191,11 @@ public class Installer {
         } else if (choice == 2) {
             setScheduleAppointmentFlag(true);
             userAccountMenu();
-
         } else {
-            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
+            logger.log(Level.WARNING, BOLD + "\u001B[31mInvalid choice! Please enter a valid choice." + RESET_COLOR);
             installer_menu(installerName);
         }
+        // Uncovered code
     }
     public void userAccountMenu(){
         if (isViewRequestsFlag()){
@@ -352,48 +351,40 @@ public class Installer {
         int choice;
         Scanner scanner = new Scanner(System.in);
         Scanner scanner1 = new Scanner(System.in);
-
-        logger.log(Level.INFO,"\n\u001B[36m" + "----- Admin Profile -----"+"\n"+
-                "|   1. edit userName   |\n"+
-                "|   2. edit Password   |\n"+
-                "|   3. edit Gmail      |\n"+
-                "-----------------------\n");
-        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+RESET_COLOR);
+        logger.log(Level.INFO, """
+                \u001B[36m----- Admin Profile -----
+                |   1. edit userName   |
+                |   2. edit Password   |
+                |   3. edit Gmail      |
+                -----------------------
+                """);
+        logger.log(Level.INFO, ENTER_CHOICE_MESSAGE + RESET_COLOR);
         choice = scanner.nextInt();
-        String choice2 ;
-        String oldPass ;
-        String newPass ;
-        String newPassCon ;
-
+        String choice2;
+        String oldPass;
+        String newPass;
+        String newPassCon;
         if (choice == 1) {
-            logger.log(Level.INFO,"Enter The new user Name:"+RESET_COLOR);
+            logger.log(Level.INFO, "Enter The new user Name:" + RESET_COLOR);
             choice2 = scanner1.nextLine();
             editeUserName(choice2);
-            logger.log(Level.INFO,"The user name has been changed successfully"+RESET_COLOR);
-        }
-        else if (choice ==2) {
-            logger.log(Level.INFO,"Enter The old password:"+RESET_COLOR);
+            logger.log(Level.INFO, "The user name has been changed successfully" + RESET_COLOR);
+        } else if (choice == 2) {
+            logger.log(Level.INFO, "Enter The old password:" + RESET_COLOR);
             oldPass = scanner1.nextLine();
-            logger.log(Level.INFO,"Enter The new password:"+RESET_COLOR);
+            logger.log(Level.INFO, "Enter The new password:" + RESET_COLOR);
             newPass = scanner1.nextLine();
-            logger.log(Level.INFO,"Confirm The  password:"+RESET_COLOR);
+            logger.log(Level.INFO, "Confirm The  password:" + RESET_COLOR);
             newPassCon = scanner1.nextLine();
-            editePassword(oldPass,newPass,newPassCon);
-            // editAdminProfile();
-
-        }
-        else if (choice ==3) {
-            logger.log(Level.INFO,"Enter The new Gmail:"+RESET_COLOR);
+            editePassword(oldPass, newPass, newPassCon);
+        } else if (choice == 3) {
+            logger.log(Level.INFO, "Enter The new Gmail:" + RESET_COLOR);
             choice2 = scanner1.nextLine();
             editeGmail(choice2);
-            logger.log(Level.INFO,"The Gmail has been changed successfully"+RESET_COLOR);
-            //    editAdminProfile();
-
+            logger.log(Level.INFO, "The Gmail has been changed successfully" + RESET_COLOR);
+        } else {
+            logger.log(Level.WARNING, BOLD + "\u001B[31mInvalid choice! Please enter a valid choice." + RESET_COLOR);
         }
-        else {
-            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
-        }
-
     }
     public boolean truepass (String pass, String ConfirmPass){
         if(pass.equals(ConfirmPass)){
