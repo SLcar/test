@@ -76,12 +76,13 @@ public class Category
                 if (s.equals(name)) {
                     setAddNewCategoryFlag(false);
                     logger.log(Level.WARNING,"This category already exists");
+                    //throw new CategoryAlreadyExistsException("Category already exists: " + name);
                     return;
                 }
             }
             setAddNewCategoryFlag(true);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error while checking for existing category", e);
         }
     }
 
@@ -243,7 +244,10 @@ public class Category
     public void printAllCategory(){
         try (RandomAccessFile ref = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw")) {
             String s;
-            while ((s = ref.readLine()) != null)  logger.log(Level.INFO,"\u001B[36m"+s+RESET_COLOR);
+            while ((s = ref.readLine()) != null)
+            {
+                logger.log(Level.INFO,"\u001B[36m"+s+RESET_COLOR);
+            }
 
         } catch (IOException e) {
             throw new RuntimeException(e);
