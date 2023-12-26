@@ -163,7 +163,7 @@ public class Installer {
 
     private  boolean installerLogin;
 
-    public void installerMenu(String installerName) {
+    public void installer_menu(String installerName) {
         setInstallerName(installerName);
         setViewRequestsFlag(false);
         setScheduleAppointmentFlag(false);
@@ -187,17 +187,17 @@ public class Installer {
 
         } else {
             logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
-            installerMenu(installerName);
+            installer_menu(installerName);
         }
     }
     public void userAccountMenu(){
         if (isViewRequestsFlag()){
             showAllInstallationRequestToAdminANDInstaller("completed");
-            installerMenu(getInstallerName());
+            installer_menu(getInstallerName());
         }
         else if (isScheduleAppointmentFlag()) {
             scheduleAppointment_menu();
-            installerMenu(getInstallerName());
+            installer_menu(getInstallerName());
         }
 
     }
@@ -296,7 +296,7 @@ public class Installer {
         }
         else {
             logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
-            installerMenu(installerName);
+            installer_menu(installerName);
         }
     }
 
