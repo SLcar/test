@@ -33,21 +33,21 @@ public class SignUp {
     }
     @Then("customer can sign up")
     public void customer_can_sign_up() {
-        ob.isCustomerRegistrationCompleted(ob,ob.getPassword(),ob.getComPassword());
-        Assert.assertEquals(true,ob.getCustomerRegistrationCompleted());
+        ob.isCustomerRegistrationCompleted(ob.getPassword(),ob.getComPassword());
+        Assert.assertTrue(ob.getCustomerRegistrationCompleted());
 
     }
     @Then("try again to sign up!")
     public void try_again_to_sign_up() {
-        ob.isCustomerRegistrationCompleted(ob,ob.getPassword(),ob.getComPassword());
-        Assert.assertEquals(false,ob.getCustomerRegistrationCompleted());
+        ob.isCustomerRegistrationCompleted(ob.getPassword(),ob.getComPassword());
+        Assert.assertFalse(ob.getCustomerRegistrationCompleted());
 
     }
 
     @Then("try enter email to sign up!")
     public void try_enter_email_to_sign_up() {
         ob.searchIfEmailIsAlreadyExist(ob.getEmail());
-        Assert.assertEquals(true,ob.isIfEmailFound());
+        Assert.assertTrue(ob.isIfEmailFound());
 
     }
 
