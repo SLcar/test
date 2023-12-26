@@ -95,14 +95,14 @@ public class Category
             file.seek(file.length());
             file.close();
         } catch (IOException e) {
-            e.printStackTrace();
+           logger.log(Level.SEVERE, "An error occurred", e);
         }
         finally {
             if (file != null) {
                 try {
                     file.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                   logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }
         }
