@@ -13,10 +13,15 @@ public class Installer {
     String data ;
     Order order = new Order();
     Gmail gmailSend = new Gmail();
-    public String[] arrayOfTopic =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
+   public String[] arrayOfTopic =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
     public String[] arrayOfMsg = {"The Installation has been confirmed","We are sorry, but the Installation Request has been canceled due to logistical restrictions beyond our store's control","Thank you for using our company"}; // Creating an array that can hold 3 strings
     private String first;
     private static final Logger logger = Logger.getLogger(Installer.class.getName());
+    private static final String ENTER_CHOICE_MESSAGE = "Enter your choice: ";
+    private static final String LINE_SEPARATOR = "|                                  |";
+    private static final String BOLD = "\u001B[1m";
+    private static final String RESET_COLOR = "\u001B[0m";
+
 
     public long getIdInstallerRequest() {
         return idInstallerRequest;
@@ -169,13 +174,16 @@ public class Installer {
         setScheduleAppointmentFlag(false);
         int choice;
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n\u001B[35m" + "------- Welcome  " + installerName +"  ------\n"+
-                "|                                  |\n"+
-                "|     1.View requests history.     |\n"+
-                "|     2.schedule appointment.      |\n"+
-                "|                                  |\n"+
-                " ---------------------------------- \n");
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[37m");
+        logger.log(Level.INFO, String.format(
+                "\n\u001B[35m------- Welcome  %s  ------\n" +
+                        "%s\n" +
+                        "|     1. Send new day and hour.    |\n" +
+                        "|     2. Change day.               |\n" +
+                        "|     3. Change Hour.              |\n" +
+                        "%s\n" +
+                        " ---------------------------------- \n",
+                installerName, LINE_SEPARATOR, LINE_SEPARATOR));
+        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+"\u001B[37m");
 
         choice = scanner.nextInt();
         if (choice == 1) {
@@ -186,7 +194,7 @@ public class Installer {
             userAccountMenu();
 
         } else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
             installer_menu(installerName);
         }
     }
@@ -216,7 +224,7 @@ public class Installer {
                 "|     5. View scheduled and incomplete requests.            |\n"+
                 "|                                                           |\n"+
                 "-------------------------------------------------------------\n");
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+"\u001B[0m");
         choice = scanner.nextInt();
         if (choice == 1) {
             showAllInstallationRequestToAdminANDInstaller("pending");
@@ -234,14 +242,14 @@ public class Installer {
             setDAta(getIdInstallerRequest(),"pending");
             order.deleteOrder2("requestInstallation",getNumberOfLine());
             gmailSend.sendEmail(getGmail(),arrayOfTopic[2],arrayOfMsg[1]);
-            logger.log(Level.INFO, "\u001B[1m" + "\u001B[35m Cancelling installation requests successfully" + "\u001B[0m");
+            logger.log(Level.INFO, BOLD + "\u001B[35m Cancelling installation requests successfully" + RESET_COLOR);
 
         }
         else if (choice ==4) {
             showAllInstallationRequestToAdminANDInstaller("scheduled");
             enterID();
             setDAta(idInstallerRequest,"scheduled");
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[33m Did you accomplish this task? " + "\u001B[0m");
+            logger.log(Level.WARNING, BOLD + "\u001B[33m Did you accomplish this task? " + RESET_COLOR);
             if(yesOrNo()==1){
                 order.deleteOrder2("requestInstallation",getNumberOfLine());
                 setStatusInstalling("completed");
@@ -260,7 +268,7 @@ public class Installer {
 
         }
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
         }
     }
 
@@ -274,28 +282,28 @@ public class Installer {
                 "|     3. Change Hour.              |\n"+
                 "|                                  |\n"+
                 " ---------------------------------- \n");
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[37m");
+        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+"\u001B[37m");
         Scanner scanner1 = new Scanner(System.in);
         choice = scanner.nextInt();
         if (choice == 1) {
             String msg1 ;
-            logger.log(Level.INFO,"\u001B[1m"+"\u001B[32m Write a message to the customer about the new appointment "+"\u001B[0m");
+            logger.log(Level.INFO,BOLD+"\u001B[32m Write a message to the customer about the new appointment "+RESET_COLOR);
             msg1=scanner1.nextLine();
             gmailSend.sendEmail(getGmail(),arrayOfTopic[1],msg1);
-            logger.log(Level.INFO,"\u001B[1m"+"\u001B[32m The email was sent successfully"+"\u001B[0m");
+            logger.log(Level.INFO,BOLD+"\u001B[32m The email was sent successfully"+RESET_COLOR);
 
         } else if (choice == 2) {
-            logger.log(Level.INFO,"\u001B[1m"+"\u001B[32m Write a new day to schedule"+"\u001B[0m");
+            logger.log(Level.INFO,BOLD+"\u001B[32m Write a new day to schedule"+RESET_COLOR);
             setPreferredDate(scanner1.nextLine());
             putDay(getPreferredDate());
         }
         else if (choice == 3) {
-            logger.log(Level.INFO,"\u001B[1m"+"\u001B[32m Write a new hour to schedule "+"\u001B[0m");
+            logger.log(Level.INFO,BOLD+"\u001B[32m Write a new hour to schedule "+RESET_COLOR);
             setPreferredHour(scanner1.nextLine());
             putTime(getPreferredHour());
         }
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
             installer_menu(installerName);
         }
     }
@@ -312,7 +320,7 @@ public class Installer {
 
     public void enterID() {
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"Enter The id Of installation requests: "+"\u001B[0m");
+        logger.log(Level.INFO,"Enter The id Of installation requests: "+RESET_COLOR);
         setIdInstallerRequest(scanner.nextLong());
     }
 
@@ -327,7 +335,7 @@ public class Installer {
                 "|     2. Edit Installer Account.       |\n"+
                 "|                                      |\n"+
                 "----------------------------------------\n");
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+RESET_COLOR);
         choice = scanner.nextInt();
         if (choice == 1) {
             showInstallerAccount();
@@ -336,7 +344,7 @@ public class Installer {
         }
 
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
         }
     }
 
@@ -350,7 +358,7 @@ public class Installer {
                 "|   2. edit Password   |\n"+
                 "|   3. edit Gmail      |\n"+
                 "-----------------------\n");
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+RESET_COLOR);
         choice = scanner.nextInt();
         String choice2 ;
         String oldPass ;
@@ -358,32 +366,32 @@ public class Installer {
         String newPassCon ;
 
         if (choice == 1) {
-            logger.log(Level.INFO,"Enter The new user Name:"+"\u001B[0m");
+            logger.log(Level.INFO,"Enter The new user Name:"+RESET_COLOR);
             choice2 = scanner1.nextLine();
             editeUserName(choice2);
-            logger.log(Level.INFO,"The user name has been changed successfully"+"\u001B[0m");
+            logger.log(Level.INFO,"The user name has been changed successfully"+RESET_COLOR);
         }
         else if (choice ==2) {
-            logger.log(Level.INFO,"Enter The old password:"+"\u001B[0m");
+            logger.log(Level.INFO,"Enter The old password:"+RESET_COLOR);
             oldPass = scanner1.nextLine();
-            logger.log(Level.INFO,"Enter The new password:"+"\u001B[0m");
+            logger.log(Level.INFO,"Enter The new password:"+RESET_COLOR);
             newPass = scanner1.nextLine();
-            logger.log(Level.INFO,"Confirm The  password:"+"\u001B[0m");
+            logger.log(Level.INFO,"Confirm The  password:"+RESET_COLOR);
             newPassCon = scanner1.nextLine();
             editePassword(oldPass,newPass,newPassCon);
             // editAdminProfile();
 
         }
         else if (choice ==3) {
-            logger.log(Level.INFO,"Enter The new Gmail:"+"\u001B[0m");
+            logger.log(Level.INFO,"Enter The new Gmail:"+RESET_COLOR);
             choice2 = scanner1.nextLine();
             editeGmail(choice2);
-            logger.log(Level.INFO,"The Gmail has been changed successfully"+"\u001B[0m");
+            logger.log(Level.INFO,"The Gmail has been changed successfully"+RESET_COLOR);
             //    editAdminProfile();
 
         }
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
         }
 
     }
@@ -399,15 +407,15 @@ public class Installer {
             if(truepass(newPass,newPassCon)){
                 deleteFileFunction();
                 writeToFile(getFirst()+","+getSec()+","+newPass);
-                logger.log(Level.INFO,"\u001B[35m"+"The Password has been changed successfully"+"\u001B[0m");
+                logger.log(Level.INFO,"\u001B[35m"+"The Password has been changed successfully"+RESET_COLOR);
 
             }
             else
-                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe Two password does not match"+"\u001B[0m");
+                logger.log(Level.WARNING,BOLD+"\u001B[31mThe Two password does not match"+RESET_COLOR);
 
         }
         else
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe password is incorrect"+"\u001B[0m");
+            logger.log(Level.WARNING,BOLD+"\u001B[31mThe password is incorrect"+RESET_COLOR);
 
     }
     private void editeUserName(String choice2) {
@@ -547,7 +555,7 @@ public class Installer {
                 "|     3. Cancel pending installation requests         |\n"+
                 "|                                                     |\n"+
                 "------------------------------------------------------\n");
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+RESET_COLOR);
         choice = scanner.nextInt();
         if (choice == 1) {
             enterDataOfRequest();
@@ -556,24 +564,24 @@ public class Installer {
         }
         else if (choice == 3) {
             showAllInstallationRequestPending();
-            logger.log(Level.INFO,"Enter the installation requests ID To Cancel it : "+"\u001B[0m");
+            logger.log(Level.INFO,"Enter the installation requests ID To Cancel it : "+RESET_COLOR);
             setIdInstallerRequest(scanner.nextLong());
             ifExitIdInstallerRequestPending();
             cancelIt();
         }
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
         }
     }
 
     public void cancelIt() {
         if(isIdInstallationFlag()){
             order.deleteOrder2("requestInstallation",getNumberOfLine());
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[36m The installation requests canceled."+"\u001B[0m");
+            logger.log(Level.WARNING,BOLD+"\u001B[36m The installation requests canceled."+RESET_COLOR);
 
         }
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31m The installation requests ID Not Found."+"\u001B[0m");
+            logger.log(Level.WARNING,BOLD+"\u001B[31m The installation requests ID Not Found."+RESET_COLOR);
             installerServicesMenu();
         }
     }
@@ -761,13 +769,13 @@ public class Installer {
     ///////////////////////////////////////// enterDataOfRequest()////////////////////////////
     public void  enterDataOfRequest(){
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"Describe the product you need service for : "+"\u001B[0m");
+        logger.log(Level.INFO,"Describe the product you need service for : "+RESET_COLOR);
         setProduct(scanner.nextLine());
-        logger.log(Level.INFO,"Select the preferred date for this service like (1/1/2022) or (Any Date): "+"\u001B[0m");
+        logger.log(Level.INFO,"Select the preferred date for this service like (1/1/2022) or (Any Date): "+RESET_COLOR);
         setPreferredDate(scanner.nextLine());
-        logger.log(Level.INFO,"Select the preferred Hour of this date like (10:00 AM) or (Any Time): "+"\u001B[0m");
+        logger.log(Level.INFO,"Select the preferred Hour of this date like (10:00 AM) or (Any Time): "+RESET_COLOR);
         setPreferredHour(scanner.nextLine());
-        logger.log(Level.INFO,"Describe the installing location ( City-Street-Building Name-Floor number\"): "+"\u001B[0m");
+        logger.log(Level.INFO,"Describe the installing location ( City-Street-Building Name-Floor number\"): "+RESET_COLOR);
         setLocationInstalling(scanner.nextLine());
         setStatusInstalling("pending");
         randomNumberGenerator();
@@ -822,18 +830,18 @@ public class Installer {
             checkIfDayAndHourAppropriate(getPreferredDate(), getPreferredHour());
             if (installerAvailableToCustomer || getPreferredHour().equals("Any Time") || getPreferredDate().equals("Any Day")) {
                 addThisInstallerRequest();
-                logger.log(Level.INFO, "\u001B[1m" + "\u001B[34m The request sent to installation to conform, " +
+                logger.log(Level.INFO, BOLD + "\u001B[34m The request sent to installation to conform, " +
                         "You will be contacted via email and phone," +
-                        "and the time and day will be confirmed if appropriate to the installer " + "\u001B[0m");
+                        "and the time and day will be confirmed if appropriate to the installer " + RESET_COLOR);
             }
             else {
-                logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The installer Not available enter Another day and Hour." + "\u001B[0m");
+                logger.log(Level.WARNING, BOLD + "\u001B[31m The installer Not available enter Another day and Hour." + RESET_COLOR);
                 enterNewDayAndTime();
             }
         }
 
         else{
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The information you entered is incomplete. Re-enter the information and fill it correctly." + "\u001B[0m");
+            logger.log(Level.WARNING, BOLD + "\u001B[31m The information you entered is incomplete. Re-enter the information and fill it correctly." + RESET_COLOR);
             enterDataOfRequest();
         }
 
@@ -841,9 +849,9 @@ public class Installer {
 
     public  void enterNewDayAndTime() {
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"Select the preferred date for this service like (1/1/2022) or (Any Day): "+"\u001B[0m");
+        logger.log(Level.INFO,"Select the preferred date for this service like (1/1/2022) or (Any Day): "+RESET_COLOR);
         setPreferredDate(scanner.nextLine());
-        logger.log(Level.INFO,"Select the preferred Hour of this date like (10:00 AM) or (Any Time): "+"\u001B[0m");
+        logger.log(Level.INFO,"Select the preferred Hour of this date like (10:00 AM) or (Any Time): "+RESET_COLOR);
         setPreferredHour(scanner.nextLine());
         dataTrueOrNO();
     }
@@ -1033,7 +1041,7 @@ public class Installer {
     }
     public void approvalOfTheRequestFromAdminOrInstaller(long idInstallerRequest){
         setDAta(idInstallerRequest,"pending");
-        logger.log(Level.WARNING, "\u001B[1m" + "\u001B[34m Do you agree to this request? " + "\u001B[0m");
+        logger.log(Level.WARNING, BOLD + "\u001B[34m Do you agree to this request? " + "\u001B[0m");
         if(yesOrNo()==1){
             order.deleteOrder2("requestInstallation",getNumberOfLine());
             setStatusInstalling("scheduled");
@@ -1057,7 +1065,7 @@ public class Installer {
             |                                |
             ----------------------------------
             """);
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+"\u001B[0m");
         choice = scanner.nextInt();
         return choice;
     }
