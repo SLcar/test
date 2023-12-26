@@ -152,16 +152,14 @@ public class Admin {
 
         }
         else {
-            logger.log(Level.WARNING, String.format("%s%s%s", color2(), getString(), color()));
+            logger.log(Level.WARNING, String.format("%s%s%s", color2, getString(), color));
             adminMenu(adminName);
         }
 
     }
 
-    private static String color() {
-        return "\u001B[0m";
-    }
 
+    private static final String color = "\u001B[0m";
     public void userAccountMenu(){
         if (productsFlag) product.menuProduct();
         else if (categoriesFlag) category.menuCategory();
@@ -194,28 +192,27 @@ public class Admin {
             adminMenu(getAdminName());}
 
         else {
-            logger.log(Level.WARNING, color2() + getString() + color());
+            logger.log(Level.WARNING, color2 + getString() + color);
             menuOrderCustomer();
         }
 
     }
 
-    private static String color2() {
-        return "\u001B[1m";
-    }
+    private static final String color2 = "\u001B[1m";
+
 
     private static String getString() {
         return "\u001B[31mInvalid choice! Please enter a valid choice.";
     }
 
     private static String getMsg() {
-        return "Enter your choice: " + color();
+        return "Enter your choice: " + color;
     }
 
     private void enterData() {
         Scanner scanner4 = new Scanner(System.in);
         int choice;
-        logger.log(Level.INFO,"Enter The Number Of Order: "+ color());
+        logger.log(Level.INFO,"Enter The Number Of Order: "+ color);
         order.setOrderNumber(Long.parseLong(scanner4.next()));
         order.ifEnterOrderExitToChangeSt(order.getOrderNumber());
 
@@ -245,7 +242,7 @@ public class Admin {
                 order.setStatusOrder("canceled");
 
             } else {
-                logger.log(Level.WARNING, color2() + getString() +"\u001B[0m\n");
+                logger.log(Level.WARNING, color2 + getString() +"\u001B[0m\n");
                 menuOrderCustomer();
             }
 
@@ -256,7 +253,7 @@ public class Admin {
         }
 
         else{
-            logger.log(Level.WARNING, color2() + "\u001B[31m The order Not Found" + color());
+            logger.log(Level.WARNING, color2 + "\u001B[31m The order Not Found" + color);
             menuOrderCustomer();
         }
     }
@@ -294,7 +291,7 @@ public class Admin {
             adminMenu(getAdminName());
         }
         else {
-            logger.log(Level.WARNING, color2() + getString() + color());
+            logger.log(Level.WARNING, color2 + getString() + color);
             menuManageAccountUser();
         }
 
@@ -304,7 +301,7 @@ public class Admin {
         int choice;
         Scanner scanner = new Scanner(System.in);
         Scanner scanner1 = new Scanner(System.in);
-enter="""
+        enter="""
 
                 \u001B[36m----- Admin Profile -----
                 |   1. edit userName   |
@@ -321,33 +318,33 @@ enter="""
         String newPassCon ;
 
         if (choice == 1) {
-            logger.log(Level.INFO,"Enter The new user Name:"+ color());
+            logger.log(Level.INFO,"Enter The new user Name:"+ color);
             choice2 = scanner1.nextLine();
             editeUserName(choice2);
-            logger.log(Level.INFO,"The user name has been changed successfully"+ color());
+            logger.log(Level.INFO,"The user name has been changed successfully"+ color);
             editAdminProfile();
         }
         else if (choice ==2) {
-            logger.log(Level.INFO,"Enter The old password:"+ color());
+            logger.log(Level.INFO,"Enter The old password:"+ color);
             oldPass = scanner1.nextLine();
-            logger.log(Level.INFO,"Enter The new password:"+ color());
+            logger.log(Level.INFO,"Enter The new password:"+ color);
             newPass = scanner1.nextLine();
-            logger.log(Level.INFO,"Confirm The  password:"+ color());
+            logger.log(Level.INFO,"Confirm The  password:"+ color);
             newPassCon = scanner1.nextLine();
             editePassword(oldPass,newPass,newPassCon);
             editAdminProfile();
 
         }
         else if (choice ==3) {
-            logger.log(Level.INFO,"Enter The new Gmail:"+ color());
+            logger.log(Level.INFO,"Enter The new Gmail:"+ color);
             choice2 = scanner1.nextLine();
             editeGmail(choice2);
-            logger.log(Level.INFO,"The Gmail has been changed successfully"+ color());
+            logger.log(Level.INFO,"The Gmail has been changed successfully"+ color);
             editAdminProfile();
 
         }
         else {
-            logger.log(Level.WARNING, color2() + getString() + color());
+            logger.log(Level.WARNING, color2 + getString() + color);
         }
     }
 
@@ -363,15 +360,15 @@ enter="""
             if(truepass(newPass,newPassCon)){
                 deleteFileFunction();
                 writeToFile(getFirst()+","+getSec()+","+newPass);
-                logger.log(Level.INFO,"\u001B[35m"+"The Password has been changed successfully"+ color());
+                logger.log(Level.INFO,"\u001B[35m"+"The Password has been changed successfully"+ color);
 
             }
             else
-                logger.log(Level.WARNING, color2() +"\u001B[31mThe Two password does not match"+ color());
+                logger.log(Level.WARNING, color2 +"\u001B[31mThe Two password does not match"+ color);
 
         }
         else
-            logger.log(Level.WARNING, color2() +"\u001B[31mThe password is incorrect"+ color());
+            logger.log(Level.WARNING, color2 +"\u001B[31mThe password is incorrect"+ color);
 
     }
 
@@ -447,4 +444,3 @@ enter="""
         return pass.equals(ConfirmPass);
     }
 }
-
