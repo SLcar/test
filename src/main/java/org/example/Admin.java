@@ -5,7 +5,6 @@ import java.io.RandomAccessFile;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.example.Registration.logger;
 
 public class Admin {
     String enter ;
@@ -109,54 +108,53 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
     }
 
     String adminName;
-    public void adminMenu(String adminName){
-        setProductsFlag(false);
-        setCategoriesFlag(false);
-        setUserAccountsFlag(false);
-        setOrderCustomerFlag(false);
-        setInstallationRequestsFlag(false);
+    public void adminMenu(String adminName) {
+    setProductsFlag(false);
+    setCategoriesFlag(false);
+    setUserAccountsFlag(false);
+    setOrderCustomerFlag(false);
+    setInstallationRequestsFlag(false);
+    setAdminName(adminName);
 
-        setAdminName(adminName);
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        enter="\n\u001B[37m" + "----------  Welcome " +  adminName  + " -------"+"\n"+
-                "|    1. Manage products                  |\n"+
-                "|    2. Manage categories                |\n"+
-                "|    3. Manage user accounts.            |\n"+
-                "|    4. Manage order Customer.           |\n"+
-                "|    5. Manage Installation Requests     |\n"+
-                "------------------------------------------\n";
-        logger.log(Level.INFO,enter);
-        logger.log(Level.INFO, getMsg());
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            productsFlag=true;
-            userAccountMenu();
-        } else if (choice == 2) {
-            categoriesFlag=true;
-            userAccountMenu();
+    String menu = "\n\u001B[37m" + "----------  Welcome " + adminName + " -------" + "\n" +
+            "|    1. Manage products                  |\n" +
+            "|    2. Manage categories                |\n" +
+            "|    3. Manage user accounts.            |\n" +
+            "|    4. Manage order Customer.           |\n" +
+            "|    5. Manage Installation Requests     |\n" +
+            "------------------------------------------\n";
 
-        } else if (choice == 3) {
-            userAccountsFlag =true;
-            userAccountMenu();
+    logger.log(Level.INFO, menu);
+    logger.log(Level.INFO, getMsg());
 
-        }
-        else if (choice == 4) {
-            orderCustomerFlag=true;
-            userAccountMenu();
+    int choice;
+    Scanner scanner = new Scanner(System.in);
+    choice = scanner.nextInt();
 
-        }
-        else if (choice == 5) {
-            installationRequestsFlag=true;
-            userAccountMenu();
-
-        }
-        else {
+    switch (choice) {
+        case 1:
+            productsFlag = true;
+            break;
+        case 2:
+            categoriesFlag = true;
+            break;
+        case 3:
+            userAccountsFlag = true;
+            break;
+        case 4:
+            orderCustomerFlag = true;
+            break;
+        case 5:
+            installationRequestsFlag = true;
+            break;
+        default:
             logger.log(Level.WARNING, String.format("%s%s%s", COLOR_2, getString(), COLOR));
             adminMenu(adminName);
-        }
-
+            return;
     }
+
+    userAccountMenu();
+}
 
 
     private static final String COLOR = "\u001B[0m";
