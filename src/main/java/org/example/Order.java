@@ -96,7 +96,7 @@ public class Order {
         this.dateOfReceiptOfTheOrder = dateOfReceiptOfTheOrder;
     }
 
-    public String dateOfReceiptOfTheOrder;
+     String dateOfReceiptOfTheOrder;
 
     public String getStatusOrder() {
         return statusOrder;
@@ -110,7 +110,7 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public String orderDate;
+ String orderDate;
 
     public void setStatusOrder(String statusOrder) {
         this.statusOrder = statusOrder;
@@ -130,7 +130,7 @@ public class Order {
     }
 
 
-    public float totalPriceProduct;
+   float totalPriceProduct;
 
     public long getOrderNumber() {
         return orderNumber;
