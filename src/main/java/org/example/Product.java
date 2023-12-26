@@ -6,14 +6,18 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Product 
+public class Product
 {
+    private static final String PRODUCT_NOT_FOUND_WARNING = "\u001B[31m The product Not found\u001B[0m";
+    private static final String DATA_PATH_PREFIX = "src/main/resources/Data/";
     private static final Logger logger = Logger.getLogger(Product.class.getName());
+    private static final String CYAN_COLOR = "\u001B[36m";
+    private static final String RESET_COLOR = "\u001B[0m";
     int numberOfLine;
     public int getNumberOfLine() {
         return numberOfLine;
     }
-   
+
     public int getCount() {
         return count;
     }
@@ -123,7 +127,7 @@ public class Product
     }
 
 
-
+    private static final String CATEGORY_NOT_EXIST_WARNING = "\u001B[31mThis category does not exist.\u001B[0m";
 
     public void menuProduct() {
         int choice;
@@ -155,7 +159,7 @@ public class Product
                 back();
             }
             else {
-                logger.log(Level.WARNING, getString4() + "\u001B[31mThis category does not exist." + getString3() +"\n");
+                logger.log(Level.WARNING, getString4() + CATEGORY_NOT_EXIST_WARNING + getString3() +"\n");
                 back();
             }
 
@@ -253,7 +257,7 @@ public class Product
 
         logger.log(Level.INFO, "\u001B[35m" + "What categories of product do you want to add ?");
         printAllCategory();
-        logger.log(Level.INFO, "\u001B[36m" + "new categories" + getString2());
+        logger.log(Level.INFO, CYAN_COLOR + "new categories" + getString2());
         logger.log(Level.INFO, getString() + getString2());
 
         categoryName = scanner.nextLine();
@@ -262,7 +266,7 @@ public class Product
             String names = scanner.next();
             ifCategoryExist(names);
             if(isCategoryExistFlag()){
-                logger.log(Level.WARNING, getString4() +"\u001B[31mThis category exist."+"\u001B[0m\n");
+                logger.log(Level.WARNING, getString4() +"\u001B[31mThis category exist."+RESET_COLOR+"\n");
 
             }
             else
@@ -274,7 +278,7 @@ public class Product
                 extractedIfProduct("added");
             }
             else
-                logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
+                logger.log(Level.WARNING, getString4() +CATEGORY_NOT_EXIST_WARNING+RESET_COLOR+"\n");
 
         }
     }
@@ -287,7 +291,7 @@ public class Product
         enterDataOfProduct();
         ifProductIdExist(getCategoryName(), String.valueOf(getID()));
         if(isiDExistFlag())
-            logger.log(Level.WARNING, getString4() +"\u001B[31mThis ID Of Product is already exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() +"\u001B[31mThis ID Of Product is already exist."+RESET_COLOR+"\n");
         else
             addNewProducts(categoryName,addOrUpdate);
     }
@@ -296,33 +300,23 @@ public class Product
         return "\u001B[1m";
     }
 
-    public void addNewProducts(String catName,String addOrUpdate) 
-    {
-        RandomAccessFile file= null;
-        try {
-             file = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw");
+    public void addNewProducts(String catName, String addOrUpdate) {
+        try (RandomAccessFile file = new RandomAccessFile(DATA_PATH_PREFIX + catName + ".txt", "rw")) {
             file.seek(file.length());
             String product = getID() + "," + getNameProduct() + "," + getDescriptionProduct() + "," + getPriceProduct() + "," + getAvailability() + "," + getImgProduct() + "\n";
             file.writeBytes(product);
-            file.close();
-            logger.log(Level.INFO, "The product "+ addOrUpdate +" successfully");
+            logger.log(Level.INFO, "The product " + addOrUpdate + " successfully");
             setAddProductsFlag(true);
         } catch (IOException e) {
-            
-        }
-        finally {
-        if (file != null) {
-            try {
-                file.close();
-            } catch (IOException e) {
-                logger.log(Level.SEVERE, "An error occurred", e);
-            }
+            // Handle the exception if needed
+            logger.log(Level.SEVERE, "An error occurred", e);
+        } finally {
+            // No need to check if file is null, try-with-resources automatically handles it
+            // The file will be closed even if an exception occurs
+            setAddProductsFlag(false);
         }
     }
-        
-        setAddProductsFlag(false);
 
-    }
 
 
     public void addNewCategoriesProduct(String name) {
@@ -347,7 +341,7 @@ public class Product
             editProducts1(categoryName,id);
         }
         else
-            logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() +CATEGORY_NOT_EXIST_WARNING+RESET_COLOR+"\n");
 
     }
 
@@ -363,7 +357,7 @@ public class Product
             extractedIfProduct("updated");
         }
         else
-            logger.log(Level.WARNING, getString4() + getString5() +"This product does not exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() + getString5() +"This product does not exist."+RESET_COLOR+"\n");
 
     }
 
@@ -401,18 +395,18 @@ public class Product
                 logger.log(Level.INFO, "The product deleted successfully");
             }
             else
-                logger.log(Level.WARNING, getString4() +"\u001B[31mThis product does not exist."+"\u001B[0m\n");
+                logger.log(Level.WARNING, getString4() +"\u001B[31mThis product does not exist."+RESET_COLOR+"\n");
 
         }
         else
-            logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() +CATEGORY_NOT_EXIST_WARNING+RESET_COLOR+"\n");
 
     }
 
 
     public void  deleteThisProduct(String categoryName){
         try {
-            RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/"+categoryName+".txt", "rw");
+            RandomAccessFile raf = new RandomAccessFile(DATA_PATH_PREFIX+categoryName+".txt", "rw");
             long start = 0;
             long currentPos = raf.getFilePointer();
             int currentLine = -1;
@@ -442,7 +436,7 @@ public class Product
 ////////////////////////////////////////Search product////////////////////////////////////////////////////////
     public void ifProductAvailabilityExist(String categoryName, String availability) {
         count=0;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_PATH_PREFIX + categoryName + ".txt", "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -458,7 +452,7 @@ public class Product
     }
     public void PrintProductAvailabilityExist(String categoryName, String availability) {
         count=0;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_PATH_PREFIX + categoryName + ".txt", "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -471,7 +465,7 @@ public class Product
             throw new RuntimeException(e);
         }}
     public void searchTheProductByID(String categoryName, String id) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_PATH_PREFIX + categoryName + ".txt", "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -501,12 +495,12 @@ public class Product
             searchMenuPrint(categoryName);
         }
         else
-            logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() +CATEGORY_NOT_EXIST_WARNING+RESET_COLOR+"\n");
 
     }
     public void ifProductNameExist(String catName, String productName) {
         count = 0;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_PATH_PREFIX + catName + ".txt", "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -531,7 +525,7 @@ public class Product
         return count > 0;
     }
     public void printTheResultSearchByName(String catName, String productName,int num) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_PATH_PREFIX + catName + ".txt", "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -563,7 +557,7 @@ public class Product
 
     public void ifProductDescriptionsExist(String catName, String productDescriptions) {
         count = 0;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_PATH_PREFIX + catName + ".txt", "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -590,7 +584,7 @@ public class Product
     public void printAllCategory() {
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
             String s;
-            while ((s = ref.readLine()) != null) logger.log(Level.INFO, "\u001B[36m" + s + getString2());
+            while ((s = ref.readLine()) != null) logger.log(Level.INFO, CYAN_COLOR + s + getString2());
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -616,7 +610,7 @@ public class Product
     public void ifProductIdExist(String CategoryName, String iD) {
         numberOfLine = -1;
 
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + CategoryName + ".txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_PATH_PREFIX + CategoryName + ".txt", "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 numberOfLine = numberOfLine +1;
@@ -633,7 +627,7 @@ public class Product
         }
     }
     public void printAllProductAndCategories(String CategoryName) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/"+CategoryName+".txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_PATH_PREFIX+CategoryName+".txt", "rw")) {
             String s;
             logger.log(Level.INFO,"\u001B[35m"+CategoryName+" Product : \n\u001B[37m");
             while ((s = ref.readLine()) != null) {
@@ -644,7 +638,7 @@ public class Product
                 String pricesLoop  = productData[3];
                 String availabilityLoop  = productData[4];
                 String imgLoop  = productData[5];
-                logger.info("\u001B[36m"+"ID : "+iDLoop +
+                logger.info(CYAN_COLOR+"ID : "+iDLoop +
                         "  Name: "+nameLoop+"  description: "+descriptionsLoop+
                         "  price: "+pricesLoop+"$"+"  availability: "+availabilityLoop +
                         "  img link:  "+imgLoop+"\n\u001B[37m");
@@ -659,7 +653,7 @@ public class Product
         int choice;
         Scanner scanner = new Scanner(System.in);
         Scanner scanner2 = new Scanner(System.in);
-enter= """
+        enter= """
 
                 \u001B[33m----------------------------------
                 |                                 |
@@ -716,7 +710,7 @@ enter= """
             extractedPrintTheProduct();
         }
         else {
-            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() + PRODUCT_NOT_FOUND_WARNING + RESET_COLOR+"\n");
         }
     }
 
@@ -725,7 +719,7 @@ enter= """
             printTheResultSearchByName(catName,productName,1);
         }
         else {
-            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() + PRODUCT_NOT_FOUND_WARNING + RESET_COLOR+"\n");
         }
     }
     private void  extractedSerachByDescription(String catName,String productDescription){
@@ -733,7 +727,7 @@ enter= """
             printTheResultSearchByName(catName,productDescription,2);
         }
         else {
-            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() + PRODUCT_NOT_FOUND_WARNING + RESET_COLOR+"\n");
         }
     }
 
@@ -742,8 +736,7 @@ enter= """
             PrintProductAvailabilityExist(catName,productAvailability);
         }
         else {
-            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
+            logger.log(Level.WARNING, getString4() + PRODUCT_NOT_FOUND_WARNING + RESET_COLOR+"\n");
         }
     }
 }
-
