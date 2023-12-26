@@ -44,7 +44,7 @@ public class Order {
     boolean sendEmailConfirmation=false;
     boolean sendEmailReceiving=false;
     boolean sendEmailCancel=false;
-    String delivered ="delivered";
+    String delivered = getDelivered();
     public void  ifEmailSending (String status){
 
         switch (status) {
@@ -52,7 +52,7 @@ public class Order {
             case "delivered" -> setSendEmailReceiving(true);
             case "Canceled" -> setSendEmailCancel(true);
             default ->{
-                logger.log(Level.INFO,"enter true data"+"\u001B[0m");
+                logger.log(Level.INFO,"enter true data"+ getString1());
             }
         }
     }
@@ -184,7 +184,7 @@ public class Order {
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO,show);
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO, getString() + getString1());
         choice = scanner.nextInt();
         if (choice == 1) {
             viewPendingOrder("pending",getIdCustomer());
@@ -195,7 +195,7 @@ public class Order {
             userAccountMenu();
 
         } else {
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31mInvalid choice! Please enter a valid choice." + "\u001B[0m");
+            logger.log(Level.WARNING, getString2() + "\u001B[31mInvalid choice! Please enter a valid choice." + getString1());
         }
 
     }
@@ -225,26 +225,26 @@ public class Order {
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO,show);
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO, getString() + getString1());
         choice = scanner.nextInt();
         if (choice == 1) {
-            logger.log(Level.INFO,"Enter The Number Of Order: "+"\u001B[0m");
+            logger.log(Level.INFO,"Enter The Number Of Order: "+ getString1());
             setOrderNumber(scanner.nextLong());
             ifOrderExitDelivered(String.valueOf(getOrderNumber()));
             if(isIfOrderExist()){
-                viewDeliveredOrder("delivered",getIdCustomer());
+                viewDeliveredOrder(getDelivered(),getIdCustomer());
                 viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
 
                 manageOrderMenu();
             }
 
             else{
-                logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The order Not Found" + "\u001B[0m");
+                logger.log(Level.WARNING, getString2() + "\u001B[31m The order Not Found" + getString1());
                 manageOrderMenu();
             }}
 
         else{
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31mInvalid choice! Please enter a valid choice." + "\u001B[0m");
+            logger.log(Level.WARNING, getString2() + "\u001B[31mInvalid choice! Please enter a valid choice." + getString1());
             manageOrderMenu();
         }}
 
@@ -266,7 +266,7 @@ public class Order {
                 ---------------------------------------
                 """;
         logger.log(Level.INFO,show);
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO, getString() + getString1());
         choice = scanner.nextInt();
         if (choice == 1) {
             ifOrderExit(scanner);
@@ -276,7 +276,7 @@ public class Order {
             }
 
             else{
-                logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The order Not Found" + "\u001B[0m");
+                logger.log(Level.WARNING, getString2() + "\u001B[31m The order Not Found" + getString1());
 
             }
 
@@ -290,7 +290,7 @@ public class Order {
             }
 
             else{
-                logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The order Not Found" + "\u001B[0m");
+                logger.log(Level.WARNING, getString2() + "\u001B[31m The order Not Found" + getString1());
                 pendingMenu();
             }
 
@@ -301,18 +301,23 @@ public class Order {
                 String name=getCustomerName()+"-"+getIdCustomer();
                 deleteOrder(name);
 
-                logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m The Order is deleted Successfully" + "\u001B[0m");
+                logger.log(Level.INFO, getString2() + "\u001B[31m The Order is deleted Successfully" + getString1());
 
             }
 
             else{
-                logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The order Not Found" + "\u001B[0m");
+                logger.log(Level.WARNING, getString2() + "\u001B[31m The order Not Found" + getString1());
                 pendingMenu();
             }
         }
         else{
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31mInvalid choice! Please enter a valid choice." + "\u001B[0m");
+            logger.log(Level.WARNING, getString2() + "\u001B[31mInvalid choice! Please enter a valid choice." + getString1());
         }}
+
+    private static String getString2() {
+        return "\u001B[1m";
+    }
+
     private void editProductMenu() {
         int productID = getProductID();
 
@@ -329,7 +334,7 @@ public class Order {
                 """;
         logger.log(Level.INFO,show);
 
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO, getString() + getString1());
         choice = scanner.nextInt();
         if(choice==1){
             viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
@@ -353,13 +358,13 @@ public class Order {
             setProductID(productID);
             String name = getCustomerName()+"-"+getIdCustomer();
             if(ifFileOfCustomerOrderNoItem(getCustomerName())){
-                logger.log(Level.INFO,"Do you want to cancel the order?"+"\u001B[0m");
+                logger.log(Level.INFO,"Do you want to cancel the order?"+ getString1());
                 logger.log(Level.INFO, show);
 
 
                 if (scanner2.nextInt()==1){
                     deleteOrder(name);
-                    logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m The Order is canceled Successfully" + "\u001B[0m");
+                    logger.log(Level.INFO, getString2() + "\u001B[31m The Order is canceled Successfully" + getString1());
 
                 }
                 else {
@@ -367,7 +372,7 @@ public class Order {
                 }
             }
             else{
-                logger.log(Level.INFO,"Do you want to delete the product?"+"\u001B[0m");
+                logger.log(Level.INFO,"Do you want to delete the product?"+ getString1());
                 logger.log(Level.INFO, """
             
             \u001B[35m---------------------
@@ -386,20 +391,28 @@ public class Order {
                     calculateTheTotalCost(getCustomerName(),getIdCustomer());
                     String product2 =getOrderNumber()+","+getCustomerName()+","+getIdCustomer()+","+getOrderPrice()+","+formattedDate+","+"--"+","+"pending"+"\n";
                     addNewOrderPending(product2);
-                    logger.log(Level.INFO,"The product is deleted and the Total cost is :" +getOrderPrice() + "\u001B[0m");
+                    logger.log(Level.INFO,"The product is deleted and the Total cost is :" +getOrderPrice() + getString1());
 
                 }
                 else{
-                    logger.log(Level.INFO,"The product Not deleted"+"\u001B[0m");
+                    logger.log(Level.INFO,"The product Not deleted"+ getString1());
                 }
             }
         }
 
         else{
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31mInvalid value " + "\u001B[0m");
+            logger.log(Level.WARNING, getString2() + "\u001B[31mInvalid value " + getString1());
 
         }
 
+    }
+
+    private static String getString1() {
+        return "\u001B[0m";
+    }
+
+    private static String getString() {
+        return "Enter your choice: ";
     }
 
 
@@ -487,7 +500,7 @@ public class Order {
             product.ifProductIdExist(getCategoryName(), String.valueOf(getProductID()));
             extracted1(scanner1);}
         else {
-            logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m" + "The category Not exist.\u001B[0m");
+            logger.log(Level.INFO, getString2() + "\u001B[31m" + "The category Not exist.\u001B[0m");
             makePurchasesMenu1();
         }
 
@@ -501,7 +514,7 @@ public class Order {
         }
 
         else{
-            logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m" + "The Product Not exist.\u001B[0m");
+            logger.log(Level.INFO, getString2() + "\u001B[31m" + "The Product Not exist.\u001B[0m");
             enterAnotherProduct(scanner1);
         }
     }
@@ -511,7 +524,7 @@ public class Order {
             extracted3(scanner1);
         }
         else {
-            logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m" + "The Product Not Available.\u001B[0m");
+            logger.log(Level.INFO, getString2() + "\u001B[31m" + "The Product Not Available.\u001B[0m");
             enterAnotherProduct(scanner1);
 
         }
@@ -568,7 +581,7 @@ public class Order {
             return;
         }
         else{
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31m The quantity is greater than 0."+"\u001B[0m");
+            logger.log(Level.WARNING, getString2() +"\u001B[31m The quantity is greater than 0."+ getString1());
             returnEnterQuantities();
         }
     }
@@ -949,7 +962,7 @@ public class Order {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
-                if(productInfo[0].equals(idOrder) && productInfo[6].equals("delivered")){
+                if(productInfo[0].equals(idOrder) && productInfo[6].equals(getDelivered())){
                     setIfOrderExist(true);
                     return;
                 }
@@ -958,6 +971,10 @@ public class Order {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String getDelivered() {
+        return "delivered";
     }
 
 
@@ -979,14 +996,14 @@ public class Order {
     }
 
     public void ifOrderExit(Scanner scanner) {
-        logger.log(Level.INFO,"Enter The Number Of Order: "+"\u001B[0m");
+        logger.log(Level.INFO,"Enter The Number Of Order: "+ getString1());
         setOrderNumber(Long.parseLong(scanner.next()));
         ifEnterOrderExitToCancelPending(String.valueOf(getOrderNumber()));
     }
 
     private void extractedEdit(Scanner scanner) {
 
-        logger.log(Level.INFO,"Enter The Product ID : "+"\u001B[0m");
+        logger.log(Level.INFO,"Enter The Product ID : "+ getString1());
         setProductID(Integer.parseInt(scanner.next()));
         ifProductExitToEdit(getProductID(),getOrderNumber(),getCustomerName(),getIdCustomer());
         foundNumber2Line(getProductID(),getOrderNumber());
@@ -995,7 +1012,7 @@ public class Order {
 
         }
         else{
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The Product Not Found" + "\u001B[0m");
+            logger.log(Level.WARNING, getString2() + "\u001B[31m The Product Not Found" + getString1());
             pendingMenu();
         }
     }
@@ -1065,13 +1082,13 @@ public class Order {
                 deleteAndEdit();
             }
             else{
-                logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m This product is no longer available" + "\u001B[0m");
+                logger.log(Level.WARNING, getString2() + "\u001B[31m This product is no longer available" + getString1());
 
             }
 
         }
         else{
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31mInvalid value " + "\u001B[0m");
+            logger.log(Level.WARNING, getString2() + "\u001B[31mInvalid value " + getString1());
             editProductMenu();
 
         }
@@ -1090,7 +1107,7 @@ public class Order {
         calculateTheTotalCost(getCustomerName(),getIdCustomer());
         String product2 =getOrderNumber()+","+getCustomerName()+","+getIdCustomer()+","+getOrderPrice()+","+formattedDate+","+"--"+","+"pending"+"\n";
         addNewOrderPending(product2);
-        logger.log(Level.INFO,"The new Total cost is :" +getOrderPrice() + "\u001B[0m");
+        logger.log(Level.INFO,"The new Total cost is :" +getOrderPrice() + getString1());
 
     }
 
@@ -1238,17 +1255,17 @@ public class Order {
         if (getStatusOrder().equals("canceled"))
         {
             gmail.sendEmail(getGmailIs(),arrayOfTopic[2],arrayOfMsg[2]);
-            logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m The Order is canceled " +
-                    "Successfully and send email to customer" + "\u001B[0m");
+            logger.log(Level.INFO, getString2() + "\u001B[31m The Order is canceled " +
+                    "Successfully and send email to customer" + getString1());
         }
         else if (getStatusOrder().equals("shipped")){
             gmail.sendEmail(getGmailIs(),arrayOfTopic[0],arrayOfMsg[0]);
-            logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m The Order is shipped " +
-                    "Successfully and send email to customer" + "\u001B[0m");}
-        else if (getStatusOrder().equals("delivered")){
+            logger.log(Level.INFO, getString2() + "\u001B[31m The Order is shipped " +
+                    "Successfully and send email to customer" + getString1());}
+        else if (getStatusOrder().equals(getDelivered())){
             gmail.sendEmail(getGmailIs(),arrayOfTopic[1],arrayOfMsg[1]);
-            logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m The Order is updated " +
-                    "Successfully and send email to customer" + "\u001B[0m");}
+            logger.log(Level.INFO, getString2() + "\u001B[31m The Order is updated " +
+                    "Successfully and send email to customer" + getString1());}
     }
 
 
