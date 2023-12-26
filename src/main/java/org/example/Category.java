@@ -19,6 +19,7 @@ public class Category
     }
 
     static Logger logger = Logger.getLogger(Registration.class.getName());
+    private static final String CATEGORY_DATA_FILE_PATH = "src/main/resources/Data/categoryData.txt";
 
     public boolean isAddNewCategoryFlag() {
         return addNewCategoryFlag;
@@ -67,7 +68,7 @@ public class Category
 
     public void addNewCategory (String name){
 
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
 
@@ -84,10 +85,10 @@ public class Category
     }
 
 
-  public void addThisCategory(String name) {
+    public void addThisCategory(String name) {
         RandomAccessFile file=null;
         try {
-            file = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw");
+            file = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw");
             file.seek(file.length());
             file.writeBytes(name+"\n");
             file.close();
@@ -95,23 +96,23 @@ public class Category
             file.seek(file.length());
             file.close();
         } catch (IOException e) {
-           logger.log(Level.SEVERE, "An error occurred", e);
+            logger.log(Level.SEVERE, "An error occurred", e);
         }
         finally {
             if (file != null) {
                 try {
                     file.close();
                 } catch (IOException e) {
-                   logger.log(Level.SEVERE, "An error occurred", e);
+                    logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }
         }
     }
     public void deleteTheCategory(String CategoryName){
         try (
-                RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
+                RandomAccessFile ref = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw")) {
             String s;
-                    numberOfLine = -1;
+            numberOfLine = -1;
             while ((s = ref.readLine()) != null) {
                 numberOfLine = numberOfLine +1;
                 if (s.equals(CategoryName)) {
@@ -126,12 +127,12 @@ public class Category
     }
 
     public void deleteThisCategory (String name){
-                RandomAccessFile raf=null;
+        RandomAccessFile raf=null;
         try {
             String ff ="src/main/resources/Data/"+name+".txt";
             Path filePath = Paths.get(ff);
             Files.delete(filePath);
-            raf = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw");
+            raf = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw");
             long start = 0;
             long currentPos = raf.getFilePointer();
             int currentLine = -1;
@@ -247,7 +248,7 @@ public class Category
 
 
     public void printAllCategory(){
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw")) {
             String s;
             while ((s = ref.readLine()) != null)  logger.log(Level.INFO,"\u001B[36m"+s+"\u001B[0m");
 
@@ -258,7 +259,7 @@ public class Category
 
     public void editTheName(String categoryName) {
         numberOfLine = 0-1;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw")) {
             String s;
 
             while ((s = ref.readLine()) != null) {
@@ -290,7 +291,7 @@ public class Category
             Path oldFilePath = Paths.get(oldPath);
             Path newFilePath = Paths.get(newPath);
             Files.move(oldFilePath,newFilePath);
-            RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw");
+            RandomAccessFile raf = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw");
             long start = 0;
             long currentPos = raf.getFilePointer();
             int currentLine = -1;
