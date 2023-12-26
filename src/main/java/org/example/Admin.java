@@ -447,4 +447,3 @@ enter="""
         return pass.equals(ConfirmPass);
     }
 }
-
