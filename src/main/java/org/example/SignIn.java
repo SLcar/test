@@ -1,749 +1,395 @@
 package org.example;
-
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-public class Product 
-{
-    private static final Logger logger = Logger.getLogger(Product.class.getName());
-    int numberOfLine;
+public class SignIn {
+    Order order = new Order();
     public int getNumberOfLine() {
         return numberOfLine;
     }
-   
-    public int getCount() {
-        return count;
+
+    private int numberOfLine;
+    private String adminMenu;
+    private String customerName;
+    Admin admin = new Admin();
+    Customer customer = new Customer();
+    Installer installer = new Installer();
+    static Logger logger = Logger.getLogger(Registration.class.getName());
+    private Scanner scanner;
+    private  String installerName;
+    private String name;
+    private String email;
+    private String password;
+    private String TrueEmail;
+    private String TruePassword;
+    private int theUser;
+    private int id;
+    private boolean adminloged;
+    private boolean customerLogin;
+    private boolean installerLogin;
+
+    public boolean getCustomerLogin() {
+        return customerLogin;
     }
 
-    int count;
-
-
-    String enter;
-    public Product() {
-        categoryExistFlag =false;
-        iDExistFlag =false;
+    public void setCustomerLogin(boolean customerLogin) {
+        this.customerLogin = customerLogin;
     }
 
-    public boolean isiDExistFlag() {
-        return iDExistFlag;
+    public boolean getInstallerLogin() {
+        return installerLogin;
     }
 
-    public void setIDExistFlag(boolean iDExistFlag) {
-        this.iDExistFlag = iDExistFlag;
-    }
-
-    private boolean iDExistFlag;
-    private final Category category = new Category();
-    private String nameProduct;
-
-
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    private String categoryName;
-
-    public boolean isCategoryExistFlag() {
-        return categoryExistFlag;
-    }
-
-    public void setCategoryExistFlag(boolean categoryExistFlag) {
-        this.categoryExistFlag = categoryExistFlag;
-    }
-
-    private boolean categoryExistFlag;
-
-    public String getNameProduct() {
-        return nameProduct;
-    }
-
-    public void setNameProduct(String nameProduct) {
-        this.nameProduct = nameProduct;
-    }
-
-    public String getDescriptionProduct() {
-        return descriptionProduct;
-    }
-
-    public void setDescriptionProduct(String descriptionProduct) {
-        this.descriptionProduct = descriptionProduct;
-    }
-
-    public String getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(String availability) {
-        this.availability = availability;
-    }
-
-    public String getImgProduct() {
-        return imgProduct;
-    }
-
-    public void setImgProduct(String imgProduct) {
-        this.imgProduct = imgProduct;
-    }
-
-    public String getPriceProduct() {
-        return priceProduct;
-    }
-
-    public void setPriceProduct(String priceProduct) {
-        this.priceProduct = priceProduct;
-    }
-
-    private String descriptionProduct;
-    private String availability;
-    private String imgProduct;
-
-    public int getID() {
-        return iD;
-    }
-
-    public void setID(int iD) {
-        this.iD = iD;
-    }
-
-    private int iD;
-    private String priceProduct;
-    boolean addProductsFlag;
-
-
-    public void setAddProductsFlag(boolean addProductsFlag) {
-        this.addProductsFlag = addProductsFlag;
+    public void setInstallerLogin(boolean installerLogin) {
+        this.installerLogin = installerLogin;
     }
 
 
+    public int getTheUser() {
+        return theUser;
+    }
+
+    public void setTheUser(int theUser) {
+        this.theUser = theUser;
+    }
 
 
-    public void menuProduct() {
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        enter ="""
+    public void AdminInInSystem(){
+        admin.setAdminLogin(getAdminloged());
+    }
+    public void CustomerInInSystem(){
+        customer.setCustomerLogin(getCustomerLogin());
+    }
+    public void installerInSystem(){
+        installer.setInstallerLogin(getInstallerLogin());
+    }
 
-                \u001B[33m----------------------------------
-                |                                 |
-                |     1. Show all products        |           \s
-                |     2. add products             |
-                |     3. edit products            |
-                |     4. delete products          |
-                |     5. Search products          |
-                |                                 |
-                ----------------------------------
-                """;
-        logger.info( enter);
-        logger.info( getString() + getString1());
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        choice = scanner.nextInt();
-        if(choice==1)
-        {
-            printAllCategory();
-            logger.log(Level.INFO,"Enter The name of category");
-            String nameCato=getTheNameOfCat(scanner);
-            ifCategoryExist(nameCato);
-            if (isCategoryExistFlag()){
-                printAllProductAndCategories(nameCato);
-                back();
+    public String getName() {
+        return name;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setAdminloged(boolean adminloged) {
+
+        this.adminloged = adminloged;
+    }
+
+    public boolean getAdminloged() {
+
+        return adminloged;
+    }
+    public SignIn(){
+        theUser = 0;
+        adminloged = false;
+        customerLogin = false;
+        installerLogin = false;
+    }
+
+    public void customerIslLogin(String email, String password) {
+        numberOfLine=-1;
+        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
+            String s;
+            while ((s = ref.readLine()) != null) {
+                numberOfLine = numberOfLine+1;
+                String[] loginCustomer = s.split(",");
+                customerName=loginCustomer[0];
+                TrueEmail = loginCustomer[1];
+                TruePassword = loginCustomer[2];
+
+                if (TrueEmail.equals(email) && TruePassword.equals(password)) {
+                    order.setGmailIs(email);
+                    setCustomerLogin(true);
+                    CustomerInInSystem();
+                    customer.setTheCustomerIs(numberOfLine);
+                    return;
+                }
             }
-            else {
-                logger.log(Level.WARNING, getString4() + "\u001B[31mThis category does not exist." + getString3() +"\n");
-                back();
-            }
-
-        }
-        else if (choice == 2) {
-            addNewProducts();
-            back();
-        } else if (choice == 3) {
-            editProducts();
-            back();
-        } else if (choice == 4) {
-            deleteProducts();
-            back();
-        }
-
-        else if (choice == 5) {
-            searchOfProducts();
-            back();
-        }
-        else {
-            logger.log(Level.INFO, getString4() + "\u001B[31" + "Invalid choice! Please enter a valid choice.\u001B[0m");
-            menuProduct();
-        }
-    }
-
-    private static String getString3() {
-        return "\u001B[0m";
-    }
-
-    private static String getString1() {
-        return getString2();
-    }
-
-    /////////////////////////////////back/////////////////////////////////////
-    public void back() {
-        logger.log(Level.INFO, """
-
-                1) back\s
-                2) Exit""");
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        choice = scanner.nextInt();
-        if (choice == 1)
-            menuProduct();
-        System.exit(0);
-    }
-    /////////////////////////////////back/////////////////////////////////////
-
-    public static String getTheNameOfCat(Scanner scanner) {
-        return scanner.next();
-    }
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    public void searchOfProducts() {
-        searchMenu();
-    }
-    public void deleteProducts() {
-        deleteProductsMenu();
-    }
-
-    public void editProducts() {
-        editProductsMenu();
-
-    }
-    private void addNewProducts() {
-        newAddProductMenu();
-    }
-
-    public void enterDataOfProduct() {
-        int available;
-        Scanner scanner1 = new Scanner(System.in);
-        logger.log(Level.INFO, "\u001B[33m"+"Enter The ID : ");
-        setID(Integer.parseInt(scanner1.nextLine()));
-        logger.log(Level.INFO, "Enter The Name : ");
-        setNameProduct(scanner1.nextLine());
-        logger.log(Level.INFO, "Enter The Description : ");
-        setDescriptionProduct(scanner1.nextLine());
-        logger.log(Level.INFO, "Enter The Price: ");
-        setPriceProduct(scanner1.nextLine());
-        logger.log(Level.INFO, "Enter The img of product: ");
-        setImgProduct(scanner1.nextLine());
-        logger.log(Level.INFO, "The availability : ");
-        logger.log(Level.INFO, "1) available");
-        logger.log(Level.INFO, "2) Not available\u001B[34m");
-        available = scanner1.nextInt();
-        if (available == 1) {
-            setAvailability("available");
-        } else
-            setAvailability("Not available");
-
-    }
-    ////////////////////////////////////////add product////////////////////////////////////////////////////////
-
-    public void newAddProductMenu() {
-        Scanner scanner = new Scanner(System.in);
-
-        logger.log(Level.INFO, "\u001B[35m" + "What categories of product do you want to add ?");
-        printAllCategory();
-        logger.log(Level.INFO, "\u001B[36m" + "new categories" + getString2());
-        logger.log(Level.INFO, getString() + getString2());
-
-        categoryName = scanner.nextLine();
-        if (categoryName.equals("new categories")) {
-            logger.log(Level.INFO, "Enter The name of category");
-            String names = scanner.next();
-            ifCategoryExist(names);
-            if(isCategoryExistFlag()){
-                logger.log(Level.WARNING, getString4() +"\u001B[31mThis category exist."+"\u001B[0m\n");
-
-            }
-            else
-                addNewCategoriesProduct(names);
-        }
-        else {
-            ifCategoryExist(getCategoryName());
-            if(isCategoryExistFlag()) {
-                extractedIfProduct("added");
-            }
-            else
-                logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
-
-        }
-    }
-
-    private static String getString2() {
-        return getString3();
-    }
-
-    public void extractedIfProduct(String addOrUpdate) {
-        enterDataOfProduct();
-        ifProductIdExist(getCategoryName(), String.valueOf(getID()));
-        if(isiDExistFlag())
-            logger.log(Level.WARNING, getString4() +"\u001B[31mThis ID Of Product is already exist."+"\u001B[0m\n");
-        else
-            addNewProducts(categoryName,addOrUpdate);
-    }
-
-    private static String getString4() {
-        return "\u001B[1m";
-    }
-
-    public void addNewProducts(String catName,String addOrUpdate) 
-    {
-        RandomAccessFile file= null;
-        try {
-             file = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw");
-            file.seek(file.length());
-            String product = getID() + "," + getNameProduct() + "," + getDescriptionProduct() + "," + getPriceProduct() + "," + getAvailability() + "," + getImgProduct() + "\n";
-            file.writeBytes(product);
-            file.close();
-            logger.log(Level.INFO, "The product "+ addOrUpdate +" successfully");
-            setAddProductsFlag(true);
+            notFoundEmailCustomer(email,password);
         } catch (IOException e) {
-            
+            throw new RuntimeException(e);
         }
-        finally {
-        if (file != null) {
-            try {
-                file.close();
+
+    }
+
+    public void notFoundEmailCustomer(String email, String password) {
+        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
+            String s;
+            while ((s = ref.readLine()) != null) {
+                String[] loginCustomer = s.split(",");
+                TrueEmail = loginCustomer[1];
+                TruePassword = loginCustomer[2];
+
+                if (TrueEmail.equals(email) && !TruePassword.equals(password)) {
+                    notFoundPasswordCustomer(email,password);
+                    return;
+                }
+            }
+            logger.log(Level.WARNING,"Customer Email is Wrong! Try Again");
+             whoIsLogin();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void notFoundPasswordCustomer(String email, String password) {
+        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
+            String s;
+            while ((s = ref.readLine()) != null) {
+                String[] loginCustomer = s.split(",");
+                TrueEmail = loginCustomer[1];
+                TruePassword = loginCustomer[2];
+
+                if (TrueEmail.equals(email) && !TruePassword.equals(password)) {
+                    logger.log(Level.WARNING,"Customer password is Wrong! Try Again ");
+                    whoIsLogin();
+                    return;
+                }
+            }
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }}
+
+
+        public void AdminLogin(String email, String password) {
+
+            try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw")) {
+                String s;
+                while ((s = ref.readLine()) != null) {
+
+                    String[] loginCustomer = s.split(",");
+                    adminMenu = loginCustomer[0];
+                    TrueEmail = loginCustomer[1];
+                    TruePassword = loginCustomer[2];
+
+                    if (TrueEmail.equals(email) && TruePassword.equals(password)) {
+                        setAdminloged(true);
+                        AdminInInSystem();
+                        return;
+
+                    }
+                }
+
+                AdminWrongEmail(email,password);
+
             } catch (IOException e) {
-                logger.log(Level.SEVERE, "An error occurred", e);
+
+
+                throw new RuntimeException(e);
+
             }
         }
-    }
-        
-        setAddProductsFlag(false);
 
-    }
+        public void AdminWrongEmail(String email, String password) {
+            try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw")) {
+                String s;
+                while ((s = ref.readLine()) != null) {
+                    String[] loginCustomer = s.split(",");
+                    TrueEmail = loginCustomer[1];
+                    TruePassword = loginCustomer[2];
 
-
-    public void addNewCategoriesProduct(String name) {
-        category.addNewCategory(name);
-        if (category.isAddNewCategoryFlag()) {
-            category.addThisCategory(name);
-            enterDataOfProduct();
-            addNewProducts(name,"added");
-        }}
-    ////////////////////////////////////////update product////////////////////////////////////////////////////////
-    public void editProductsMenu(){
-        Scanner scanner = new Scanner(System.in);
-        printAllCategory();
-
-        logger.log(Level.INFO, "\u001B[35m What is the product category you would like to modify?");
-        categoryName = scanner.nextLine();
-        ifCategoryExist(categoryName);
-        if(isCategoryExistFlag()){
-            printAllProductAndCategories(categoryName);
-            logger.log(Level.INFO, "\u001B[34m" + "What is the product ID that you want to modify?");
-            String id = scanner.nextLine();
-            editProducts1(categoryName,id);
-        }
-        else
-            logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
-
-    }
-
-    private void editProducts1(String categoryName, String id) {
-        ifProductIdExist(categoryName,id);
-
-
-        if(isiDExistFlag())
-        {
-            searchTheProductByID(categoryName,id);
-            extractedPrintTheProduct();
-            deleteThisProduct(categoryName);
-            extractedIfProduct("updated");
-        }
-        else
-            logger.log(Level.WARNING, getString4() + getString5() +"This product does not exist."+"\u001B[0m\n");
-
-    }
-
-    private static String getString5() {
-        return "\u001B[31m";
-    }
-
-    private void extractedPrintTheProduct() {
-        logger.info("\u001B[34m The ID :\u001B[35m " + getID()+" |"
-                +"\u001B[34m The Name:\u001B[35m "+getNameProduct()+" |"
-                +"\u001B[34m The Description:\u001B[35m "+getDescriptionProduct()+" |"
-                +"\u001B[34m The Price:\u001B[35m "+getPriceProduct()+"$ |"
-                +"\u001B[34m The Availability:\u001B[35m "+getAvailability()+" |"
-                +"\u001B[34m The img:\u001B[35m "+getImgProduct()+" |");
-    }
-
-
-////////////////////////////////////////update product////////////////////////////////////////////////////////
-////////////////////////////////////////delete product////////////////////////////////////////////////////////
-
-    public void deleteProductsMenu(){
-        Scanner scanner = new Scanner(System.in);
-        printAllCategory();
-
-        logger.log(Level.INFO, "\u001B[35m What is the category of product?");
-        categoryName = scanner.nextLine();
-        ifCategoryExist(categoryName);
-        if(isCategoryExistFlag()){
-            printAllProductAndCategories(categoryName);
-            logger.log(Level.INFO, "\u001B[34m" + "What is the product ID that you want to delete?");
-            String id = scanner.nextLine();
-            ifProductIdExist(categoryName,id);
-            if(isiDExistFlag()) {
-                deleteThisProduct(categoryName);
-                logger.log(Level.INFO, "The product deleted successfully");
-            }
-            else
-                logger.log(Level.WARNING, getString4() +"\u001B[31mThis product does not exist."+"\u001B[0m\n");
-
-        }
-        else
-            logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
-
-    }
-
-
-    public void  deleteThisProduct(String categoryName){
-        try {
-            RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/"+categoryName+".txt", "rw");
-            long start = 0;
-            long currentPos = raf.getFilePointer();
-            int currentLine = -1;
-
-            while (currentLine < getNumberOfLine()) {
-                start = currentPos;
-                raf.readLine();
-                currentPos = raf.getFilePointer();
-                currentLine++;
-            }
-            long end = raf.length();
-            byte[] remainingBytes = new byte[(int) (end - currentPos)];
-            raf.read(remainingBytes);
-
-            raf.seek(start);
-            raf.write(remainingBytes);
-            raf.setLength(start + remainingBytes.length);
-            raf.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    ////////////////////////////////////////delete product////////////////////////////////////////////////////////
-////////////////////////////////////////Search product////////////////////////////////////////////////////////
-    public void ifProductAvailabilityExist(String categoryName, String availability) {
-        count=0;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
-            String s;
-            while ((s = ref.readLine()) != null) {
-                String[] productInfo = s.split(",");
-                String idProduct = productInfo[4];
-                if (availability.equalsIgnoreCase(idProduct)) {
-                    count=count+1;
-                    ifProductNameExist2(count);
+                    if (TrueEmail.equals(email) && !TruePassword.equals(password)) {
+                        AdminWrongPass(email,password);
+                        return;
+                    }
                 }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public void PrintProductAvailabilityExist(String categoryName, String availability) {
-        count=0;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
-            String s;
-            while ((s = ref.readLine()) != null) {
-                String[] productInfo = s.split(",");
-                String idProduct = productInfo[4];
-                if (availability.equalsIgnoreCase(idProduct)) {
-                    extractedStoreData(productInfo);
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }}
-    public void searchTheProductByID(String categoryName, String id) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
-            String s;
-            while ((s = ref.readLine()) != null) {
-                String[] productInfo = s.split(",");
-                String idProduct = productInfo[0];
-                if (id.equals(idProduct)) {
-                    setID(Integer.parseInt(productInfo[0]));
-                    setNameProduct(productInfo[1]);
-                    setDescriptionProduct(productInfo[2]);
-                    setPriceProduct(productInfo[3]);
-                    setAvailability(productInfo[4]);
-                    setImgProduct(productInfo[5]);
-                    return;
-                }
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public void searchMenu(){
-        Scanner scanner = new Scanner(System.in);
-        printAllCategory();
+                logger.log(Level.WARNING,"Admin Email is Wrong! Try Again");
+                whoIsLogin();
 
-        logger.log(Level.INFO, "\u001B[35m What is the category of product?");
-        categoryName = scanner.nextLine();
-        ifCategoryExist(categoryName);
-        if(isCategoryExistFlag()){
-            searchMenuPrint(categoryName);
-        }
-        else
-            logger.log(Level.WARNING, getString4() +"\u001B[31mThis category does not exist."+"\u001B[0m\n");
-
-    }
-    public void ifProductNameExist(String catName, String productName) {
-        count = 0;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw")) {
-            String s;
-            while ((s = ref.readLine()) != null) {
-                String[] productInfo = s.split(",");
-                String productToSearch1 = productInfo[1];
-                String[] productToSearch2 =productToSearch1.split(" ");
-                if(productName.equalsIgnoreCase(productToSearch1)){
-                    count=count+1;
-                    ifProductNameExist2(count);
-                }
-                else{
-                    for (String i : productToSearch2 ) {
-                        if (productName.equalsIgnoreCase(i)) {
-                            count=count+1;
-                            ifProductNameExist2(count);
-                        }
-                    }}}
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public boolean ifProductNameExist2(int count){
-        return count > 0;
-    }
-    public void printTheResultSearchByName(String catName, String productName,int num) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw")) {
-            String s;
-            while ((s = ref.readLine()) != null) {
-                String[] productInfo = s.split(",");
-                String productToSearch1 = productInfo[num];
-                String[] productToSearch2 =productToSearch1.split(" ");
-                if(productName.equalsIgnoreCase(productToSearch1)){
-                    extractedStoreData(productInfo);
-                }
-                else{
-                    for (String i : productToSearch2 ) {
-                        if (productName.equalsIgnoreCase(i)) {
-                            extractedStoreData(productInfo);
-                        }
-                    }}}
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void extractedStoreData(String[] productInfo) {
-        setID(Integer.parseInt(productInfo[0]));
-        setNameProduct(productInfo[1]);
-        setDescriptionProduct(productInfo[2]);
-        setPriceProduct(productInfo[3]);
-        setAvailability(productInfo[4]);
-        setImgProduct(productInfo[5]);
-        extractedPrintTheProduct();
-    }
-
-    public void ifProductDescriptionsExist(String catName, String productDescriptions) {
-        count = 0;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw")) {
-            String s;
-            while ((s = ref.readLine()) != null) {
-                String[] productInfo = s.split(",");
-                String productToSearch1 = productInfo[2];
-                String[] productToSearch2 =productToSearch1.split(" ");
-                if(productDescriptions.equalsIgnoreCase(productToSearch1)){
-                    count=count+1;
-                    ifProductNameExist2(count);
-                }
-                else{
-                    for (String i : productToSearch2 ) {
-                        if (productDescriptions.equalsIgnoreCase(i)) {
-                            count=count+1;
-                            ifProductNameExist2(count);
-                        }
-                    }}}
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-////////////////////////////////////////Search product////////////////////////////////////////////////////////
-
-    public void printAllCategory() {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
-            String s;
-            while ((s = ref.readLine()) != null) logger.log(Level.INFO, "\u001B[36m" + s + getString2());
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void ifCategoryExist(String CategoryName) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
-            String s;
-            while ((s = ref.readLine()) != null) {
-                if (s.equals(CategoryName)) {
-                    setCategoryExistFlag(true);
-                    return;
-                }
-                setCategoryExistFlag(false);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+
+
         }
-    }
+        public void AdminWrongPass(String email, String password) {
+            try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw")) {
+                String s;
+                while ((s = ref.readLine()) != null) {
+                    String[] loginCustomer = s.split(",");
+                    TrueEmail = loginCustomer[1];
+                    TruePassword = loginCustomer[2];
 
-    public void ifProductIdExist(String CategoryName, String iD) {
-        numberOfLine = -1;
-
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + CategoryName + ".txt", "rw")) {
-            String s;
-            while ((s = ref.readLine()) != null) {
-                numberOfLine = numberOfLine +1;
-                String[] productInfo = s.split(",");
-                String idProduct = productInfo[0];
-                if (iD.equals(idProduct)) {
-                    setIDExistFlag(true);
-                    return;
+                    if (TrueEmail.equals(email) && !TruePassword.equals(password)) {
+                        logger.log(Level.WARNING,"Admin password is Wrong! Try Again ");
+                        whoIsLogin();
+                        return;
+                    }
                 }
-                setIDExistFlag(false);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public void printAllProductAndCategories(String CategoryName) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/"+CategoryName+".txt", "rw")) {
-            String s;
-            logger.log(Level.INFO,"\u001B[35m"+CategoryName+" Product : \n\u001B[37m");
-            while ((s = ref.readLine()) != null) {
-                String[] productData = s.split(",");
-                String iDLoop = productData[0];
-                String nameLoop  = productData[1];
-                String descriptionsLoop  = productData[2];
-                String pricesLoop  = productData[3];
-                String availabilityLoop  = productData[4];
-                String imgLoop  = productData[5];
-                logger.info("\u001B[36m"+"ID : "+iDLoop +
-                        "  Name: "+nameLoop+"  description: "+descriptionsLoop+
-                        "  price: "+pricesLoop+"$"+"  availability: "+availabilityLoop +
-                        "  img link:  "+imgLoop+"\n\u001B[37m");
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }}
+
+        public void installerIsLogin(String enterEmail, String enterPassword) {
+
+            try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw")) {
+                String s;
+                while ((s = ref.readLine()) != null) {
+
+                    String[] loginCustomer = s.split(",");
+                    installerName = loginCustomer[0];
+                    TrueEmail = loginCustomer[1];
+                    TruePassword = loginCustomer[2];
+
+                    if (TrueEmail.equals(enterEmail) && TruePassword.equals(enterPassword)) {
+                        setInstallerLogin(true);
+                        installerInSystem();
+                        return;
+
+                    }
+                }
+
+                installerWrongEmail(enterEmail,enterPassword);
+
+            } catch (IOException e) {
+
+
+                throw new RuntimeException(e);
 
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }
+        public void installerWrongEmail(String enterEmail, String enterPassword) {
+            try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw")) {
+                String s;
+                while ((s = ref.readLine()) != null) {
+                    String[] loginCustomer = s.split(",");
+                    TrueEmail = loginCustomer[1];
+                    TruePassword = loginCustomer[2];
+
+                    if (TrueEmail.equals(enterEmail) && !TruePassword.equals(enterPassword)) {
+                        installerWrongPassword(enterEmail,enterPassword);
+                        return;
+                    }
+                }
+                logger.log(Level.WARNING,"installer Email is Wrong! Try Again");
+                whoIsLogin();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        public void installerWrongPassword(String enterEmail, String enterPassword) {
+            try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw")) {
+                String s;
+                while ((s = ref.readLine()) != null) {
+                    String[] loginCustomer = s.split(",");
+                    TrueEmail = loginCustomer[1];
+                    TruePassword = loginCustomer[2];
+
+                    if (TrueEmail.equals(enterEmail) && !TruePassword.equals(enterPassword)) {
+                        logger.log(Level.WARNING,"installer password is Wrong! Try Again ");
+                        whoIsLogin();
+                        return;
+                    }
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+
+        public String enterEmail(){
+            scanner = new Scanner(System.in);
+            logger.log(Level.INFO,"\u001B[32m" + "Enter the email:" + "\u001B[0m");
+            return scanner.nextLine();
+        }
+        public String enterPass(){
+            scanner = new Scanner(System.in);
+            logger.log(Level.INFO,"\u001B[32m"+ "Enter the password:" + "\u001B[0m");
+            return scanner.nextLine();
+        }
+
+        public void loginMenu (){
+            int  choice1 ;
+            Scanner scanner1 = new Scanner(System.in);
+            logger.log(Level.INFO, "\n\u001B[36m------ Welcome to login Page ------"+"\n"+
+                    "|                                |\n" +
+                    "|          1. Admin              |\n"+
+                    "|          2. Custumor           |\n"+
+                    "|          3. Installer          |\n"+
+                    "|                                |\n"+
+                    "----------------------------------\n");
+            logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+            choice1 = scanner1.nextInt();
+            if (choice1 == 1){
+                setTheUser(1);
+                whoIsLogin();
+            }
+            else if (choice1 ==2){
+                setTheUser(2);
+                whoIsLogin();
+            }
+            else if (choice1==3) {
+                setTheUser(3);
+                whoIsLogin();
+
+            }
+            else{
+                logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.");
+            }
+        }
+
+        public void whoIsLogin(){
+            if(getTheUser() == 1){
+                String enterEmail = enterEmail();
+                String enterPassword = enterPass();
+                AdminLogin(enterEmail,enterPassword);
+                if (adminloged)
+                    admin.adminMenu(adminMenu);
+            }
+
+            else if (getTheUser() == 2) {
+                String enterEmail = enterEmail();
+                String enterPassword = enterPass();
+                customerIslLogin(enterEmail,enterPassword);
+                if(customerLogin) {
+                    customer.Customer_menu(customerName);
+                    customer.setTheCustomerIs(getNumberOfLine());
+                }
+            }   else if (getTheUser() == 3) {
+                String enterEmail = enterEmail();
+                String enterPassword = enterPass();
+                installerIsLogin(enterEmail,enterPassword);
+                if(installerLogin)
+                    installer.installer_menu(installerName);
+            }
+
         }
     }
-
-    public void   searchMenuPrint(String catName){
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        Scanner scanner2 = new Scanner(System.in);
-enter= """
-
-                \u001B[33m----------------------------------
-                |                                 |
-                |     1. ID                       |           \s
-                |     2. name of product          |
-                |     3. descriptions of product  |
-                |     4. availability             |
-                |                                 |
-                ----------------------------------
-                """;
-        logger.info( enter);
-        logger.info( getString() + getString2());
-
-        choice = scanner.nextInt();
-        if(choice==1)
-        {
-            logger.info( "Enter The id to search: " + getString2());
-            int productID = scanner.nextInt();
-            ifProductIdExist(catName, String.valueOf(productID));
-            extractedSearchById(catName, productID);
-        }
-        else if (choice==2) {
-            logger.info( "Enter The name to search: " + getString2());
-            String productName = scanner2.nextLine();
-            ifProductNameExist(catName,productName);
-            extractedSearchByName(catName,productName);
-        }
-        else if (choice==3) {
-            logger.info( "Enter The description to search: " + getString2());
-            String productDescription = scanner2.nextLine();
-            ifProductDescriptionsExist(catName,productDescription);
-            extractedSerachByDescription(catName,productDescription);
-        }
-        else if (choice==4) {
-            logger.info( "Enter The (available/not available) to search: " + getString2());
-            String productAvailable = scanner2.nextLine();
-            ifProductAvailabilityExist(catName,productAvailable);
-            extractedSearchByAvailability(catName,productAvailable);
-        }
-
-        else {
-            logger.log(Level.INFO, getString4() + getString5() + "Invalid choice! Please enter a valid choice.\u001B[0m");
-            menuProduct();
-        }
-    }
-
-    private static String getString() {
-        return "Enter your choice: ";
-    }
-
-    public void extractedSearchById(String catName, int productID) {
-        if (isiDExistFlag()){
-            searchTheProductByID(catName, String.valueOf(productID));
-            extractedPrintTheProduct();
-        }
-        else {
-            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
-        }
-    }
-
-    private void extractedSearchByName(String catName, String productName) {
-        if (ifProductNameExist2(getCount())){
-            printTheResultSearchByName(catName,productName,1);
-        }
-        else {
-            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
-        }
-    }
-    private void  extractedSerachByDescription(String catName,String productDescription){
-        if (ifProductNameExist2(getCount())){
-            printTheResultSearchByName(catName,productDescription,2);
-        }
-        else {
-            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
-        }
-    }
-
-    private void  extractedSearchByAvailability(String catName,String productAvailability){
-        if (ifProductNameExist2(getCount())){
-            PrintProductAvailabilityExist(catName,productAvailability);
-        }
-        else {
-            logger.log(Level.WARNING, getString4() + "\u001B[31m The product Not found" + "\u001B[0m\n");
-        }
-    }
-}
-
