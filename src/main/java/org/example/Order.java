@@ -20,7 +20,7 @@ public class Order {
     ArrayList<Integer> lines = new ArrayList<>();
     protected  static final  String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
     protected  static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
-
+private static final Logger logger = Logger.getLogger(Order.class.getName());
     public boolean isSendEmailConfirmation() {
         return sendEmailConfirmation;
     }
@@ -624,7 +624,7 @@ public class Order {
                     file.close();
                 } catch (IOException e)
                 {
-                    e.printStackTrace();
+                   logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }
             if (fil2 != null)
@@ -634,7 +634,7 @@ public class Order {
                     fil2.close();
                 } catch (IOException e)
                 {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }
         }
@@ -648,13 +648,13 @@ public class Order {
 
             file.close();
         } catch (IOException e) {
-            e.printStackTrace();
+           logger.log(Level.SEVERE, "An error occurred", e);
         }finally {
             if (file != null) {
                 try {
                     file.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                   logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }
         }
@@ -1058,7 +1058,7 @@ public class Order {
                     raf2.close();
                 } catch (IOException e)
                 {
-                    e.printStackTrace();
+                   logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }
         }
@@ -1332,7 +1332,7 @@ public class Order {
                 try {
                     raf2.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }
         }
@@ -1359,7 +1359,7 @@ public class Order {
                 try {
                     raf3.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                   logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }
         }
