@@ -6,13 +6,14 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Product {
+public class Product 
+{
+    private static final Logger logger = Logger.getLogger(Product.class.getName());
     int numberOfLine;
     public int getNumberOfLine() {
         return numberOfLine;
     }
-    private static final Logger logger = Logger.getLogger( Product.class.getName());
-
+   
     public int getCount() {
         return count;
     }
@@ -297,9 +298,9 @@ public class Product {
 
     public void addNewProducts(String catName,String addOrUpdate) 
     {
-        
+        RandomAccessFile file= null;
         try {
-            RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw");
+             file = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw");
             file.seek(file.length());
             String product = getID() + "," + getNameProduct() + "," + getDescriptionProduct() + "," + getPriceProduct() + "," + getAvailability() + "," + getImgProduct() + "\n";
             file.writeBytes(product);
@@ -307,8 +308,17 @@ public class Product {
             logger.log(Level.INFO, "The product "+ addOrUpdate +" successfully");
             setAddProductsFlag(true);
         } catch (IOException e) {
-            e.printStackTrace();
+            
         }
+        finally {
+        if (file != null) {
+            try {
+                file.close();
+            } catch (IOException e) {
+                logger.log(Level.SEVERE, "An error occurred", e);
+            }
+        }
+    }
         
         setAddProductsFlag(false);
 
