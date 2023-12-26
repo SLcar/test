@@ -148,7 +148,7 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
             installationRequestsFlag = true;
             break;
         default:
-            logger.log(Level.WARNING, String.format("%s%s%s", COLOR_2, getString(), COLOR));
+            logger.log(Level.WARNING, String.format("%s%s%s", COLOR_2, INVALID_CHOICE_MESSAGE, COLOR));
             adminMenu(adminName);
             return;
     }
@@ -190,7 +190,7 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
             adminMenu(getAdminName());}
 
         else {
-            logger.log(Level.WARNING, COLOR_2 + getString() + COLOR);
+            logger.log(Level.WARNING, COLOR_2 + INVALID_CHOICE_MESSAGE + COLOR);
             menuOrderCustomer();
         }
 
@@ -198,10 +198,7 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
 
     private static final String COLOR_2 = "\u001B[1m";
 
-
-    private static String getString() {
-        return "\u001B[31mInvalid choice! Please enter a valid choice.";
-    }
+private static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! Please enter a valid choice.\u001B[0m";
 
     private static String getMsg() {
         return "Enter your choice: " + COLOR;
@@ -240,7 +237,7 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
                 order.setStatusOrder("canceled");
 
             } else {
-                logger.log(Level.WARNING, COLOR_2 + getString() +"\u001B[0m\n");
+                logger.log(Level.WARNING, COLOR_2 +INVALID_CHOICE_MESSAGE +"\u001B[0m\n");
                 menuOrderCustomer();
             }
 
@@ -289,7 +286,7 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
             adminMenu(getAdminName());
         }
         else {
-            logger.log(Level.WARNING, COLOR_2 + getString() + COLOR);
+            logger.log(Level.WARNING, COLOR_2 + INVALID_CHOICE_MESSAGE + COLOR);
             menuManageAccountUser();
         }
 
@@ -342,7 +339,7 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
 
         }
         else {
-            logger.log(Level.WARNING, COLOR_2 + getString() + COLOR);
+            logger.log(Level.WARNING, COLOR_2 + INVALID_CHOICE_MESSAGE + COLOR);
         }
     }
 
