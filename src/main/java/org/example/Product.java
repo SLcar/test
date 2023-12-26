@@ -297,9 +297,9 @@ public class Product {
 
     public void addNewProducts(String catName,String addOrUpdate) 
     {
-        RandomAccessFile file= null;
+        
         try {
-             file = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw");
+            RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/" + catName + ".txt", "rw");
             file.seek(file.length());
             String product = getID() + "," + getNameProduct() + "," + getDescriptionProduct() + "," + getPriceProduct() + "," + getAvailability() + "," + getImgProduct() + "\n";
             file.writeBytes(product);
@@ -309,18 +309,7 @@ public class Product {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        finally
-        {
-            if (file != null)
-            {
-                try
-                {
-                    file.close();
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
+        
         setAddProductsFlag(false);
 
     }
