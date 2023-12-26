@@ -1,6 +1,5 @@
 package org.example;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.time.LocalDate;
@@ -42,10 +41,10 @@ public class Order {
         this.sendEmailCancel = sendEmailCancel;
     }
 
-       boolean sendEmailConfirmation=false;
-      boolean sendEmailReceiving=false;
-       boolean sendEmailCancel=false;
-String delivered ="delivered";
+    boolean sendEmailConfirmation=false;
+    boolean sendEmailReceiving=false;
+    boolean sendEmailCancel=false;
+    String delivered ="delivered";
     public void  ifEmailSending (String status){
 
         switch (status) {
@@ -1224,7 +1223,7 @@ String delivered ="delivered";
     }
 
 
-    public void editTheOrder() {
+    public void editTheOrder(String statusOrder) {
         for (Integer i : lines){
             deleteOrder2("orderToAdmin",i);
         }
