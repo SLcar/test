@@ -20,7 +20,7 @@ public class Category
 
     static Logger logger = Logger.getLogger(Registration.class.getName());
     private static final String CATEGORY_DATA_FILE_PATH = "src/main/resources/Data/categoryData.txt";
-
+    private static final String DATA_DIRECTORY_PATH = "src/main/resources/Data/";
     public boolean isAddNewCategoryFlag() {
         return addNewCategoryFlag;
     }
@@ -86,28 +86,20 @@ public class Category
 
 
     public void addThisCategory(String name) {
-        RandomAccessFile file=null;
-        try {
-            file = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw");
+        try (RandomAccessFile file = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw")) {
             file.seek(file.length());
-            file.writeBytes(name+"\n");
-            file.close();
-            file = new RandomAccessFile("src/main/resources/Data/"+name+".txt", "rw");
-            file.seek(file.length());
-            file.close();
+            file.writeBytes(name + "\n");
         } catch (IOException e) {
             logger.log(Level.SEVERE, "An error occurred", e);
         }
-        finally {
-            if (file != null) {
-                try {
-                    file.close();
-                } catch (IOException e) {
-                    logger.log(Level.SEVERE, "An error occurred", e);
-                }
-            }
+
+        try (RandomAccessFile file = new RandomAccessFile(DATA_DIRECTORY_PATH + name + ".txt", "rw")) {
+            file.seek(file.length());
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "An error occurred", e);
         }
     }
+
     public void deleteTheCategory(String CategoryName){
         try (
                 RandomAccessFile ref = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw")) {
@@ -129,7 +121,7 @@ public class Category
     public void deleteThisCategory (String name){
         RandomAccessFile raf=null;
         try {
-            String ff ="src/main/resources/Data/"+name+".txt";
+            String ff =DATA_DIRECTORY_PATH+name+".txt";
             Path filePath = Paths.get(ff);
             Files.delete(filePath);
             raf = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw");
@@ -286,8 +278,8 @@ public class Category
 
     public void editThisCategory(String names, String newName) {
         try {
-            String oldPath ="src/main/resources/Data/"+names+".txt";
-            String newPath ="src/main/resources/Data/"+newName+".txt";
+            String oldPath =DATA_DIRECTORY_PATH+names+".txt";
+            String newPath =DATA_DIRECTORY_PATH+newName+".txt";
             Path oldFilePath = Paths.get(oldPath);
             Path newFilePath = Paths.get(newPath);
             Files.move(oldFilePath,newFilePath);
