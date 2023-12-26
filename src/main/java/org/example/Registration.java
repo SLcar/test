@@ -30,7 +30,7 @@ public class Registration {
     private String comPassword;
     private String TrueEmail;
     private String TruePassword;
-
+    private static final String RESET_COLOR = "\u001B[0m";
     public String getAddress() {
         return address;
     }
@@ -166,25 +166,14 @@ public class Registration {
         customerRegistrationCompleted = false;
         ifEmailFound = false;
     }
-
-    public void storeDataToFile(String dataToWrite) {
-        RandomAccessFile file =null;
-        try {
-            file = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw");
+    private static final String DATA_FILE_PATH = "src/main/resources/Data/custumorData.txt";
+    public void storeDataToFile(String dataToWrite)
+    {
+        try (RandomAccessFile file = new RandomAccessFile(DATA_FILE_PATH, "rw")) {
             file.seek(file.length());
             file.writeBytes(dataToWrite);
-            file.close();
-
         } catch (IOException e) {
-           logger.log(Level.SEVERE, "An error occurred", e);
-        } finally {
-            if (file != null) {
-                try {
-                    file.close();
-                } catch (IOException e) {
-                    logger.log(Level.SEVERE, "An error occurred", e);
-                }
-            }
+            logger.log(Level.SEVERE, "An error occurred", e);
         }
     }
 
@@ -217,7 +206,7 @@ public class Registration {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public void customerIslLogin(String email, String password) {
         numberOfLine=-1;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile( DATA_FILE_PATH, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 numberOfLine = numberOfLine+1;
@@ -242,7 +231,7 @@ public class Registration {
     }
 
     public void notFoundEmailCustomer(String email, String password) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_FILE_PATH , "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
@@ -263,7 +252,7 @@ public class Registration {
     }
 
     public void notFoundPasswordCustomer(String email, String password) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_FILE_PATH , "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
@@ -284,10 +273,11 @@ public class Registration {
 
 
     }
+    private static final String ADMIN_DATA_FILE_PATH = "src/main/resources/Data/AdminData.txt";
 
     public void AdminLogin(String email, String password) {
 
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(ADMIN_DATA_FILE_PATH, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
 
@@ -323,7 +313,7 @@ public class Registration {
         installer.setInstallerLogin(getInstallerLogin());
     }
     public void AdminWrongEmail(String email, String password) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(ADMIN_DATA_FILE_PATH, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
@@ -347,7 +337,7 @@ public class Registration {
     }
 
     public void AdminWrongPass(String email, String password) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(ADMIN_DATA_FILE_PATH, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
@@ -367,10 +357,10 @@ public class Registration {
 
 
     }
-
+    private static final String INSTALLER_DATA_FILE_PATH = "src/main/resources/Data/installer.txt";
     public void installerIsLogin(String enterEmail, String enterPassword) {
 
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(INSTALLER_DATA_FILE_PATH, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
 
@@ -397,7 +387,7 @@ public class Registration {
         }
     }
     private void installerWrongEmail(String enterEmail, String enterPassword) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(INSTALLER_DATA_FILE_PATH, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
@@ -417,7 +407,7 @@ public class Registration {
         }
     }
     private void installerWrongPassword(String enterEmail, String enterPassword) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(INSTALLER_DATA_FILE_PATH, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
@@ -468,18 +458,18 @@ public class Registration {
 
     public String enterEmail(){
         scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\u001B[32m" + "Enter the email:" + "\u001B[0m");
+        logger.log(Level.INFO,"\u001B[32m" + "Enter the email:" + RESET_COLOR);
         return scanner.nextLine();
     }
     public String enterPass(){
         scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\u001B[32m"+ "Enter the password:" + "\u001B[0m");
+        logger.log(Level.INFO,"\u001B[32m"+ "Enter the password:" + RESET_COLOR);
         return scanner.nextLine();
     }
 
 
     public void searchIfEmailIsAlreadyExist(String enteredEmail) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(DATA_FILE_PATH , "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
@@ -582,7 +572,7 @@ public class Registration {
                 "|          3. Installer          |\n"+
                 "|                                |\n"+
                 "----------------------------------\n");
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO,"Enter your choice: "+RESET_COLOR);
         choice1 = scanner1.nextInt();
         if (choice1 == 1){
             setTheUser(1);
