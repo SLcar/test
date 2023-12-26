@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Scanner;
 import java.util.logging.Level;
-
+import java.util.logging.Logger;
 import static org.example.Registration.logger;
 
 public class Customer {
+     private static final Logger logger = Logger.getLogger(Customer.class.getName());
     Product product = new Product();
      Order order =new Order();
     Installer installer = new Installer();
@@ -400,13 +401,13 @@ public void addNewCustomer(){
             file.close();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "An error occurred", e);
         }finally {
             if (file != null) {
                 try {
                     file.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }
         }
