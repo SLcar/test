@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
-
+import java.util.logging.Logger;
 import static org.example.Registration.logger;
 
 public class Installer {
@@ -17,6 +17,7 @@ public class Installer {
     public   String[] arrayOfTopic =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
     public   String[] arrayOfMsg = {"The Installation has been confirmed","We are sorry, but the Installation Request has been canceled due to logistical restrictions beyond our store's control","Thank you for using our company"}; // Creating an array that can hold 3 strings
     private String first;
+    private static final Logger logger = Logger.getLogger(Installer.class.getName());
 
     public long getIdInstallerRequest() {
         return idInstallerRequest;
@@ -431,14 +432,14 @@ public class Installer {
             file.close();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "An error occurred", e);
         }
         finally {
             if (file != null) {
                 try {
                     file.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }}
 
@@ -857,14 +858,14 @@ public class Installer {
 
             file.close();
         } catch (IOException e) {
-            e.printStackTrace();
+           logger.log(Level.SEVERE, "An error occurred", e);
         }
         finally {
             if (file != null) {
                 try {
                     file.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.log(Level.SEVERE, "An error occurred", e);
                 }
             }}
     }
