@@ -8,21 +8,33 @@ import java.util.logging.Level;
 import static org.example.Registration.logger;
 
 public class Admin {
-    String enter;
+
     Order order = new Order();
 
     public String getFirst() {
         return first;
     }
-    
+
+    public void setFirst(String first) {
+        this.first = first;
+    }
+
     public String getSec() {
         return sec;
+    }
+
+    public void setSec(String sec) {
+        this.sec = sec;
     }
 
     public String getThird() {
         return third;
     }
-    
+
+    public void setThird(String third) {
+        this.third = third;
+    }
+
     String first ;
     String sec;
     String third ;
@@ -64,12 +76,18 @@ public class Admin {
     private boolean productsFlag;
     private boolean categoriesFlag;
     private boolean userAccountsFlag;
-    
+
+    public boolean isOrderCustomerFlag() {
+        return orderCustomerFlag;
+    }
 
     public void setOrderCustomerFlag(boolean orderCustomerFlag) {
         this.orderCustomerFlag = orderCustomerFlag;
     }
 
+    public boolean isInstallationRequestsFlag() {
+        return installationRequestsFlag;
+    }
 
     public void setInstallationRequestsFlag(boolean installationRequestsFlag) {
         this.installationRequestsFlag = installationRequestsFlag;
@@ -77,6 +95,17 @@ public class Admin {
 
     private boolean orderCustomerFlag;
     private boolean installationRequestsFlag;
+
+    public int getAdminRoleChoice() {
+        return adminRoleChoice;
+    }
+
+    public void setAdminRoleChoice(int adminRoleChoice) {
+
+        this.adminRoleChoice = adminRoleChoice;
+    }
+
+    private int adminRoleChoice ;
     Product product = new Product();
     Category category = new Category();
     Customer customer = new Customer();
@@ -88,15 +117,17 @@ public class Admin {
         userAccountsFlag=false;
     }
     public void whatAdminEnter(String AdminChoice){
-        switch (AdminChoice) {
-            case "1" -> setProductsFlag(true);
-            case "2" -> setCategoriesFlag(true);
-            case "3" -> setUserAccountsFlag(true);
-            default -> {
-                setCategoriesFlag(false);
-                setUserAccountsFlag(false);
-                setProductsFlag(false);
-            }
+        if (AdminChoice.equals("1")){
+            setProductsFlag(true);
+        } else if (AdminChoice.equals("2")) {
+            setCategoriesFlag(true);
+        } else if (AdminChoice.equals("3")) {
+            setUserAccountsFlag(true);
+        }
+        else {
+            setCategoriesFlag(false);
+            setUserAccountsFlag(false);
+            setProductsFlag(false);
         }
     }
 
@@ -107,7 +138,7 @@ public class Admin {
     public void setAdminName(String adminName) {
         this.adminName = adminName;
     }
-    String color="\u001B[0m";
+
     String adminName;
     public void Admin_menu (String AdminName){
         setProductsFlag(false);
@@ -115,18 +146,18 @@ public class Admin {
         setUserAccountsFlag(false);
         setOrderCustomerFlag(false);
         setInstallationRequestsFlag(false);
-        enter ="\n\u001B[37m" + "----------  Welcome " +  AdminName  + " -------"+"\n"+
+
+        setAdminName(AdminName);
+        int choice;
+        Scanner scanner = new Scanner(System.in);
+        logger.log(Level.INFO,"\n\u001B[37m" + "----------  Welcome " +  AdminName  + " -------"+"\n"+
                 "|    1. Manage products                  |\n"+
                 "|    2. Manage categories                |\n"+
                 "|    3. Manage user accounts.            |\n"+
                 "|    4. Manage order Customer.           |\n"+
                 "|    5. Manage Installation Requests     |\n"+
-                "------------------------------------------\n";
-        setAdminName(AdminName);
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,enter);
-        logger.log(Level.INFO,s +color);
+                "------------------------------------------\n");
+        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
         choice = scanner.nextInt();
         if (choice == 1) {
             productsFlag=true;
@@ -151,7 +182,7 @@ public class Admin {
 
         }
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+color);
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
             Admin_menu(AdminName);
         }
 
@@ -176,15 +207,12 @@ public class Admin {
     public void menuOrderCustomer(){
         int choice;
         Scanner scanner = new Scanner(System.in);
-        enter="""
-
-                \u001B[34m----- Manage Order Customer -----
-                |     1. Show All Order         |
-                |     2. edit Customer Order    |
-                |     3. back                   |
-                ---------------------------------n""";
-        logger.log(Level.INFO,enter );
-        logger.log(Level.INFO,s +color);
+        logger.log(Level.INFO,"\n\u001B[34m" + "----- Manage Order Customer -----"+"\n"+
+                "|     1. Show All Order         |\n"+
+                "|     2. edit Customer Order    |\n"+
+                "|     3. back                   |\n"+
+                "---------------------------------n");
+        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
         choice = scanner.nextInt();
         if (choice == 1) {
             order.viewAllOrderToAdmin();
@@ -198,22 +226,23 @@ public class Admin {
             Admin_menu(getAdminName());}
 
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+color);
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
             menuOrderCustomer();
         }
 
     }
+
     private void enterData() {
         Scanner scanner4 = new Scanner(System.in);
         int choice;
-        logger.log(Level.INFO,"Enter The Number Of Order: "+color);
+        logger.log(Level.INFO,"Enter The Number Of Order: "+"\u001B[0m");
         order.setOrderNumber(Long.parseLong(scanner4.next()));
         order.ifEnterOrderExitToChangeSt(order.getOrderNumber());
 
         if(order.isIfOrderExist()){
             order.searchAboutCustomer("orderToAdmin",order.getOrderNumber());
             order.searchAboutGmail();
-            enter="""
+            logger.log(Level.INFO, """
             
             \u001B[35m-------------------------------
             |                              |
@@ -222,9 +251,8 @@ public class Admin {
             |        3. canceled           |
             |                              |
             --------------------------------
-            """;
-            logger.log(Level.INFO,enter);
-            logger.log(Level.INFO,s +color);
+            """);
+            logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
 
             choice = scanner4.nextInt();
             if (choice==1) {
@@ -236,8 +264,7 @@ public class Admin {
                 order.setStatusOrder("canceled");
 
             } else {
-                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+color+"\n");
-                        
+                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m\n");
                 menuOrderCustomer();
             }
 
@@ -257,17 +284,13 @@ public class Admin {
     public void menuManageAccountUser(){
         int choice;
         Scanner scanner = new Scanner(System.in);
-        enter="""
-
-                \u001B[34m----- Manage user -----
-                |     1. Admin         |
-                |     2. Customer      |
-                |     3. Installer     |
-                |     4. Back          |
-                -----------------------
-                """;
-        logger.log(Level.INFO, enter);
-        logger.log(Level.INFO,s +color);
+        logger.log(Level.INFO,"\n\u001B[34m" + "----- Manage user -----"+"\n"+
+                "|     1. Admin         |\n"+
+                "|     2. Customer      |\n"+
+                "|     3. Installer     |\n"+
+                "|     4. Back          |\n"+
+                "-----------------------\n");
+        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
         choice = scanner.nextInt();
         if (choice == 1) {
             editAdminProfile();
@@ -287,21 +310,19 @@ public class Admin {
         }
 
     }
-    String s = "Enter your choice: ";
+
     public void editAdminProfile(){
         int choice;
         Scanner scanner = new Scanner(System.in);
         Scanner scanner1 = new Scanner(System.in);
-        enter="""
 
-                \u001B[36m----- Admin Profile -----
-                |   1. edit userName   |
-                |   2. edit Password   |
-                |   3. edit Gmail      |
-                -----------------------
-                """;
-        logger.log(Level.INFO, enter);
-        logger.log(Level.INFO, s +color);
+        logger.log(Level.INFO,"\n\u001B[36m" + "----- Admin Profile -----"+"\n"+
+                "|   1. edit userName   |\n"+
+                "|   2. edit Password   |\n"+
+                "|   3. edit Gmail      |\n"+
+                "|   4. back            |\n"+
+                "-----------------------\n");
+        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
         choice = scanner.nextInt();
         String choice2 ;
         String oldPass ;
@@ -309,33 +330,36 @@ public class Admin {
         String newPassCon ;
 
         if (choice == 1) {
-            logger.log(Level.INFO,s +color);
+            logger.log(Level.INFO,"Enter The new user Name:"+"\u001B[0m");
             choice2 = scanner1.nextLine();
             editeUserName(choice2);
-            logger.log(Level.INFO,"The user name has been changed successfully"+color);
+            logger.log(Level.INFO,"The user name has been changed successfully"+"\u001B[0m");
             editAdminProfile();
         }
         else if (choice ==2) {
-            logger.log(Level.INFO,"Enter The old password:"+color);
+            logger.log(Level.INFO,"Enter The old password:"+"\u001B[0m");
             oldPass = scanner1.nextLine();
-            logger.log(Level.INFO,"Enter The new password:"+color);
+            logger.log(Level.INFO,"Enter The new password:"+"\u001B[0m");
             newPass = scanner1.nextLine();
-            logger.log(Level.INFO,"Confirm The  password:"+color);
+            logger.log(Level.INFO,"Confirm The  password:"+"\u001B[0m");
             newPassCon = scanner1.nextLine();
             editePassword(oldPass,newPass,newPassCon);
             editAdminProfile();
 
         }
         else if (choice ==3) {
-            logger.log(Level.INFO,"Enter The new Gmail:"+color);
+            logger.log(Level.INFO,"Enter The new Gmail:"+"\u001B[0m");
             choice2 = scanner1.nextLine();
             editeGmail(choice2);
-            logger.log(Level.INFO,"The Gmail has been changed successfully"+color);
+            logger.log(Level.INFO,"The Gmail has been changed successfully"+"\u001B[0m");
             editAdminProfile();
 
         }
+        else if (choice==4){
+
+        }
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+color);
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
         }
     }
 
@@ -351,15 +375,15 @@ public class Admin {
             if(truepass(newPass,newPassCon)){
                 deleteFileFunction();
                 writeToFile(getFirst()+","+getSec()+","+newPass);
-                logger.log(Level.INFO,"\u001B[35m"+"The Password has been changed successfully"+color);
+                logger.log(Level.INFO,"\u001B[35m"+"The Password has been changed successfully"+"\u001B[0m");
 
             }
             else
-                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe Two password does not match"+color);
+                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe Two password does not match"+"\u001B[0m");
 
         }
         else
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe password is incorrect"+color);
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe password is incorrect"+"\u001B[0m");
 
     }
 
@@ -407,36 +431,40 @@ public class Admin {
             raf.seek(start);
             raf.write(remainingBytes);
             raf.setLength(start + remainingBytes.length);
+            raf.close();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
     public void writeToFile(String dataToWrite){
-        RandomAccessFile file = null;
         try {
-            file = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw");
+
+
+            RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw");
+
+            // Go to the end of the file
             file.seek(file.length());
 
+            // Write the string to the file
             file.writeBytes(dataToWrite);
+
+            // Close the file
             file.close();
         }
         catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (file != null) {
-                try {
-                    file.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
 
 
     public boolean truepass (String pass, String ConfirmPass){
-        return pass.equals(ConfirmPass);
+        if(pass.equals(ConfirmPass)){
+            return true;
+        }
+        return false;
     }
 }
+
