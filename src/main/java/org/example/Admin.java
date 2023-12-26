@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 public class Admin {
     String enter ;
+private static final String FILE_PATH = "src/main/resources/Data/AdminData.txt";  
 private static final Logger logger = Logger.getLogger(Admin.class.getName());
     Order order = new Order();
 
@@ -374,7 +375,7 @@ private static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! 
     }
     public void fileFunction(){
 
-        try (RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw")) {
+        try (RandomAccessFile raf = new RandomAccessFile(FILE_PATH, "rw")) {
             String s;
             while ((s = raf.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
@@ -390,7 +391,7 @@ private static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! 
     }
     public void deleteFileFunction(){
 
-        try (RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw")) {
+        try (RandomAccessFile raf = new RandomAccessFile(FILE_PATH, "rw")) {
             long start = 0;
             long currentPos = raf.getFilePointer();
             int currentLine = -1;
@@ -419,7 +420,7 @@ private static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! 
         try {
 
 
-             file = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw");
+             file = new RandomAccessFile(FILE_PATH, "rw");
 
             // Go to the end of the file
             file.seek(file.length());
