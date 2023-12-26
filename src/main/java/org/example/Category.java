@@ -17,7 +17,8 @@ public class Category
     public int getNumberOfLine() {
         return numberOfLine;
     }
-
+    private static final String RESET_COLOR = "\u001B[0m";
+    private static final String PURPLE_BOLD = "\u001B[1m\u001B[35m";
     static Logger logger = Logger.getLogger(Registration.class.getName());
     private static final String CATEGORY_DATA_FILE_PATH = "src/main/resources/Data/categoryData.txt";
     private static final String DATA_DIRECTORY_PATH = "src/main/resources/Data/";
@@ -197,7 +198,7 @@ public class Category
         }
 
         else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
             menuCategory();
         }
 
@@ -206,7 +207,7 @@ public class Category
     public void extractedDeleteCat(String names) {
         if(isDeleteCategoryFlag()) {
             deleteThisCategory(names);
-            logger.log(Level.INFO,"\u001B[1m\u001B[35m"+"The category deletion was completed successfully"+"\u001B[0m");
+            logger.log(Level.INFO,PURPLE_BOLD+"The category deletion was completed successfully"+RESET_COLOR);
         }
 
         else
@@ -220,7 +221,7 @@ public class Category
     public void extractedAddNewCat(String names) {
         if (isAddNewCategoryFlag()){
             addThisCategory(names);
-            logger.log(Level.INFO, "\u001B[1m\u001B[35m"+"The addition was completed successfully"+"\u001B[0m");
+            logger.log(Level.INFO, PURPLE_BOLD+"The addition was completed successfully"+RESET_COLOR);
         }
         else
             logger.log(Level.WARNING,"This category is already exist!");
@@ -242,7 +243,7 @@ public class Category
     public void printAllCategory(){
         try (RandomAccessFile ref = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw")) {
             String s;
-            while ((s = ref.readLine()) != null)  logger.log(Level.INFO,"\u001B[36m"+s+"\u001B[0m");
+            while ((s = ref.readLine()) != null)  logger.log(Level.INFO,"\u001B[36m"+s+RESET_COLOR);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -270,7 +271,7 @@ public class Category
     public void extractedEditCat(String names,String newName) {
         if (isUpdateCategoryFlag()){
             editThisCategory(names,newName);
-            logger.log(Level.INFO, "\u001B[1m\u001B[35m"+"The edit was completed successfully"+"\u001B[0m");
+            logger.log(Level.INFO, PURPLE_BOLD+"The edit was completed successfully"+RESET_COLOR);
         }
         else
             logger.log(Level.WARNING,"This category does not exist!");
