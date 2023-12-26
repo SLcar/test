@@ -420,10 +420,11 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
     }
     public void writeToFile(String dataToWrite)
     {
+         RandomAccessFile file= null;
         try {
 
 
-            RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw");
+             file = new RandomAccessFile("src/main/resources/Data/AdminData.txt", "rw");
 
             // Go to the end of the file
             file.seek(file.length());
