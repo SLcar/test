@@ -19,7 +19,7 @@ public class Category
     }
     private static final String RESET_COLOR = "\u001B[0m";
     private static final String PURPLE_BOLD = "\u001B[1m\u001B[35m";
-    static Logger logger = Logger.getLogger(Registration.class.getName());
+    static Logger logger = Logger.getLogger(Category.class.getName());
     private static final String CATEGORY_DATA_FILE_PATH = "src/main/resources/Data/categoryData.txt";
     private static final String DATA_DIRECTORY_PATH = "src/main/resources/Data/";
     public boolean isAddNewCategoryFlag() {
@@ -52,15 +52,15 @@ public class Category
     private boolean updateCategoryFlag ;
 
     public String getCategoryName() {
-        return CategoryName;
+        return categoryName;
     }
 
     public void setCategoryName(String categoryName) {
-        CategoryName = categoryName;
+        this.categoryName = categoryName;
     }
 
 
-    private String CategoryName;
+    private String categoryName;
     public Category() {
         addNewCategoryFlag = false;
         deleteCategoryFlag=false;
@@ -101,14 +101,14 @@ public class Category
         }
     }
 
-    public void deleteTheCategory(String CategoryName){
+    public void deleteTheCategory(String categoryName){
         try (
                 RandomAccessFile ref = new RandomAccessFile(CATEGORY_DATA_FILE_PATH, "rw")) {
             String s;
             numberOfLine = -1;
             while ((s = ref.readLine()) != null) {
                 numberOfLine = numberOfLine +1;
-                if (s.equals(CategoryName)) {
+                if (s.equals(categoryName)) {
                     setDeleteCategoryFlag(true);
                     return;
                 }
@@ -263,7 +263,7 @@ public class Category
                 }
             }
             setUpdateCategoryFlag(false);
-            System.out.println(categoryName);
+            logger.log(Level.INFO,categoryName);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
