@@ -1,6 +1,5 @@
 package org.example;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Scanner;
@@ -21,7 +20,7 @@ public class Product {
     int count;
 
 
-
+    String enter;
     public Product() {
         categoryExistFlag =false;
         iDExistFlag =false;
@@ -93,14 +92,6 @@ public class Product {
         this.imgProduct = imgProduct;
     }
 
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
     public String getPriceProduct() {
         return priceProduct;
     }
@@ -112,9 +103,18 @@ public class Product {
     private String descriptionProduct;
     private String availability;
     private String imgProduct;
-    private int ID;
+
+    public int getID() {
+        return iD;
+    }
+
+    public void setID(int iD) {
+        this.iD = iD;
+    }
+
+    private int iD;
     private String priceProduct;
-    private boolean addProductsFlag;
+    boolean addProductsFlag;
 
 
     public void setAddProductsFlag(boolean addProductsFlag) {
@@ -127,19 +127,20 @@ public class Product {
     public void menuProduct() {
         int choice;
         Scanner scanner = new Scanner(System.in);
-        logger.info( """
+        enter ="""
 
                 \u001B[33m----------------------------------
                 |                                 |
-                |     1. Show all products        |            
+                |     1. Show all products        |           \s
                 |     2. add products             |
                 |     3. edit products            |
                 |     4. delete products          |
                 |     5. Search products          |
                 |                                 |
                 ----------------------------------
-                """);
-        logger.info( "Enter your choice: " + "\u001B[0m");
+                """;
+        logger.info( enter);
+        logger.info( getString() + getString1());
 
         choice = scanner.nextInt();
         if(choice==1)
@@ -178,6 +179,11 @@ public class Product {
             menuProduct();
         }
     }
+
+    private static String getString1() {
+        return getString2();
+    }
+
     /////////////////////////////////back/////////////////////////////////////
     public void back() {
         logger.log(Level.INFO, """
@@ -242,8 +248,8 @@ public class Product {
 
         logger.log(Level.INFO, "\u001B[35m" + "What categories of product do you want to add ?");
         printAllCategory();
-        logger.log(Level.INFO, "\u001B[36m" + "new categories" + "\u001B[0m");
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO, "\u001B[36m" + "new categories" + getString2());
+        logger.log(Level.INFO, getString() + getString2());
 
         categoryName = scanner.nextLine();
         if (categoryName.equals("new categories")) {
@@ -266,6 +272,10 @@ public class Product {
                 logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThis category does not exist."+"\u001B[0m\n");
 
         }
+    }
+
+    private static String getString2() {
+        return "\u001B[0m";
     }
 
     public void extractedIfProduct(String addOrUpdate) {
@@ -328,7 +338,7 @@ public class Product {
         {
             searchTheProductByID(categoryName,id);
             extractedPrintTheProduct();
-            deleteThisProduct(categoryName,id);
+            deleteThisProduct(categoryName);
             extractedIfProduct("updated");
         }
         else
@@ -337,7 +347,7 @@ public class Product {
     }
 
     private void extractedPrintTheProduct() {
-        logger.info("\u001B[34m The ID :\u001B[35m " +getID()+" |"
+        logger.info("\u001B[34m The ID :\u001B[35m " + getID()+" |"
                 +"\u001B[34m The Name:\u001B[35m "+getNameProduct()+" |"
                 +"\u001B[34m The Description:\u001B[35m "+getDescriptionProduct()+" |"
                 +"\u001B[34m The Price:\u001B[35m "+getPriceProduct()+"$ |"
@@ -362,7 +372,7 @@ public class Product {
             String id = scanner.nextLine();
             ifProductIdExist(categoryName,id);
             if(isiDExistFlag()) {
-                deleteThisProduct(categoryName, id);
+                deleteThisProduct(categoryName);
                 logger.log(Level.INFO, "The product deleted successfully");
             }
             else
@@ -375,7 +385,7 @@ public class Product {
     }
 
 
-    public void  deleteThisProduct(String categoryName,String id){
+    public void  deleteThisProduct(String categoryName){
         try {
             RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/"+categoryName+".txt", "rw");
             long start = 0;
@@ -388,8 +398,6 @@ public class Product {
                 currentPos = raf.getFilePointer();
                 currentLine++;
             }
-
-            // Save the rest of the file after the line to be deleted
             long end = raf.length();
             byte[] remainingBytes = new byte[(int) (end - currentPos)];
             raf.read(remainingBytes);
@@ -414,7 +422,7 @@ public class Product {
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
                 String idProduct = productInfo[4];
-                if (availability.toLowerCase().equals(idProduct.toLowerCase())) {
+                if (availability.equalsIgnoreCase(idProduct)) {
                     count=count+1;
                     ifProductNameExist2(count);
                 }
@@ -430,7 +438,7 @@ public class Product {
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
                 String idProduct = productInfo[4];
-                if (availability.toLowerCase().equals(idProduct.toLowerCase())) {
+                if (availability.equalsIgnoreCase(idProduct)) {
                     extractedStoreData(productInfo);
                 }
             }
@@ -479,19 +487,17 @@ public class Product {
                 String[] productInfo = s.split(",");
                 String productToSearch1 = productInfo[1];
                 String[] productToSearch2 =productToSearch1.split(" ");
-                if(productName.toLowerCase().equals(productToSearch1 .toLowerCase())){
+                if(productName.equalsIgnoreCase(productToSearch1)){
                     count=count+1;
                     ifProductNameExist2(count);
                 }
                 else{
                     for (String i : productToSearch2 ) {
-                        if (productName.toLowerCase().equals(i.toLowerCase())) {
+                        if (productName.equalsIgnoreCase(i)) {
                             count=count+1;
                             ifProductNameExist2(count);
                         }
                     }}}
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -506,17 +512,15 @@ public class Product {
                 String[] productInfo = s.split(",");
                 String productToSearch1 = productInfo[num];
                 String[] productToSearch2 =productToSearch1.split(" ");
-                if(productName.toLowerCase().equals(productToSearch1 .toLowerCase())){
+                if(productName.equalsIgnoreCase(productToSearch1)){
                     extractedStoreData(productInfo);
                 }
                 else{
                     for (String i : productToSearch2 ) {
-                        if (productName.toLowerCase().equals(i.toLowerCase())) {
+                        if (productName.equalsIgnoreCase(i)) {
                             extractedStoreData(productInfo);
                         }
                     }}}
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -540,19 +544,17 @@ public class Product {
                 String[] productInfo = s.split(",");
                 String productToSearch1 = productInfo[2];
                 String[] productToSearch2 =productToSearch1.split(" ");
-                if(productDescriptions.toLowerCase().equals(productToSearch1 .toLowerCase())){
+                if(productDescriptions.equalsIgnoreCase(productToSearch1)){
                     count=count+1;
                     ifProductNameExist2(count);
                 }
                 else{
                     for (String i : productToSearch2 ) {
-                        if (productDescriptions.toLowerCase().equals(i.toLowerCase())) {
+                        if (productDescriptions.equalsIgnoreCase(i)) {
                             count=count+1;
                             ifProductNameExist2(count);
                         }
                     }}}
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -563,7 +565,7 @@ public class Product {
     public void printAllCategory() {
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/categoryData.txt", "rw")) {
             String s;
-            while ((s = ref.readLine()) != null) logger.log(Level.INFO, "\u001B[36m" + s + "\u001B[0m");
+            while ((s = ref.readLine()) != null) logger.log(Level.INFO, "\u001B[36m" + s + getString2());
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -581,8 +583,6 @@ public class Product {
                 setCategoryExistFlag(false);
             }
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -603,8 +603,6 @@ public class Product {
                 }
                 setIDExistFlag(false);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -636,42 +634,42 @@ public class Product {
         int choice;
         Scanner scanner = new Scanner(System.in);
         Scanner scanner2 = new Scanner(System.in);
-
-        logger.info( """
+enter= """
 
                 \u001B[33m----------------------------------
                 |                                 |
-                |     1. ID                       |            
+                |     1. ID                       |           \s
                 |     2. name of product          |
                 |     3. descriptions of product  |
                 |     4. availability             |
                 |                                 |
                 ----------------------------------
-                """);
-        logger.info( "Enter your choice: " + "\u001B[0m");
+                """;
+        logger.info( enter);
+        logger.info( getString() + getString2());
 
         choice = scanner.nextInt();
         if(choice==1)
         {
-            logger.info( "Enter The id to search: " + "\u001B[0m");
+            logger.info( "Enter The id to search: " + getString2());
             int productID = scanner.nextInt();
             ifProductIdExist(catName, String.valueOf(productID));
             extractedSearchById(catName, productID);
         }
         else if (choice==2) {
-            logger.info( "Enter The name to search: " + "\u001B[0m");
+            logger.info( "Enter The name to search: " + getString2());
             String productName = scanner2.nextLine();
             ifProductNameExist(catName,productName);
             extractedSearchByName(catName,productName);
         }
         else if (choice==3) {
-            logger.info( "Enter The description to search: " + "\u001B[0m");
+            logger.info( "Enter The description to search: " + getString2());
             String productDescription = scanner2.nextLine();
             ifProductDescriptionsExist(catName,productDescription);
             extractedSerachByDescription(catName,productDescription);
         }
         else if (choice==4) {
-            logger.info( "Enter The (available/not available) to search: " + "\u001B[0m");
+            logger.info( "Enter The (available/not available) to search: " + getString2());
             String productAvailable = scanner2.nextLine();
             ifProductAvailabilityExist(catName,productAvailable);
             extractedSearchByAvailability(catName,productAvailable);
@@ -681,6 +679,10 @@ public class Product {
             logger.log(Level.INFO, "\u001B[1m" + "\u001B[31m" + "Invalid choice! Please enter a valid choice.\u001B[0m");
             menuProduct();
         }
+    }
+
+    private static String getString() {
+        return "Enter your choice: ";
     }
 
     public void extractedSearchById(String catName, int productID) {
