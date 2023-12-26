@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
-import java.security.SecureRandom;
+import java.util.logging.Logger;
 
 import static org.example.Registration.logger;
 
@@ -596,7 +596,7 @@ public class Order {
 
     String customerName;
 
-    public void addNewOrderToCustomer(String customerName,String idCustomer,String data)
+      public void addNewOrderToCustomer(String customerName,String idCustomer,String data)
     {
         RandomAccessFile file = null;
         RandomAccessFile fil2=null;
@@ -612,7 +612,8 @@ public class Order {
             fil2.close();
         } catch (IOException e)
         {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "An error occurred", e);
+           
         }
         finally
         {
@@ -659,7 +660,7 @@ public class Order {
         }
 
     }
-    private final SecureRandom secureRandom = new SecureRandom();
+    private final Random random = new Random();
 
     public void randomNumberGenerator() {
         long min = 1000000000L; // Minimum 10-digit number
