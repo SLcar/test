@@ -4,19 +4,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.example.Registration.logger;
 import java.security.SecureRandom;
 
 public class Installer {
     String data ;
     Order order = new Order();
     Gmail gmailSend = new Gmail();
-    public   String[] arrayOfTopic =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
-    public   String[] arrayOfMsg = {"The Installation has been confirmed","We are sorry, but the Installation Request has been canceled due to logistical restrictions beyond our store's control","Thank you for using our company"}; // Creating an array that can hold 3 strings
+    private String[] arrayOfTopic =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
+    private String[] arrayOfMsg = {"The Installation has been confirmed","We are sorry, but the Installation Request has been canceled due to logistical restrictions beyond our store's control","Thank you for using our company"}; // Creating an array that can hold 3 strings
     private String first;
     private static final Logger logger = Logger.getLogger(Installer.class.getName());
 
@@ -70,14 +68,15 @@ public class Installer {
     public void setIdInstallationFlag(boolean idInstallationFlag) {
         this.idInstallationFlag = idInstallationFlag;
     }
-    public boolean idInstallationFlag;
-    public long idInstallerRequest;
-    public String preferredDate;
-    public String preferredHour;
-    public String product;
-    public String locationInstalling;
-    public String statusInstalling;
-    public String completionDate;
+    private boolean idInstallationFlag;
+    private long idInstallerRequest;
+    private String preferredDate;
+    private String preferredHour;
+    private String product;
+    private String locationInstalling;
+    private String statusInstalling;
+    private String completionDate;
+    private static final String REQUEST_INSTALLATION_FILE_PATH = "src/main/resources/Data/requestInstallation.txt";
     ///////////////////////////installer Data /////////////
     public String getInstallerName() {
         return installerName;
@@ -91,8 +90,8 @@ public class Installer {
     public void   setInstallerAvailable(String installerAvailable) {
         this.installerAvailable = installerAvailable;
     }
-    public String installerName;
-    public String installerAvailable;
+    private String installerName;
+    private String installerAvailable;
 
     ///////////////////////////////////////////////////////////////
     ArrayList<String> listPrint = new ArrayList<>();
@@ -109,7 +108,7 @@ public class Installer {
     }
     public void ifRandomNumberGeneratorNotFound() {
 
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -155,17 +154,17 @@ public class Installer {
 
     private boolean scheduleAppointmentFlag;
     public boolean isInstallerLogin() {
-        return InstallerLogin;
+        return installerLogin;
     }
 
     public void setInstallerLogin(boolean installerLogin) {
-        this.InstallerLogin = installerLogin;
+        this.installerLogin = installerLogin;
     }
 
-    private  boolean InstallerLogin;
+    private  boolean installerLogin;
 
-    public void installer_menu(String installerName) {
-       setInstallerName(installerName);
+    public void installerMenu(String installerName) {
+        setInstallerName(installerName);
         setViewRequestsFlag(false);
         setScheduleAppointmentFlag(false);
         int choice;
@@ -188,17 +187,17 @@ public class Installer {
 
         } else {
             logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
-            installer_menu(installerName);
+            installerMenu(installerName);
         }
     }
     public void userAccountMenu(){
         if (isViewRequestsFlag()){
             showAllInstallationRequestToAdminANDInstaller("completed");
-            installer_menu(getInstallerName());
+            installerMenu(getInstallerName());
         }
         else if (isScheduleAppointmentFlag()) {
             scheduleAppointment_menu();
-            installer_menu(getInstallerName());
+            installerMenu(getInstallerName());
         }
 
     }
@@ -297,7 +296,7 @@ public class Installer {
         }
         else {
             logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
-            installer_menu(installerName);
+            installerMenu(installerName);
         }
     }
 
@@ -372,15 +371,15 @@ public class Installer {
             logger.log(Level.INFO,"Confirm The  password:"+"\u001B[0m");
             newPassCon = scanner1.nextLine();
             editePassword(oldPass,newPass,newPassCon);
-           // editAdminProfile();
+            // editAdminProfile();
 
         }
         else if (choice ==3) {
             logger.log(Level.INFO,"Enter The new Gmail:"+"\u001B[0m");
             choice2 = scanner1.nextLine();
-             editeGmail(choice2);
+            editeGmail(choice2);
             logger.log(Level.INFO,"The Gmail has been changed successfully"+"\u001B[0m");
-        //    editAdminProfile();
+            //    editAdminProfile();
 
         }
         else {
@@ -427,7 +426,7 @@ public class Installer {
     public void writeToFile(String s) {
         RandomAccessFile file=null;
         try {
-        file = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw");
+            file = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw");
             file.seek(file.length());
             file.writeBytes(s);
             file.close();
@@ -536,36 +535,36 @@ public class Installer {
 
 
     //////////////////////////////////////menu Customer Serves//////////////////////////////////
-  public void installerServicesMenu() {
-      setCompletionDate("--");
-      int choice;
-      long choice1;
-      Scanner scanner = new Scanner(System.in);
-      logger.log(Level.INFO,"\n\u001B[36m" + "----------- Installation Services ----------"+"\n"+
-              "|                                                     |\n"+
-              "|     1. Request an installation service              |\n"+
-              "|     2. View installation requests history.          |\n"+
-              "|     3. Cancel pending installation requests         |\n"+
-              "|                                                     |\n"+
-              "------------------------------------------------------\n");
-      logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
-      choice = scanner.nextInt();
-      if (choice == 1) {
-       enterDataOfRequest();
-      } else if (choice == 2) {
-         showAllInstallationRequest();
-      }
-      else if (choice == 3) {
-          showAllInstallationRequestPending();
-          logger.log(Level.INFO,"Enter the installation requests ID To Cancel it : "+"\u001B[0m");
-          setIdInstallerRequest(scanner.nextLong());
-          ifExitIdInstallerRequestPending();
-          cancelIt();
-      }
-      else {
-          logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
-      }
-  }
+    public void installerServicesMenu() {
+        setCompletionDate("--");
+        int choice;
+        long choice1;
+        Scanner scanner = new Scanner(System.in);
+        logger.log(Level.INFO,"\n\u001B[36m" + "----------- Installation Services ----------"+"\n"+
+                "|                                                     |\n"+
+                "|     1. Request an installation service              |\n"+
+                "|     2. View installation requests history.          |\n"+
+                "|     3. Cancel pending installation requests         |\n"+
+                "|                                                     |\n"+
+                "------------------------------------------------------\n");
+        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        choice = scanner.nextInt();
+        if (choice == 1) {
+            enterDataOfRequest();
+        } else if (choice == 2) {
+            showAllInstallationRequest();
+        }
+        else if (choice == 3) {
+            showAllInstallationRequestPending();
+            logger.log(Level.INFO,"Enter the installation requests ID To Cancel it : "+"\u001B[0m");
+            setIdInstallerRequest(scanner.nextLong());
+            ifExitIdInstallerRequestPending();
+            cancelIt();
+        }
+        else {
+            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
+        }
+    }
 
     public void cancelIt() {
         if(isIdInstallationFlag()){
@@ -588,8 +587,8 @@ public class Installer {
                 numberOfLine=numberOfLine+1;
                 String[] productInfo = s.split(",");
                 if(productInfo[1].equals(getIdCustomer()) && productInfo[0].equals(IdInstallation) && productInfo[9].equals("pending")){
-                   setIdInstallationFlag(true);
-                   return;
+                    setIdInstallationFlag(true);
+                    return;
                 }
                 else{
                     setIdInstallationFlag(false);
@@ -603,7 +602,7 @@ public class Installer {
         }
     }
     public void ifExitIdInstallerRequestPendingToAdmin() {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
             String s;
             String IdInstallation = String.valueOf(getIdInstallerRequest());
             while ((s = ref.readLine()) != null) {
@@ -628,7 +627,7 @@ public class Installer {
 
     public void showAllInstallationRequestToAdminANDInstaller(String status) {
         boolean dv =false;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -676,12 +675,12 @@ public class Installer {
 
     public void showAllInstallationRequest() {
         boolean dv =false;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
                 if(productInfo[1].equals(getIdCustomer())){
-                  listPrint.add(productInfo[0]);
+                    listPrint.add(productInfo[0]);
                     listPrint.add(productInfo[2]);
                     listPrint.add(productInfo[3]);
                     listPrint.add(productInfo[4]);
@@ -711,7 +710,7 @@ public class Installer {
 
     public void showAllInstallationRequestPending() {
         boolean dv =false;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -759,7 +758,7 @@ public class Installer {
     }
     ///////////////////////////////////////////////////////////////////////////////////////////
 
- ///////////////////////////////////////// enterDataOfRequest()////////////////////////////
+    ///////////////////////////////////////// enterDataOfRequest()////////////////////////////
     public void  enterDataOfRequest(){
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO,"Describe the product you need service for : "+"\u001B[0m");
@@ -792,18 +791,18 @@ public class Installer {
         return getPreferredDate().equals("Any Day") && getPreferredHour().equals("Any Time");
     }
     public boolean ifDataTrue() {
-    if((ifFilledTheProductNull() && ifFilledTheDateNull() && ifFilledTheHourNull()&&ifFilledTheLocationNull())
-            || (ifFilledTheProductNull()&& ifFilledTheAnyDayAndAnyTime()) &&ifFilledTheLocationNull())
-        return true;
+        if((ifFilledTheProductNull() && ifFilledTheDateNull() && ifFilledTheHourNull()&&ifFilledTheLocationNull())
+                || (ifFilledTheProductNull()&& ifFilledTheAnyDayAndAnyTime()) &&ifFilledTheLocationNull())
+            return true;
 
-    else
-       return false;
+        else
+            return false;
     }
 
     public void ifAnyDayAnyTime(String preferredDate,String preferredHour){
         setInstallerAvailableToCustomer(true);
 
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -827,11 +826,11 @@ public class Installer {
                         "You will be contacted via email and phone," +
                         "and the time and day will be confirmed if appropriate to the installer " + "\u001B[0m");
             }
-         else {
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The installer Not available enter Another day and Hour." + "\u001B[0m");
-            enterNewDayAndTime();
+            else {
+                logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The installer Not available enter Another day and Hour." + "\u001B[0m");
+                enterNewDayAndTime();
+            }
         }
-    }
 
         else{
             logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31m The information you entered is incomplete. Re-enter the information and fill it correctly." + "\u001B[0m");
@@ -840,26 +839,26 @@ public class Installer {
 
     }
 
-   public  void enterNewDayAndTime() {
-       Scanner scanner = new Scanner(System.in);
-       logger.log(Level.INFO,"Select the preferred date for this service like (1/1/2022) or (Any Day): "+"\u001B[0m");
-       setPreferredDate(scanner.nextLine());
-       logger.log(Level.INFO,"Select the preferred Hour of this date like (10:00 AM) or (Any Time): "+"\u001B[0m");
-       setPreferredHour(scanner.nextLine());
-       dataTrueOrNO();
+    public  void enterNewDayAndTime() {
+        Scanner scanner = new Scanner(System.in);
+        logger.log(Level.INFO,"Select the preferred date for this service like (1/1/2022) or (Any Day): "+"\u001B[0m");
+        setPreferredDate(scanner.nextLine());
+        logger.log(Level.INFO,"Select the preferred Hour of this date like (10:00 AM) or (Any Time): "+"\u001B[0m");
+        setPreferredHour(scanner.nextLine());
+        dataTrueOrNO();
     }
 
-   public void addThisInstallerRequest() {
+    public void addThisInstallerRequest() {
         RandomAccessFile file=null;
         data = getIdInstallerRequest()+","+getIdCustomer()+","+getPhoneCustomer()+","+getCustomerName()+","+getGmail()+","+getProduct()+","+getPreferredDate()+","+getPreferredHour()+","+getLocationInstalling()+","+getStatusInstalling()+","+getCompletionDate()+"\n";
         try {
-             file = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw");
+            file = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw");
             file.seek(file.length());
             file.writeBytes(data);
 
             file.close();
         } catch (IOException e) {
-           logger.log(Level.SEVERE, "An error occurred", e);
+            logger.log(Level.SEVERE, "An error occurred", e);
         }
         finally {
             if (file != null) {
@@ -923,10 +922,10 @@ public class Installer {
 
 
 
-  /////////////////////////////////////////////Data of Customer //////////////////////////////
-  public String getAddress() {
-      return address;
-  }
+    /////////////////////////////////////////////Data of Customer //////////////////////////////
+    public String getAddress() {
+        return address;
+    }
     public void setAddress(String address) {
         this.address = address;
     }
@@ -968,8 +967,8 @@ public class Installer {
     public String phoneCustomer;
     public String gmail;
     public String customerName;
- // 0              1    2          3        4    5        6          7             8               9                   10
- // id installer +id + customer + phone + name + email + product + preferred date+ preferred day+installing location + status
+    // 0              1    2          3        4    5        6          7             8               9                   10
+    // id installer +id + customer + phone + name + email + product + preferred date+ preferred day+installing location + status
     ///////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -985,13 +984,13 @@ public class Installer {
     public void checkIfDayAndHourAppropriate(String dateDay, String hour) {
         numberOfLine=-1;
         setInstallerAvailableToCustomer(true);
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 setNumberOfLine(numberOfLine+1);
                 String[] productInfo = s.split(",");
                 if(productInfo[9].equals("scheduled") && productInfo[6].equals(dateDay)&& productInfo[7].equals(hour)) {
-                         setInstallerAvailableToCustomer(false);
+                    setInstallerAvailableToCustomer(false);
                 }
             }
         }catch (FileNotFoundException e) {
@@ -1002,17 +1001,17 @@ public class Installer {
     }
 
     public void putDay(String anyDay) {
-       order.deleteOrder2("requestInstallation",getNumberOfLine());
-       checkIfDayAndHourAppropriate(anyDay,getPreferredHour());
+        order.deleteOrder2("requestInstallation",getNumberOfLine());
+        checkIfDayAndHourAppropriate(anyDay,getPreferredHour());
         dataTrueOrNO();
-      // addThisInstallerRequest();
+        // addThisInstallerRequest();
     }
 
     public void putTime(String anyTime) {
         order.deleteOrder2("requestInstallation",getNumberOfLine());
         checkIfDayAndHourAppropriate(getPreferredDate(),anyTime);
         dataTrueOrNO();
-     //   addThisInstallerRequest();
+        //   addThisInstallerRequest();
 
     }
     public void putDayAndTime(String anyDay,String time) {
@@ -1029,17 +1028,17 @@ public class Installer {
         this.changeStatus = changeStatus;
     }
     public boolean changeStatus;
-       public void changeStatus(){
+    public void changeStatus(){
         setChangeStatus(true);
-       }
+    }
     public void approvalOfTheRequestFromAdminOrInstaller(long idInstallerRequest){
         setDAta(idInstallerRequest,"pending");
         logger.log(Level.WARNING, "\u001B[1m" + "\u001B[34m Do you agree to this request? " + "\u001B[0m");
         if(yesOrNo()==1){
-           order.deleteOrder2("requestInstallation",getNumberOfLine());
-           setStatusInstalling("scheduled");
-           addThisInstallerRequest();
-           gmailSend.sendEmail(getGmail(),arrayOfTopic[0],arrayOfMsg[0]);
+            order.deleteOrder2("requestInstallation",getNumberOfLine());
+            setStatusInstalling("scheduled");
+            addThisInstallerRequest();
+            gmailSend.sendEmail(getGmail(),arrayOfTopic[0],arrayOfMsg[0]);
         }
         else {
             scheduleAppointment_menu();
@@ -1072,7 +1071,7 @@ public class Installer {
     public int numberOfLine;
     public void setDAta(long idI,String status){
         numberOfLine=-1;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
             String s;
             String id = String.valueOf(idI);
             while ((s = ref.readLine()) != null) {
