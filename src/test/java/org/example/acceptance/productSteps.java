@@ -89,7 +89,6 @@ public class productSteps {
         Assert.assertEquals(false,product.isiDExistFlag());
 
     }
-
     @Then("all product category shown")
     public void all_product_category_shown() {
         product.ifCategoryExist(product.getCategoryName());
