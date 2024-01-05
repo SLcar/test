@@ -41,8 +41,8 @@ public class productSteps {
     public void admin_can_add_product() {
         product.ifCategoryExist(product.getCategoryName());
         product.ifProductIdExist(product.getCategoryName(), String.valueOf(product.getID()));
-        Assert.assertEquals(true,product.isCategoryExistFlag());
-        Assert.assertEquals(false,product.isiDExistFlag());
+        Assert.assertTrue(product.isCategoryExistFlag());
+        Assert.assertFalse(product.isiDExistFlag());
     }
 
     @Then("admin can't add product")
