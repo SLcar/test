@@ -2,7 +2,7 @@ Feature: Product Category Management
 
   ################################### Add ##################################################
   Scenario: admin can add product
-    Given the productId is "0000"
+    Given the productId is "-1"
     And the productName is "The hood"
     And the Description is "BMW E46 2009"
     And the price is "350₪"

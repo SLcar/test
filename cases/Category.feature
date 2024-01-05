@@ -8,18 +8,19 @@ Feature: Category Management
     Given The Name of Category is "Exterior"
     Then  Admin can't add Category
 
+  Scenario: Admin can edit the name of category
+    Given The Name of Category is "New"
+    Then  The Admin can edit name of Category
+
+  Scenario: Admin can't edit the name of category because not found to edit
+    Given The Name of Category is "rrr"
+    Then  The Admin can't edit name of Category
+
   Scenario: Admin can delete category
-    Given The Name of Category is "Exterior"
+    Given The Name of Category is "New"
     Then  The Admin can delete this Category
 
   Scenario: Admin enter category not exist to delete
     Given The Name of Category is "rrr"
     Then  the Admin can't delete Category
 
-  Scenario: Admin can edit the name of category
-    Given The Name of Category is "Exterior"
-    Then  The Admin can edit name of Category
-
-  Scenario: Admin can't edit the name of category because not found to edit
-    Given The Name of Category is "rrr"
-    Then  The Admin can't edit name of Category
