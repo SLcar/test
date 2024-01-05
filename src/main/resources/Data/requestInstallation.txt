@@ -3,3 +3,4 @@
 1401988805,22,059422,noor,s12029704@stu.najah.edu,BMW /2020,1/1/2023,10 Am,Nablus - Rafedia street- Hijawi buldings - ground floor,scheduled,--
 9330350707,22,059422,noor,s12029704@stu.najah.edu,wa,Any Day,10 Am,dd,completed,--
 1401988801,24,059422,noor,s12029704@stu.najah.edu,BMW /2020,3/2/2023,8 Am,Nablus - Rafedia street- Hijawi buldings - ground floor,completed,3/2/2023
+9016732031,234422,5942245,Aseel Abusair,aseelass@hotmail.com,xxx,1/1/2023,10 bm,22,pending,--
