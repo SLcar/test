@@ -139,7 +139,7 @@ public class Registration {
             String dD =getName()+"," +getEmail() + "," + getPassword() + "," + getComPassword() + "," + getId()+","+getPhone()+"\n";
             storeDataToFile(dD);
             logger.log(Level.INFO,"The registration process was completed successfully ");
-            ob1.loginMenu();
+           // ob1.loginMenu();
         }
     }
     public void returnEnterPass(Registration ob ){
@@ -154,7 +154,8 @@ public class Registration {
             storeDataToFile(dD);
             logger.log(Level.INFO,"The registration process was completed successfully\n");
 
-            ob1.loginMenu();}
+           // ob1.loginMenu();
+            }
         else {
             returnEnterPass(this);
         }

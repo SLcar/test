@@ -11,24 +11,37 @@ public class SignIn {
     }
 
     private int numberOfLine;
-    private String adminMenu;
-    private String customerName;
+
+    public String getAdminMenuName() {
+        return adminMenuName;
+    }
+
+    public void setAdminMenuName(String adminMenuName) {
+        this.adminMenuName = adminMenuName;
+    }
+    public String adminMenuName;
+    public String customerName;
     Admin admin = new Admin();
     Customer customer = new Customer();
     Installer installer = new Installer();
     static Logger logger = Logger.getLogger(Registration.class.getName());
     private Scanner scanner;
-    private  String installerName;
+    public   String installerName;
     private String name;
     private String email;
     private String password;
     private String TrueEmail;
     private String TruePassword;
-    private int theUser;
+
+    public void setTheUser(int theUser) {
+        this.theUser = theUser;
+    }
+
+    private  int theUser;
     private int id;
-    private boolean adminloged;
-    private boolean customerLogin;
-    private boolean installerLogin;
+    public boolean adminloged;
+    public boolean customerLogin;
+    public boolean installerLogin;
 
     public boolean getCustomerLogin() {
         return customerLogin;
@@ -51,9 +64,6 @@ public class SignIn {
         return theUser;
     }
 
-    public void setTheUser(int theUser) {
-        this.theUser = theUser;
-    }
 
 
     public void AdminInInSystem(){
@@ -156,7 +166,6 @@ public class SignIn {
                 }
             }
             logger.log(Level.WARNING,"Customer Email is Wrong! Try Again");
-             whoIsLogin();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -173,7 +182,6 @@ public class SignIn {
 
                 if (TrueEmail.equals(email) && !TruePassword.equals(password)) {
                     logger.log(Level.WARNING,"Customer password is Wrong! Try Again ");
-                    whoIsLogin();
                     return;
                 }
             }
@@ -191,7 +199,7 @@ public class SignIn {
                 while ((s = ref.readLine()) != null) {
 
                     String[] loginCustomer = s.split(",");
-                    adminMenu = loginCustomer[0];
+                    setAdminMenuName(loginCustomer[0]);
                     TrueEmail = loginCustomer[1];
                     TruePassword = loginCustomer[2];
 
@@ -227,7 +235,6 @@ public class SignIn {
                     }
                 }
                 logger.log(Level.WARNING,"Admin Email is Wrong! Try Again");
-                whoIsLogin();
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -246,7 +253,6 @@ public class SignIn {
 
                     if (TrueEmail.equals(email) && !TruePassword.equals(password)) {
                         logger.log(Level.WARNING,"Admin password is Wrong! Try Again ");
-                        whoIsLogin();
                         return;
                     }
                 }
@@ -297,7 +303,6 @@ public class SignIn {
                     }
                 }
                 logger.log(Level.WARNING,"installer Email is Wrong! Try Again");
-                whoIsLogin();
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -313,7 +318,6 @@ public class SignIn {
 
                     if (TrueEmail.equals(enterEmail) && !TruePassword.equals(enterPassword)) {
                         logger.log(Level.WARNING,"installer password is Wrong! Try Again ");
-                        whoIsLogin();
                         return;
                     }
                 }
@@ -336,60 +340,5 @@ public class SignIn {
             return scanner.nextLine();
         }
 
-        public void loginMenu (){
-            int  choice1 ;
-            Scanner scanner1 = new Scanner(System.in);
-            logger.log(Level.INFO, "\n\u001B[36m------ Welcome to login Page ------"+"\n"+
-                    "|                                |\n" +
-                    "|          1. Admin              |\n"+
-                    "|          2. Custumor           |\n"+
-                    "|          3. Installer          |\n"+
-                    "|                                |\n"+
-                    "----------------------------------\n");
-            logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
-            choice1 = scanner1.nextInt();
-            if (choice1 == 1){
-                setTheUser(1);
-                whoIsLogin();
-            }
-            else if (choice1 ==2){
-                setTheUser(2);
-                whoIsLogin();
-            }
-            else if (choice1==3) {
-                setTheUser(3);
-                whoIsLogin();
 
-            }
-            else{
-                logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.");
-            }
-        }
-
-        public void whoIsLogin(){
-            if(getTheUser() == 1){
-                String enterEmail = enterEmail();
-                String enterPassword = enterPass();
-                AdminLogin(enterEmail,enterPassword);
-                if (adminloged)
-                    admin.adminMenu(adminMenu);
-            }
-
-            else if (getTheUser() == 2) {
-                String enterEmail = enterEmail();
-                String enterPassword = enterPass();
-                customerIslLogin(enterEmail,enterPassword);
-                if(customerLogin) {
-                    customer.Customer_menu(customerName);
-                    customer.setTheCustomerIs(getNumberOfLine());
-                }
-            }   else if (getTheUser() == 3) {
-                String enterEmail = enterEmail();
-                String enterPassword = enterPass();
-                installerIsLogin(enterEmail,enterPassword);
-                if(installerLogin)
-                    installer.installer_menu(installerName);
-            }
-
-        }
-    }
+   }

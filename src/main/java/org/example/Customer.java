@@ -250,7 +250,7 @@ public class Customer {
         choice = scanner.nextInt();
         if (choice == 1) {
             ShowTheProduct();
-
+            product.printAllCategory();
         } else if (choice == 2) {
             searchOfProduct();
         }
@@ -261,7 +261,6 @@ public class Customer {
 
     private void ShowTheProduct() {
         Scanner scanner = new Scanner(System.in);
-        product.printAllCategory();
         logger.log(Level.INFO,"Enter The name of category");
         String nameCato= getTheNameOfCat(scanner);
         product.ifCategoryExist(nameCato);
@@ -294,8 +293,6 @@ public class Customer {
 
 
     public void menuCustomerAdmin() {
-        int choice;
-        Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO,"\n\u001B[33m"+"----- Manage Customer Accounts -----"+"\n"+
                 "|                                    |\n" +
                 "|     1. View customer accounts.     |\n"+
@@ -304,23 +301,8 @@ public class Customer {
                 "|                                    |\n"+
                 "-------------------------------------\n");
         logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            printCustomerAccount();
-        } else if (choice == 2) {
-            addNewCustomer();
-        } else if (choice == 3) {
-
-        } else {
-            logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mInvalid choice! Please enter a valid choice."+"\u001B[0m");
-        }
     }
-   public void printCustomerAccount(){
 
-    }
-public void addNewCustomer(){
-
-}
     private void settingMenu() {
         int choice;
         Scanner scanner = new Scanner(System.in);

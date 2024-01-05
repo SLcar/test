@@ -223,7 +223,7 @@ public class Product
         editProductsMenu();
 
     }
-    private void addNewProducts() {
+    public void addNewProducts() {
         newAddProductMenu();
     }
 
@@ -308,11 +308,8 @@ public class Product
             logger.log(Level.INFO, "The product " + addOrUpdate + " successfully");
             setAddProductsFlag(true);
         } catch (IOException e) {
-            // Handle the exception if needed
             logger.log(Level.SEVERE, "An error occurred", e);
         } finally {
-            // No need to check if file is null, try-with-resources automatically handles it
-            // The file will be closed even if an exception occurs
             setAddProductsFlag(false);
         }
     }

@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 public class Admin {
     String enter ;
-private static final String FILE_PATH = "src/main/resources/Data/AdminData.txt";  
-private static final Logger logger = Logger.getLogger(Admin.class.getName());
+public static final String FILE_PATH = "src/main/resources/Data/AdminData.txt";
+public static final Logger logger = Logger.getLogger(Admin.class.getName());
     Order order = new Order();
 
     public String getFirst() {
@@ -63,9 +63,9 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
         this.userAccountsFlag = userAccountsFlag;
     }
 
-    private boolean productsFlag;
-    private boolean categoriesFlag;
-    private boolean userAccountsFlag;
+    public boolean productsFlag;
+    public boolean categoriesFlag;
+    public boolean userAccountsFlag;
 
     public void setOrderCustomerFlag(boolean orderCustomerFlag) {
         this.orderCustomerFlag = orderCustomerFlag;
@@ -75,12 +75,8 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
         this.installationRequestsFlag = installationRequestsFlag;
     }
 
-    private boolean orderCustomerFlag;
-    private boolean installationRequestsFlag;
-    Product product = new Product();
-    Category category = new Category();
-    Customer customer = new Customer();
-    Installer installer =new Installer();
+    public boolean orderCustomerFlag;
+    public boolean installationRequestsFlag;
     public Admin() {
         adminLogin = true;
         productsFlag=false;
@@ -109,103 +105,20 @@ private static final Logger logger = Logger.getLogger(Admin.class.getName());
     }
 
     String adminName;
-    public void adminMenu(String adminName) {
-    setProductsFlag(false);
-    setCategoriesFlag(false);
-    setUserAccountsFlag(false);
-    setOrderCustomerFlag(false);
-    setInstallationRequestsFlag(false);
-    setAdminName(adminName);
-
-    String menu = "\n\u001B[37m" + "----------  Welcome " + adminName + " -------" + "\n" +
-            "|    1. Manage products                  |\n" +
-            "|    2. Manage categories                |\n" +
-            "|    3. Manage user accounts.            |\n" +
-            "|    4. Manage order Customer.           |\n" +
-            "|    5. Manage Installation Requests     |\n" +
-            "------------------------------------------\n";
-
-    logger.log(Level.INFO, menu);
-    logger.log(Level.INFO, getMsg());
-
-    int choice;
-    Scanner scanner = new Scanner(System.in);
-    choice = scanner.nextInt();
-
-    switch (choice) {
-        case 1:
-            productsFlag = true;
-            break;
-        case 2:
-            categoriesFlag = true;
-            break;
-        case 3:
-            userAccountsFlag = true;
-            break;
-        case 4:
-            orderCustomerFlag = true;
-            break;
-        case 5:
-            installationRequestsFlag = true;
-            break;
-        default:
-            logger.log(Level.WARNING, String.format("%s%s%s", COLOR_2, INVALID_CHOICE_MESSAGE, COLOR));
-            adminMenu(adminName);
-            return;
-    }
-
-    userAccountMenu();
-}
 
 
-    private static final String COLOR = "\u001B[0m";
-    public void userAccountMenu(){
-        if (productsFlag) product.menuProduct();
-        else if (categoriesFlag) category.menuCategory();
-        else if (userAccountsFlag) menuManageAccountUser();
-        else if (orderCustomerFlag) menuOrderCustomer();
-        else if (installationRequestsFlag) installer.installer_menu(getAdminName());
-    }
-    public void menuOrderCustomer(){
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        enter="""
 
-                \u001B[34m----- Manage Order Customer -----
-                |     1. Show All Order         |
-                |     2. edit Customer Order    |
-                |     3. back                   |
-                ---------------------------------n""";
-        logger.log(Level.INFO, enter);
-        logger.log(Level.INFO, getMsg());
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            order.viewAllOrderToAdmin();
-            menuOrderCustomer();
-        }
-        else if (choice ==2) {
-            enterData();
-            menuOrderCustomer();
-        }
-        else if (choice ==3) {
-            adminMenu(getAdminName());}
+    public static final String COLOR = "\u001B[0m";
 
-        else {
-            logger.log(Level.WARNING, COLOR_2 + INVALID_CHOICE_MESSAGE + COLOR);
-            menuOrderCustomer();
-        }
+    public static final String COLOR_2 = "\u001B[1m";
 
-    }
+public static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! Please enter a valid choice.\u001B[0m";
 
-    private static final String COLOR_2 = "\u001B[1m";
-
-private static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! Please enter a valid choice.\u001B[0m";
-
-    private static String getMsg() {
+    public static String getMsg() {
         return "Enter your choice: " + COLOR;
     }
 
-    private void enterData() {
+    public void enterData() {
         Scanner scanner4 = new Scanner(System.in);
         int choice;
         logger.log(Level.INFO,"Enter The Number Of Order: "+ COLOR);
@@ -239,59 +152,27 @@ private static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! 
 
             } else {
                 logger.log(Level.WARNING, COLOR_2 +INVALID_CHOICE_MESSAGE +"\u001B[0m\n");
-                menuOrderCustomer();
+                //menuOrderCustomer();
             }
 
             order.editTheOrder(order.getStatusOrder());
-            menuOrderCustomer();
+            //menuOrderCustomer();
 
 
         }
 
         else{
             logger.log(Level.WARNING, COLOR_2 + "\u001B[31m The order Not Found" + COLOR);
-            menuOrderCustomer();
+           // menuOrderCustomer();
         }
     }
 
-    private static String getDelivered() {
+    public static String getDelivered() {
         return "delivered";
     }
 
 
-    public void menuManageAccountUser(){
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        enter="""
 
-                \u001B[34m----- Manage user -----
-                |     1. Admin         |
-                |     2. Customer      |
-                |     3. Installer     |
-                |     4. Back          |
-                -----------------------
-                """;
-        logger.log(Level.INFO, enter);
-        logger.log(Level.INFO, getMsg());
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            editAdminProfile();
-        }
-        else if (choice ==2) {
-            customer.menuCustomerAdmin();
-        }
-        else if (choice ==3) {
-            installer.menuInstallerAdmin();
-        }
-        else if (choice ==4) {
-            adminMenu(getAdminName());
-        }
-        else {
-            logger.log(Level.WARNING, COLOR_2 + INVALID_CHOICE_MESSAGE + COLOR);
-            menuManageAccountUser();
-        }
-
-    }
 
     public void editAdminProfile(){
         int choice;
@@ -344,13 +225,13 @@ private static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! 
         }
     }
 
-    private void editeGmail(String choice2) {
+    public void editeGmail(String choice2) {
         fileFunction();
         deleteFileFunction();
         writeToFile(getFirst()+","+choice2+","+getThird());
 
     }
-    private void editePassword(String oldPass, String newPass, String newPassCon) {
+    public void editePassword(String oldPass, String newPass, String newPassCon) {
         fileFunction();
         if(truepass(oldPass,getThird())){
             if(truepass(newPass,newPassCon)){
@@ -368,7 +249,7 @@ private static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! 
 
     }
 
-    private void editeUserName(String choice2) {
+    public void editeUserName(String choice2) {
         fileFunction();
         deleteFileFunction();
         writeToFile(choice2+","+getSec()+","+getThird());
