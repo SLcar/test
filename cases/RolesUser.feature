@@ -14,6 +14,11 @@ Feature: User Roles
     When  The admin enter "3"
     Then  The Admin able to create, edit, or delete user accounts
 
+  Scenario: The Admin can manages his profile
+    Given The admin is logged into the system
+    When  The Admin edit the email,password,userName;
+    Then  The Data of Admin edit
+
   Scenario: The Admin enter number not found
     Given The admin is logged into the system
     When  The admin enter "6"
@@ -34,7 +39,14 @@ Feature: User Roles
     When  The Customer enter "3"
     Then  The Customer able to view orders
 
+
   Scenario: The Customer enter number not found
     Given The Customer is logged into the system
     When  The Customer enter "6"
     Then  The Customer should be enter one ,two,or three
+
+  Scenario: The Customer can manages his profile
+    Given The Customer is logged into the system
+    When  The Customer edit the email,password,phone,address;
+    Then  The data of customer edit
+
