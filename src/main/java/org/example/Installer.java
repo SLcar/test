@@ -89,14 +89,7 @@ public class Installer {
     public void   setInstallerName(String setInstallerName) {
         this.installerName = setInstallerName;
     }
-    public String getInstallerAvailable() {
-        return installerAvailable;
-    }
-    public void   setInstallerAvailable(String installerAvailable) {
-        this.installerAvailable = installerAvailable;
-    }
     private String installerName;
-    private String installerAvailable;
 
     ///////////////////////////////////////////////////////////////
     ArrayList<String> listPrint = new ArrayList<>();
@@ -157,16 +150,13 @@ public class Installer {
         this.scheduleAppointmentFlag = scheduleAppointmentFlag;
     }
 
-    private boolean scheduleAppointmentFlag;
-    public boolean isInstallerLogin() {
-        return installerLogin;
-    }
+    public boolean scheduleAppointmentFlag;
+    public boolean installerLogin;
 
     public void setInstallerLogin(boolean installerLogin) {
         this.installerLogin = installerLogin;
     }
 
-    private  boolean installerLogin;
 
     public void installer_menu(String installerName) {
         setInstallerName(installerName);
@@ -213,7 +203,6 @@ public class Installer {
         setCompletionDate("--");
         int choice;
         Scanner scanner = new Scanner(System.in);
-        long id;
         logger.log(Level.INFO,"\n\u001B[36m" + "--------------- appointment scheduling ---------------"+"\n"+
                 "|                                                           |\n"+
                 "|     1. Approval of the request and sending an email.      |\n"+
@@ -476,25 +465,11 @@ public class Installer {
     public String getFirst() {
         return first;
     }
-
-    public void setFirst(String first) {
-        this.first = first;
-    }
-
     public String getSec() {
         return sec;
     }
-
-    public void setSec(String sec) {
-        this.sec = sec;
-    }
-
     public String getThird() {
         return third;
-    }
-
-    public void setThird(String third) {
-        this.third = third;
     }
 
     public String sec;
