@@ -135,7 +135,7 @@ public class Installer {
         return viewRequestsFlag;
     }
 
-    public void setViewRequestsFlag(boolean viewRequestsFlag) {
+    public static void setViewRequestsFlag(boolean viewRequestsFlag) {
         Installer.viewRequestsFlag = viewRequestsFlag;
     }
 
@@ -145,13 +145,13 @@ public class Installer {
         return scheduleAppointmentFlag;
     }
 
-    public void setScheduleAppointmentFlag(boolean scheduleAppointmentFlag) {
+    public static void setScheduleAppointmentFlag(boolean scheduleAppointmentFlag) {
         Installer.scheduleAppointmentFlag = scheduleAppointmentFlag;
     }
 
     public static boolean scheduleAppointmentFlag,installerLogin;
 
-    public void setInstallerLogin(boolean installerLogin) {
+    public  static void setInstallerLogin(boolean installerLogin) {
         Installer.installerLogin = installerLogin;
     }
 
@@ -163,7 +163,7 @@ public class Installer {
         return changeTimeOrHour;
     }
 
-    public void setChangeTimeOrHour(boolean changeTimeOrHour) {
+    public static void setChangeTimeOrHour(boolean changeTimeOrHour) {
         Installer.changeTimeOrHour = changeTimeOrHour;
     }
 
@@ -630,7 +630,7 @@ public class Installer {
 
 
 
-    public void setAddress(String address) {
+    public static void setAddress(String address) {
         Installer.address = address;
     }
 
@@ -638,7 +638,7 @@ public class Installer {
         return idCustomer;
     }
 
-    public void setIdCustomer(String idCustomer) {
+    public static void setIdCustomer(String idCustomer) {
         Installer.idCustomer = idCustomer;
     }
 
@@ -646,7 +646,7 @@ public class Installer {
         return phoneCustomer;
     }
 
-    public void setPhoneCustomer(String phoneCustomer) {
+    public static void setPhoneCustomer(String phoneCustomer) {
         Installer.phoneCustomer = phoneCustomer;
     }
 
@@ -654,7 +654,7 @@ public class Installer {
         return gmail;
     }
 
-    public void setGmail(String gmail) {
+    public static void setGmail(String gmail) {
         Installer.gmail = gmail;
     }
 
@@ -668,7 +668,7 @@ public class Installer {
     public static String address,idCustomer,phoneCustomer,gmail,customerName;
 
 
-    public void setInstallerAvailableToCustomer(boolean installerAvailableToCustomer) {
+    public  void setInstallerAvailableToCustomer(boolean installerAvailableToCustomer) {
         this.installerAvailableToCustomer = installerAvailableToCustomer;
     }
     public  boolean installerAvailableToCustomer;
