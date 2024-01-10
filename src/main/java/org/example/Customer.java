@@ -130,7 +130,7 @@ public class Customer {
     public void ShowTheProduct(String nameCato) {
         product.ifCategoryExist(nameCato);
         if (product.isCategoryExistFlag()){
-            product.printAllProductAndCategories(nameCato);} else {logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31mThis category does not exist." + "\u001B[0m\n");}
+            product.printAllProductAndCategories(nameCato);} else {logger.log(Level.WARNING, "This category does not exist.");}
     }
 
     public void whatCustomerEnter(String customerChoice) {
@@ -204,16 +204,16 @@ public final void setTheCustomerIs(int numberOfLineCustomer){
                 String data = getUserName() + "," + getGmail() + "," + newPass + "," + getAddress() + "," + getId() + "," + getPhone() + "\n";
                 writeToFile(data, "custumorData");
                 searchTheCustomerNewLine();
-                logger.log(Level.INFO, "\u001B[35m" + "The Password has been changed successfully" + "\u001B[0m");
+                logger.log(Level.INFO, "The Password has been changed successfully");
 
             }
             else
-                logger.log(Level.WARNING,"\u001B[1m"+"\u001B[31mThe Two password does not match"+"\u001B[0m");
+                logger.log(Level.WARNING,"The Two password does not match");
 
         }
 
         else
-            logger.log(Level.WARNING, "\u001B[1m" + "\u001B[31mThe password is incorrect" + "\u001B[0m");
+            logger.log(Level.WARNING, "The password is incorrect");
 
 }
 
