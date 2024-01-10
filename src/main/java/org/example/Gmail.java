@@ -1,18 +1,8 @@
-package org.example;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+package org.example; import javax.mail.*; import javax.mail.internet.InternetAddress; import javax.mail.internet.MimeMessage; import java.util.Properties;import java.util.logging.Level; import java.util.logging.Logger;
 public class Gmail {
     private static final Logger logger = Logger.getLogger(Gmail.class.getName());
     public void sendEmail(String to,String topicName,String msg ) {
         String from = "samaabusair12@gmail.com";
-     //   String to = "s12029704@stu.najah.edu";
-
         try {
             Properties properties = System.getProperties();
             properties.put("mail.smtp.host", "smtp.gmail.com");
@@ -35,8 +25,4 @@ public class Gmail {
             Transport.send(message);
         } catch (MessagingException m) {
             logger.log(Level.SEVERE, "An error occurred", m);
-        }
-
-
-    }
-}
+        }}}

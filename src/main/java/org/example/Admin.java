@@ -96,10 +96,6 @@ public static final String INVALID_CHOICE_MESSAGE = "\u001B[31mInvalid choice! P
     public static String getDelivered = "delivered";
 
 
-
-
-
-
     public void editeGmail(String choice2) {
         fileFunction();
         deleteFileFunction();

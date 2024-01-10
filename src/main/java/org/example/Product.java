@@ -140,17 +140,13 @@ public class Product
         return scanner.next();
     }
 
-    public void deleteProducts() {
-        deleteProductsMenu();
-    }
 
-    public void editProducts() {
-        editProductsMenu();
 
-    }
-    public void addNewProducts() {
-        newAddProductMenu();
-    }
+
+
+
+
+
 
     public void enterDataOfProduct() {
         int available;

@@ -1,6 +1,5 @@
 package org.example;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -12,58 +11,58 @@ import java.security.SecureRandom;
 public class Installer {
     String data ;
     Order order = new Order();
-    Gmail gmailSend = new Gmail();
+
    public String[] arrayOfTopic =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
     public String[] arrayOfMsg = {"The Installation has been confirmed","We are sorry, but the Installation Request has been canceled due to logistical restrictions beyond our store's control","Thank you for using our company"}; // Creating an array that can hold 3 strings
-    private String first;
-    private static final Logger logger = Logger.getLogger(Installer.class.getName());
-    private static final String ENTER_CHOICE_MESSAGE = "Enter your choice: ";
-    private static final String LINE_SEPARATOR = "|                                  |";
-    private static final String BOLD = "\u001B[1m";
-    private static final String RESET_COLOR = "\u001B[0m";
+    public String first;
+    public static final Logger logger = Logger.getLogger(Installer.class.getName());
+    public static final String ENTER_CHOICE_MESSAGE = "Enter your choice: ";
+    public static final String LINE_SEPARATOR = "|                                  |";
+    public static final String BOLD = "\u001B[1m";
+    public static final String RESET_COLOR = "\u001B[0m";
 
 
     public long getIdInstallerRequest() {
         return idInstallerRequest;
     }
-    public void setIdInstallerRequest(long idInstallerRequest) {
-        this.idInstallerRequest = idInstallerRequest;
+    public static void setIdInstallerRequest(long idInstallerRequest) {
+        Installer.idInstallerRequest = idInstallerRequest;
     }
     public String getPreferredDate() {
         return preferredDate;
     }
     public void setPreferredDate(String preferredDate) {
-        this.preferredDate = preferredDate;
+        Installer.preferredDate = preferredDate;
     }
     public String getPreferredHour() {
         return preferredHour;
     }
     public void setPreferredHour(String preferredHour) {
-        this.preferredHour = preferredHour;
+        Installer.preferredHour = preferredHour;
     }
     public String getLocationInstalling() {
         return locationInstalling;
     }
     public void setLocationInstalling(String locationInstalling) {
-        this.locationInstalling = locationInstalling;
+        Installer.locationInstalling = locationInstalling;
     }
     public String getProduct() {
         return product;
     }
     public void setProduct(String product) {
-        this.product = product;
+        Installer.product = product;
     }
     public String getStatusInstalling() {
         return statusInstalling;
     }
     public void setStatusInstalling(String statusInstalling) {
-        this.statusInstalling = statusInstalling;
+        Installer.statusInstalling = statusInstalling;
     }
     public String getCompletionDate() {
         return completionDate;
     }
     public void setCompletionDate(String completionDate) {
-        this.completionDate = completionDate;
+        Installer.completionDate = completionDate;
     }
 
     public boolean isIdInstallationFlag() {
@@ -71,31 +70,31 @@ public class Installer {
     }
 
     public void setIdInstallationFlag(boolean idInstallationFlag) {
-        this.idInstallationFlag = idInstallationFlag;
+        Installer.idInstallationFlag = idInstallationFlag;
     }
-    private boolean idInstallationFlag;
-    private long idInstallerRequest;
-    private String preferredDate;
-    private String preferredHour;
-    private String product;
-    private String locationInstalling;
-    private String statusInstalling;
-    private String completionDate;
-    private static final String REQUEST_INSTALLATION_FILE_PATH = "src/main/resources/Data/requestInstallation.txt";
-    ///////////////////////////installer Data /////////////
+    public static boolean idInstallationFlag;
+    public static long idInstallerRequest;
+    public static String preferredDate,preferredHour,product,locationInstalling,statusInstalling,completionDate;
+    public static final String REQUEST_INSTALLATION_FILE_PATH = "src/main/resources/Data/requestInstallation.txt";
     public String getInstallerName() {
         return installerName;
     }
     public void   setInstallerName(String setInstallerName) {
-        this.installerName = setInstallerName;
+        installerName = setInstallerName;
     }
-    private String installerName;
+    public static String installerName;
+    public ArrayList<String> listPrint = new ArrayList<>();
 
-    ///////////////////////////////////////////////////////////////
-    ArrayList<String> listPrint = new ArrayList<>();
+    public boolean isTheDataCancel() {
+        return theDataCancel;
+    }
 
+    public void setTheDataCancel(boolean theDataCancel) {
+        Installer.theDataCancel = theDataCancel;
+    }
 
-    private final SecureRandom secureRandom = new SecureRandom();
+    public static boolean theDataCancel;
+    public  static final SecureRandom secureRandom = new SecureRandom();
 
     public void randomNumberGenerator() {
         long min = 1000000000L; // Minimum 10-digit number
@@ -137,251 +136,49 @@ public class Installer {
     }
 
     public void setViewRequestsFlag(boolean viewRequestsFlag) {
-        this.viewRequestsFlag = viewRequestsFlag;
+        Installer.viewRequestsFlag = viewRequestsFlag;
     }
 
-    private boolean  viewRequestsFlag;
+    public  static boolean  viewRequestsFlag;
 
     public boolean isScheduleAppointmentFlag() {
         return scheduleAppointmentFlag;
     }
 
     public void setScheduleAppointmentFlag(boolean scheduleAppointmentFlag) {
-        this.scheduleAppointmentFlag = scheduleAppointmentFlag;
+        Installer.scheduleAppointmentFlag = scheduleAppointmentFlag;
     }
 
-    public boolean scheduleAppointmentFlag;
-    public boolean installerLogin;
+    public static boolean scheduleAppointmentFlag,installerLogin;
 
     public void setInstallerLogin(boolean installerLogin) {
-        this.installerLogin = installerLogin;
+        Installer.installerLogin = installerLogin;
     }
 
 
-    public void installer_menu(String installerName) {
-        setInstallerName(installerName);
-        setViewRequestsFlag(false);
-        setScheduleAppointmentFlag(false);
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO, """
-                \u001B[35m------- Welcome  %s  ------
-                %s
-                |     1. Send new day and hour.    |
-                |     2. Change day.               |
-                |     3. Change Hour.              |
-                %s
-                 ----------------------------------
-                """.formatted(installerName, LINE_SEPARATOR, LINE_SEPARATOR));
-        logger.log(Level.INFO, ENTER_CHOICE_MESSAGE + "\u001B[37m");
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            setViewRequestsFlag(true);
-            userAccountMenu();
-        } else if (choice == 2) {
-            setScheduleAppointmentFlag(true);
-            userAccountMenu();
-        } else {
-            logger.log(Level.WARNING, BOLD + "\u001B[31mInvalid choice! Please enter a valid choice." + RESET_COLOR);
-            installer_menu(installerName);
-        }
-        // Uncovered code
-    }
-    public void userAccountMenu(){
-        if (isViewRequestsFlag()){
-            showAllInstallationRequestToAdminANDInstaller("completed");
-            installer_menu(getInstallerName());
-        }
-        else if (isScheduleAppointmentFlag()) {
-            scheduleAppointment_menu();
-            installer_menu(getInstallerName());
-        }
-
-    }
-
-    public void scheduleAppointment_menu(){
-        setCompletionDate("--");
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n\u001B[36m" + "--------------- appointment scheduling ---------------"+"\n"+
-                "|                                                           |\n"+
-                "|     1. Approval of the request and sending an email.      |\n"+
-                "|     2. The installer is not available.                    |\n"+
-                "|     3. Cancelling installation requests.                  |\n"+
-                "|     4. Completion of the request.                         |\n"+
-                "|     5. View scheduled and incomplete requests.            |\n"+
-                "|                                                           |\n"+
-                "-------------------------------------------------------------\n");
-        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+"\u001B[0m");
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            showAllInstallationRequestToAdminANDInstaller("pending");
-            enterID();
-            approvalOfTheRequestFromAdminOrInstaller(getIdInstallerRequest());
-        } else if (choice == 2) {
-            showAllInstallationRequestToAdminANDInstaller("pending");
-            enterID();
-            setDAta(getIdInstallerRequest(),"pending");
-            sendEmailNewDayHour();
-        }
-        else if (choice == 3) {
-            showAllInstallationRequestToAdminANDInstaller("pending");
-            enterID();
-            setDAta(getIdInstallerRequest(),"pending");
-            order.deleteOrder2("requestInstallation",getNumberOfLine());
-            gmailSend.sendEmail(getGmail(),arrayOfTopic[2],arrayOfMsg[1]);
-            logger.log(Level.INFO, BOLD + "\u001B[35m Cancelling installation requests successfully" + RESET_COLOR);
-
-        }
-        else if (choice ==4) {
-            showAllInstallationRequestToAdminANDInstaller("scheduled");
-            enterID();
-            setDAta(idInstallerRequest,"scheduled");
-            logger.log(Level.WARNING, BOLD + "\u001B[33m Did you accomplish this task? " + RESET_COLOR);
-            if(yesOrNo()==1){
-                order.deleteOrder2("requestInstallation",getNumberOfLine());
-                setStatusInstalling("completed");
-                setCompletionDate(getPreferredDate());
-                addThisInstallerRequest();
-                gmailSend.sendEmail(getGmail(),arrayOfTopic[3],arrayOfMsg[2]);
-                setCompletionDate("--");
-            }
-            else {
-                scheduleAppointment_menu();
-            }
-        }
-        else if (choice == 5) {
-            showAllInstallationRequestToAdminANDInstaller("scheduled");
 
 
-        }
-        else {
-            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
-        }
-    }
-
-    private void sendEmailNewDayHour() {
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n\u001B[35m" + "------- Welcome  " + installerName +"  ------\n"+
-                "|                                  |\n"+
-                "|     1. Send new day and hour.    |\n"+
-                "|     2. Change day.               |\n"+
-                "|     3. Change Hour.              |\n"+
-                "|                                  |\n"+
-                " ---------------------------------- \n");
-        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+"\u001B[37m");
-        Scanner scanner1 = new Scanner(System.in);
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            String msg1 ;
-            logger.log(Level.INFO,BOLD+"\u001B[32m Write a message to the customer about the new appointment "+RESET_COLOR);
-            msg1=scanner1.nextLine();
-            gmailSend.sendEmail(getGmail(),arrayOfTopic[1],msg1);
-            logger.log(Level.INFO,BOLD+"\u001B[32m The email was sent successfully"+RESET_COLOR);
-
-        } else if (choice == 2) {
-            logger.log(Level.INFO,BOLD+"\u001B[32m Write a new day to schedule"+RESET_COLOR);
-            setPreferredDate(scanner1.nextLine());
-            putDay(getPreferredDate());
-        }
-        else if (choice == 3) {
-            logger.log(Level.INFO,BOLD+"\u001B[32m Write a new hour to schedule "+RESET_COLOR);
-            setPreferredHour(scanner1.nextLine());
-            putTime(getPreferredHour());
-        }
-        else {
-            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
-            installer_menu(installerName);
-        }
-    }
 
     public boolean isChangeTimeOrHour() {
         return changeTimeOrHour;
     }
 
     public void setChangeTimeOrHour(boolean changeTimeOrHour) {
-        this.changeTimeOrHour = changeTimeOrHour;
+        Installer.changeTimeOrHour = changeTimeOrHour;
     }
 
-    public boolean changeTimeOrHour;
-
-    public void enterID() {
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"Enter The id Of installation requests: "+RESET_COLOR);
-        setIdInstallerRequest(scanner.nextLong());
-    }
+    public static boolean changeTimeOrHour;
 
 
-    public void menuInstallerAdmin() {
-        setCompletionDate("--");
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n\u001B[36m" + "------- Manage Installer Accounts ------"+"\n"+
-                "|                                      |\n"+
-                "|     1. View Installer accounts.      |\n"+
-                "|     2. Edit Installer Account.       |\n"+
-                "|                                      |\n"+
-                "----------------------------------------\n");
-        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+RESET_COLOR);
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            showInstallerAccount();
-        } else if (choice == 2) {
-            changeInstallerAccountMenu();
-        }
 
-        else {
-            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
-        }
-    }
 
-    private void changeInstallerAccountMenu() {
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        Scanner scanner1 = new Scanner(System.in);
-        logger.log(Level.INFO, """
-                \u001B[36m----- Admin Profile -----
-                |   1. edit userName   |
-                |   2. edit Password   |
-                |   3. edit Gmail      |
-                -----------------------
-                """);
-        logger.log(Level.INFO, ENTER_CHOICE_MESSAGE + RESET_COLOR);
-        choice = scanner.nextInt();
-        String choice2;
-        String oldPass;
-        String newPass;
-        String newPassCon;
-        if (choice == 1) {
-            logger.log(Level.INFO, "Enter The new user Name:" + RESET_COLOR);
-            choice2 = scanner1.nextLine();
-            editeUserName(choice2);
-            logger.log(Level.INFO, "The user name has been changed successfully" + RESET_COLOR);
-        } else if (choice == 2) {
-            logger.log(Level.INFO, "Enter The old password:" + RESET_COLOR);
-            oldPass = scanner1.nextLine();
-            logger.log(Level.INFO, "Enter The new password:" + RESET_COLOR);
-            newPass = scanner1.nextLine();
-            logger.log(Level.INFO, "Confirm The  password:" + RESET_COLOR);
-            newPassCon = scanner1.nextLine();
-            editePassword(oldPass, newPass, newPassCon);
-        } else if (choice == 3) {
-            logger.log(Level.INFO, "Enter The new Gmail:" + RESET_COLOR);
-            choice2 = scanner1.nextLine();
-            editeGmail(choice2);
-            logger.log(Level.INFO, "The Gmail has been changed successfully" + RESET_COLOR);
-        } else {
-            logger.log(Level.WARNING, BOLD + "\u001B[31mInvalid choice! Please enter a valid choice." + RESET_COLOR);
-        }
-    }
+
+
+
     public boolean truepass (String pass, String ConfirmPass){
-        if(pass.equals(ConfirmPass)){
-            return true;
-        }
-        return false;
+        return pass.equals(ConfirmPass);
     }
-    private void editePassword(String oldPass, String newPass, String newPassCon) {
+    public void editePassword(String oldPass, String newPass, String newPassCon) {
         fileFunction();
         if(truepass(oldPass,getThird())){
             if(truepass(newPass,newPassCon)){
@@ -398,12 +195,12 @@ public class Installer {
             logger.log(Level.WARNING,BOLD+"\u001B[31mThe password is incorrect"+RESET_COLOR);
 
     }
-    private void editeUserName(String choice2) {
+    public void editeUserName(String choice2) {
         fileFunction();
         deleteFileFunction();
         writeToFile(choice2+","+getSec()+","+getThird());
     }
-    private void editeGmail(String choice2) {
+    public void editeGmail(String choice2) {
         fileFunction();
         deleteFileFunction();
         writeToFile(getFirst()+","+choice2+","+getThird());
@@ -472,8 +269,8 @@ public class Installer {
         return third;
     }
 
-    public String sec;
-    public String third;
+    public  static String sec;
+    public static String third;
     public void fileFunction(){
 
         try (RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/installer.txt", "rw")) {
@@ -508,50 +305,6 @@ public class Installer {
     }
 
 
-    //////////////////////////////////////menu Customer Serves//////////////////////////////////
-    public void installerServicesMenu() {
-        setCompletionDate("--");
-        int choice;
-        long choice1;
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n\u001B[36m" + "----------- Installation Services ----------"+"\n"+
-                "|                                                     |\n"+
-                "|     1. Request an installation service              |\n"+
-                "|     2. View installation requests history.          |\n"+
-                "|     3. Cancel pending installation requests         |\n"+
-                "|                                                     |\n"+
-                "------------------------------------------------------\n");
-        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+RESET_COLOR);
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            enterDataOfRequest();
-        } else if (choice == 2) {
-            showAllInstallationRequest();
-        }
-        else if (choice == 3) {
-            showAllInstallationRequestPending();
-            logger.log(Level.INFO,"Enter the installation requests ID To Cancel it : "+RESET_COLOR);
-            setIdInstallerRequest(scanner.nextLong());
-            ifExitIdInstallerRequestPending();
-            cancelIt();
-        }
-        else {
-            logger.log(Level.WARNING,BOLD+"\u001B[31mInvalid choice! Please enter a valid choice."+RESET_COLOR);
-        }
-    }
-
-    public void cancelIt() {
-        if(isIdInstallationFlag()){
-            order.deleteOrder2("requestInstallation",getNumberOfLine());
-            logger.log(Level.WARNING,BOLD+"\u001B[36m The installation requests canceled."+RESET_COLOR);
-
-        }
-        else {
-            logger.log(Level.WARNING,BOLD+"\u001B[31m The installation requests ID Not Found."+RESET_COLOR);
-            installerServicesMenu();
-        }
-    }
-
     public void ifExitIdInstallerRequestPending() {
         numberOfLine=-1;
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/requestInstallation.txt", "rw")) {
@@ -569,8 +322,6 @@ public class Installer {
                 }
 
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -590,8 +341,6 @@ public class Installer {
                 }
 
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -626,8 +375,6 @@ public class Installer {
             if (!dv){
                 logger.info("There is no Installation Request history");
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -635,7 +382,7 @@ public class Installer {
 
     public void printDataToAdmin() {
         logger.info("\u001B[34m The ID Of Installation Request :\u001B[35m " +listPrint.get(0)+" |"
-                +"\u001B[34m ID Customer :\u001B[35m "+listPrint.get(2)+" |"
+                +"\u001B[34m ID Customer :\u001B[35m "+listPrint.get(1)+" |"
                 +"\u001B[34m Phone Number :\u001B[35m "+listPrint.get(2)+" |"
                 +"\u001B[34m Name :\u001B[35m "+listPrint.get(3)+" |"
                 +"\u001B[34m Email :\u001B[35m "+listPrint.get(4)+" |"
@@ -675,8 +422,6 @@ public class Installer {
             if (!dv){
                 logger.info("There is no Installation Request history");
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -710,8 +455,6 @@ public class Installer {
             if (!dv){
                 logger.info("There is no Installation Request pending");
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -730,30 +473,13 @@ public class Installer {
                 +"\u001B[34m Completion date :\u001B[35m "+listPrint.get(9)+" |");
 
     }
-    ///////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////// enterDataOfRequest()////////////////////////////
-    public void  enterDataOfRequest(){
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"Describe the product you need service for : "+RESET_COLOR);
-        setProduct(scanner.nextLine());
-        logger.log(Level.INFO,"Select the preferred date for this service like (1/1/2022) or (Any Date): "+RESET_COLOR);
-        setPreferredDate(scanner.nextLine());
-        logger.log(Level.INFO,"Select the preferred Hour of this date like (10:00 AM) or (Any Time): "+RESET_COLOR);
-        setPreferredHour(scanner.nextLine());
-        logger.log(Level.INFO,"Describe the installing location ( City-Street-Building Name-Floor number\"): "+RESET_COLOR);
-        setLocationInstalling(scanner.nextLine());
-        setStatusInstalling("pending");
-        randomNumberGenerator();
-        ifRandomNumberGeneratorNotFound();
-        //ifDataTrue();
-        dataTrueOrNO();
-    }
 
     public  boolean ifFilledTheDateNull(){
         return !getPreferredDate().equals("");
     }
-    public  boolean ifFilledTheHourNull(){
+    public   boolean ifFilledTheHourNull(){
         return !getPreferredHour().equals("");
 
     } public  boolean ifFilledTheProductNull(){
@@ -765,12 +491,8 @@ public class Installer {
         return getPreferredDate().equals("Any Day") && getPreferredHour().equals("Any Time");
     }
     public boolean ifDataTrue() {
-        if((ifFilledTheProductNull() && ifFilledTheDateNull() && ifFilledTheHourNull()&&ifFilledTheLocationNull())
-                || (ifFilledTheProductNull()&& ifFilledTheAnyDayAndAnyTime()) &&ifFilledTheLocationNull())
-            return true;
-
-        else
-            return false;
+        return (ifFilledTheProductNull() && ifFilledTheDateNull() && ifFilledTheHourNull() && ifFilledTheLocationNull())
+                || (ifFilledTheProductNull() && ifFilledTheAnyDayAndAnyTime()) && ifFilledTheLocationNull();
     }
 
     public void ifAnyDayAnyTime(String preferredDate,String preferredHour){
@@ -784,13 +506,25 @@ public class Installer {
                     setInstallerAvailableToCustomer(false);
                 }
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
+    public  void  enterDataOfRequest(){
+        Scanner scanner = new Scanner(System.in);
+        logger.log(Level.INFO,"Describe the product you need service for : "+RESET_COLOR);
+        setProduct(scanner.nextLine());
+        logger.log(Level.INFO,"Select the preferred date for this service like (1/1/2022) or (Any Date): "+RESET_COLOR);
+        setPreferredDate(scanner.nextLine());
+        logger.log(Level.INFO,"Select the preferred Hour of this date like (10:00 AM) or (Any Time): "+RESET_COLOR);
+        setPreferredHour(scanner.nextLine());
+        logger.log(Level.INFO,"Describe the installing location ( City-Street-Building Name-Floor number\"): "+RESET_COLOR);
+        setLocationInstalling(scanner.nextLine());
+        setStatusInstalling("pending");
+        randomNumberGenerator();
+        ifRandomNumberGeneratorNotFound();
+        dataTrueOrNO();
+    }
     public void  dataTrueOrNO() {
         if (ifDataTrue()) {
             checkIfDayAndHourAppropriate(getPreferredDate(), getPreferredHour());
@@ -896,12 +630,8 @@ public class Installer {
 
 
 
-    /////////////////////////////////////////////Data of Customer //////////////////////////////
-    public String getAddress() {
-        return address;
-    }
     public void setAddress(String address) {
-        this.address = address;
+        Installer.address = address;
     }
 
     public String getIdCustomer() {
@@ -909,7 +639,7 @@ public class Installer {
     }
 
     public void setIdCustomer(String idCustomer) {
-        this.idCustomer = idCustomer;
+        Installer.idCustomer = idCustomer;
     }
 
     public String getPhoneCustomer() {
@@ -917,7 +647,7 @@ public class Installer {
     }
 
     public void setPhoneCustomer(String phoneCustomer) {
-        this.phoneCustomer = phoneCustomer;
+        Installer.phoneCustomer = phoneCustomer;
     }
 
     public String getGmail() {
@@ -925,30 +655,19 @@ public class Installer {
     }
 
     public void setGmail(String gmail) {
-        this.gmail = gmail;
+        Installer.gmail = gmail;
     }
 
-    public String getCustomerName() {
+    public static  String getCustomerName() {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public static void setCustomerName(String customerName) {Installer.customerName = customerName;
     }
 
-    public String address;
-    public String idCustomer;
-    public String phoneCustomer;
-    public String gmail;
-    public String customerName;
-    // 0              1    2          3        4    5        6          7             8               9                   10
-    // id installer +id + customer + phone + name + email + product + preferred date+ preferred day+installing location + status
-    ///////////////////////////////////////////////////////////////////////////////////////////
+    public static String address,idCustomer,phoneCustomer,gmail,customerName;
 
 
-    public boolean isInstallerAvailableToCustomer() {
-        return installerAvailableToCustomer;
-    }
     public void setInstallerAvailableToCustomer(boolean installerAvailableToCustomer) {
         this.installerAvailableToCustomer = installerAvailableToCustomer;
     }
@@ -967,8 +686,6 @@ public class Installer {
                     setInstallerAvailableToCustomer(false);
                 }
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -978,7 +695,6 @@ public class Installer {
         order.deleteOrder2("requestInstallation",getNumberOfLine());
         checkIfDayAndHourAppropriate(anyDay,getPreferredHour());
         dataTrueOrNO();
-        // addThisInstallerRequest();
     }
 
     public void putTime(String anyTime) {
@@ -1005,36 +721,8 @@ public class Installer {
     public void changeStatus(){
         setChangeStatus(true);
     }
-    public void approvalOfTheRequestFromAdminOrInstaller(long idInstallerRequest){
-        setDAta(idInstallerRequest,"pending");
-        logger.log(Level.WARNING, BOLD + "\u001B[34m Do you agree to this request? " + "\u001B[0m");
-        if(yesOrNo()==1){
-            order.deleteOrder2("requestInstallation",getNumberOfLine());
-            setStatusInstalling("scheduled");
-            addThisInstallerRequest();
-            gmailSend.sendEmail(getGmail(),arrayOfTopic[0],arrayOfMsg[0]);
-        }
-        else {
-            scheduleAppointment_menu();
-        }
 
-    }
-    public int yesOrNo (){
-        Scanner scanner = new Scanner(System.in);
-        int choice;
-        logger.log(Level.INFO, """
-            
-            \u001B[35m---------------------------------
-            |                                |
-            |          1. yes                |
-            |          2. no                 |
-            |                                |
-            ----------------------------------
-            """);
-        logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+"\u001B[0m");
-        choice = scanner.nextInt();
-        return choice;
-    }
+
 
     public int getNumberOfLine() {
         return numberOfLine;
@@ -1068,8 +756,6 @@ public class Installer {
                     return;
                 }
             }
-        }catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

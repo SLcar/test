@@ -5,7 +5,6 @@ import java.io.RandomAccessFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,11 +16,11 @@ public class Order {
     public static final String M_INVALID_VALUE = "\u001B[31mInvalid value ";
     public static final String M = "\u001B[0m";
     public static final String ENTER_YOUR_CHOICE = "Enter your choice: ";
-    ArrayList<Integer> lines = new ArrayList<>();
-    protected  static final  String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
-    protected  static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
-    private static final Logger logger = Logger.getLogger(Order.class.getName());
-    private final SecureRandom secureRandom = new SecureRandom();
+    public ArrayList<Integer> lines = new ArrayList<>();
+    public static final  String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
+    public   static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
+    public static final Logger logger = Logger.getLogger(Order.class.getName());
+    public final SecureRandom secureRandom = new SecureRandom();
     public boolean isSendEmailConfirmation() {
         return sendEmailConfirmation;
     }
@@ -49,7 +48,7 @@ public class Order {
     boolean sendEmailConfirmation=false;
     boolean sendEmailReceiving=false;
     boolean sendEmailCancel=false;
-    String delivered = getDelivered();
+    public String delivered = getDelivered();
     public void  ifEmailSending (String status){
 
         switch (status) {
@@ -117,7 +116,7 @@ public class Order {
     String orderDate;
 
     public void setStatusOrder(String statusOrder) {
-        this.statusOrder = statusOrder;
+        Order.statusOrder = statusOrder;
     }
 
     public float getTotalPriceProduct() {
@@ -134,13 +133,13 @@ public class Order {
     }
 
 
-    float totalPriceProduct;
+    public float totalPriceProduct;
 
     public long getOrderNumber() {
         return orderNumber;
     }
     public void setOrderNumber(long orderNumber) {
-        this.orderNumber = orderNumber;
+        Order.orderNumber = orderNumber;
     }
 
 
@@ -151,7 +150,7 @@ public class Order {
     }
 
     public void setIdCustomer(String idCustomer) {
-        this.idCustomer = idCustomer;
+        Order.idCustomer = idCustomer;
     }
 
     public float getOrderPrice() {
@@ -169,158 +168,21 @@ public class Order {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-    private static final String pending ="pending";
+    public static final String pending ="pending";
     public String categoryName;
-    public void manageOrderMenu() {
-        setIfCustomerShowPendingOrder(false);
-        setIfCustomerShowDeliveredOrder(false);
-        show= """
-
-                \u001B[32m ------------- <3 -------------
-                |                                |
-                |     1. Pending Order           |
-                |     2. Delivered Order         |
-                |                                |
-                ----------------------------------
-                """;
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,show);
-        logger.log(Level.INFO, ENTER_YOUR_CHOICE + M);
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            viewPendingOrder(pending,getIdCustomer());
-            userAccountMenu();
-
-        } else if (choice == 2) {
-            viewDeliveredOrder(delivered,getIdCustomer());
-            userAccountMenu();
-
-        } else {
-            logger.log(Level.WARNING, getString2() + "\u001B[31mInvalid choice! Please enter a valid choice." +M);
-        }
-
-    }
-
-    private void userAccountMenu() {
-        if(isIfCustomerShowPendingOrder()){
-            viewPendingOrder1(pending,getIdCustomer());
-            viewPendingOrder(pending,getIdCustomer());
-            pendingMenu();
-        }
-        else if (isIfCustomerShowDeliveredOrder()) {
-            viewPendingOrder1(delivered,getIdCustomer());
-            viewPendingOrder(delivered,getIdCustomer());
-            deliveredMenu();
-        }
-    }
-    String show;
-    private void deliveredMenu() {
-        show= """
-
-                \u001B[32m ------------------ <3 -----------------
-                |                                      |
-                |    1. Show delivered Order Product   |
-                |                                      |
-                ---------------------------------------
-                """;
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,show);
-        logger.log(Level.INFO, ENTER_YOUR_CHOICE + M);
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            logger.log(Level.INFO,"Enter The Number Of Order: "+ M);
-            setOrderNumber(scanner.nextLong());
-            ifOrderExitDelivered(String.valueOf(getOrderNumber()));
-            if(isIfOrderExist()){
-                viewDeliveredOrder(getDelivered(),getIdCustomer());
-                viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
-
-                manageOrderMenu();
-            }
-
-            else{
-                logger.log(Level.WARNING, getString2() + M_THE_ORDER_NOT_FOUND + M);
-                manageOrderMenu();
-            }}
-
-        else{
-            logger.log(Level.WARNING, getString2() + "\u001B[31mInvalid choice! Please enter a valid choice." + M);
-            manageOrderMenu();
-        }}
 
 
 
-    private void pendingMenu() {
+    public String  show;
 
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        Scanner scanner1 = new Scanner(System.in);
-        show= """
 
-                \u001B[32m --------------- <3 ---------------
-                |                                      |
-                |     1. Show Pending Order Product    |
-                |     2. edit Pending Product          |
-                |     3. Delete Order                  |
-                |                                      |
-                ---------------------------------------
-                """;
-        logger.log(Level.INFO,show);
-        logger.log(Level.INFO, ENTER_YOUR_CHOICE +M);
-        choice = scanner.nextInt();
-        if (choice == 1) {
-            ifOrderExit(scanner);
-            if(isIfOrderExist()){
-                viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
 
-            }
 
-            else{
-                logger.log(Level.WARNING, getString2() + M_THE_ORDER_NOT_FOUND + M);
-
-            }
-
-        }
-        else if (choice == 2) {
-            ifOrderExit(scanner1);
-            if(isIfOrderExist()){
-                viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
-                extractedEdit(scanner1);
-
-            }
-
-            else{
-                logger.log(Level.WARNING, getString2() + M_THE_ORDER_NOT_FOUND + M);
-                pendingMenu();
-            }
-
-        } else if (choice == 3) {
-            ifOrderExit(scanner1);
-            if(isIfOrderExist()){
-
-                String name=getCustomerName()+"-"+getIdCustomer();
-                deleteOrder(name);
-
-                logger.log(Level.INFO, getString2() + "\u001B[31m The Order is deleted Successfully" +M);
-
-            }
-
-            else{
-                logger.log(Level.WARNING, getString2() + M_THE_ORDER_NOT_FOUND + M);
-                pendingMenu();
-            }
-        }
-        else{
-            logger.log(Level.WARNING, getString2() + "\u001B[31mInvalid choice! Please enter a valid choice." + M);
-        }}
-
-    private static String getString2() {
+    public static String getString2() {
         return "\u001B[1m";
     }
 
-    private void editProductMenu() {
+    public void editProductMenu() {
         int productID = getProductID();
 
         int choice;
@@ -436,7 +298,7 @@ public class Order {
     public float productPrice;
 
     public void setOrderPrice(float orderPrice) {
-        this.orderPrice = orderPrice;
+        Order.orderPrice = orderPrice;
     }
 
 
@@ -445,14 +307,14 @@ public class Order {
     }
 
     public void setQuantitiesProduct(int quantitiesProduct) {
-        this.quantitiesProduct = quantitiesProduct;
+        Order.quantitiesProduct = quantitiesProduct;
     }
 
-    private String statusOrder;
-    private long orderNumber;
-    private String idCustomer;
-    private float orderPrice;
-    private int quantitiesProduct;
+    public static String statusOrder;
+    public static  long orderNumber;
+    public static String idCustomer;
+    public static float orderPrice;
+    public static int quantitiesProduct;
 
     public int getProductID() {
         return productID;
@@ -479,7 +341,7 @@ public class Order {
     public void makePurchasesMenu() {
         randomNumberGenerator();
         ifRandomNumberGeneratorNotFound();
-        makePurchasesMenu1();
+
     }
     public void makePurchasesMenu1(){
         Scanner scanner1 = new Scanner(System.in);
@@ -517,7 +379,8 @@ public class Order {
 
     private void extracted4(Scanner scanner1) {
         if(isProductAvailable()){
-            extracted3(scanner1);
+            returnEnterQuantities();
+
         }
         else {
             logger.log(Level.INFO, getString2() + "\u001B[31m" + "The Product Not Available.\u001B[0m");
@@ -527,7 +390,7 @@ public class Order {
     }
 
     private void extracted3(Scanner scanner1) {
-        returnEnterQuantities();
+
         whatSetProductPrice(getCategoryName(), String.valueOf(getProductID()));
         fullProductPrice();
         String product =getCategoryName()+","+getOrderNumber()+","+getIdCustomer()+","+getProductID()+","+getQuantitiesProduct()+","+getTotalPriceProduct()+"\n";
@@ -556,7 +419,7 @@ public class Order {
         }
     }
 
-    private void extracted2() {
+    public void extracted2() {
         logger.log(Level.INFO, "\u001B[34m"+"The order has been added");
         calculateTheTotalCost(getCustomerName(),getIdCustomer());
         LocalDate currentDate = LocalDate.now();
@@ -574,7 +437,7 @@ public class Order {
         setQuantitiesProduct(scanner1.nextInt());
         ifQuantitiesAllowed(String.valueOf(getQuantitiesProduct()));
         if(isQuantitiesAllowedFlag()) {
-            return;
+            extracted3(scanner1);
         }
         else{
             logger.log(Level.WARNING, getString2() +"\u001B[31m The quantity is greater than 0."+ M);
@@ -592,10 +455,10 @@ public class Order {
     }
 
     public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+        Order.customerName = customerName;
     }
 
-    String customerName;
+    public static String customerName;
 
       public void addNewOrderToCustomer(String customerName,String idCustomer,String data)
     {
@@ -881,7 +744,7 @@ public class Order {
         }
 
     }
-    private void viewPendingOrderProduct(String idCustomer, String name,String idOrder) {
+    public void viewPendingOrderProduct(String idCustomer, String name,String idOrder) {
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/"+name+"-"+idCustomer+".txt", "rw")) {
 
             String s;
@@ -987,7 +850,7 @@ public class Order {
         }
     }
 
-    private static String getDelivered() {
+    public static String getDelivered() {
         return "delivered";
     }
 
@@ -1013,22 +876,6 @@ public class Order {
         logger.log(Level.INFO,"Enter The Number Of Order: "+M);
         setOrderNumber(Long.parseLong(scanner.next()));
         ifEnterOrderExitToCancelPending(String.valueOf(getOrderNumber()));
-    }
-
-    private void extractedEdit(Scanner scanner) {
-
-        logger.log(Level.INFO,"Enter The Product ID : "+ M);
-        setProductID(Integer.parseInt(scanner.next()));
-        ifProductExitToEdit(getProductID(),getOrderNumber(),getCustomerName(),getIdCustomer());
-        foundNumber2Line(getProductID(),getOrderNumber());
-        if(isProductExitFlag()){
-            editProductMenu();
-
-        }
-        else{
-            logger.log(Level.WARNING, getString2() + "\u001B[31m The Product Not Found" +  M);
-            pendingMenu();
-        }
     }
 
    public void deleteOrder1(int nm,String name,String orderNumber){
@@ -1098,11 +945,10 @@ public class Order {
 
 
 
-    private void ifQuantitiesGraterThan(int quantitiesProduct) {
+    public void ifQuantitiesGraterThan(int quantitiesProduct) {
         if(isQuantitiesAllowedFlag()){
             ifProductAvailable(getCategoryName(), String.valueOf(getProductID()));
             if(isProductAvailable()){
-
                 setQuantitiesProduct(quantitiesProduct);
                 calculateThePriceOfNewProduct(getProductID(),getCategoryName());
                 fullProductPrice();
@@ -1206,7 +1052,7 @@ public class Order {
 
     }
 
-    private void foundNumber2Line(int productID,long order) {
+    public void foundNumber2Line(int productID,long order) {
         numberOfLine3 = -1;
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/orderAllProduct.txt", "rw")) {
             String s;
@@ -1250,7 +1096,6 @@ public class Order {
                 currentLine++;
             }
 
-            // Save the rest of the file after the line to be deleted
             long end = raf.length();
             byte[] remainingBytes = new byte[(int) (end - currentPos)];
             raf.read(remainingBytes);
@@ -1267,7 +1112,7 @@ public class Order {
     }
 
 
-    public void editTheOrder(String statusOrder) {
+    public void editTheOrder() {
         for (Integer i : lines){
             deleteOrder2("orderToAdmin",i);
         }
@@ -1288,7 +1133,7 @@ public class Order {
         else if (getStatusOrder().equals("shipped")){
             gmail.sendEmail(getGmailIs(),arrayOfTopic[0],arrayOfMsg[0]);
             logger.log(Level.INFO, getString2() + "\u001B[31m The Order is shipped " +
-                    "Successfully and send email to customer" +  M);}
+         "Successfully and send email to customer" +  M);}
         else if (getStatusOrder().equals(getDelivered())){
             gmail.sendEmail(getGmailIs(),arrayOfTopic[1],arrayOfMsg[1]);
             logger.log(Level.INFO, getString2() + "\u001B[31m The Order is updated " +

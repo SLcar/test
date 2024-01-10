@@ -5,20 +5,26 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class Customer {
-     private static final Logger logger = Logger.getLogger(Customer.class.getName());
+     public static final Logger logger = Logger.getLogger(Customer.class.getName());
      Product product = new Product();
      Order order =new Order();
      Installer installer = new Installer();
     public String getUserName() {
         return userName;
     }
-    public int getNumberOfLine() {
+
+
+    public static int getNumberOfLine() {
         return numberOfLine;
     }
-    public void setNumberOfLine(int numberOfLine) {
-        this.numberOfLine = numberOfLine;
+
+    public static void setNumberOfLine(int numberOfLine) {
+        Customer.numberOfLine = numberOfLine;
     }
-    int  numberOfLine;
+
+    public  static int  numberOfLine;
+
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
@@ -52,7 +58,7 @@ public class Customer {
     public void setPhone(int phone) {
         this.phone = phone;
     }
-    String userName,Gmail,Password,address;
+    public String userName,Gmail,Password,address;
     int id,phone;
     public void setCustomerLogin(boolean customerLogin) {
         this.customerLogin = customerLogin;
@@ -120,7 +126,6 @@ public class Customer {
         settingFlag=false;
     }
     public boolean isCustomerLogin() {return customerLogin;}
-    public static String getTheNameOfCat(Scanner scanner) {return scanner.next();}
 
     public void ShowTheProduct(String nameCato) {
         product.ifCategoryExist(nameCato);
@@ -166,7 +171,7 @@ public class Customer {
             }
         }
     }
-public void setTheCustomerIs(int numberOfLineCustomer){
+public final void setTheCustomerIs(int numberOfLineCustomer){
         setNumberOfLine(numberOfLineCustomer);
 }
 
@@ -255,8 +260,7 @@ public void deleteLine() {
             installer.setAddress(productInfo[3]);
     }
 
-
-    public void searchTheCustomer() {
+    public void searchTheCustomer() throws RuntimeException {
         int count =-1;
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
             String s;
@@ -272,7 +276,7 @@ public void deleteLine() {
             throw new RuntimeException(e);
         }
     }
-    public void searchTheCustomerNewLine() {
+    public  void searchTheCustomerNewLine() {
         int count=-1;
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
             String s;
