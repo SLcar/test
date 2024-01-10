@@ -31,37 +31,37 @@ public class Installer {
     public String getPreferredDate() {
         return preferredDate;
     }
-    public void setPreferredDate(String preferredDate) {
+    public  static void setPreferredDate(String preferredDate) {
         Installer.preferredDate = preferredDate;
     }
     public String getPreferredHour() {
         return preferredHour;
     }
-    public void setPreferredHour(String preferredHour) {
+    public static void setPreferredHour(String preferredHour) {
         Installer.preferredHour = preferredHour;
     }
     public String getLocationInstalling() {
         return locationInstalling;
     }
-    public void setLocationInstalling(String locationInstalling) {
+    public static void setLocationInstalling(String locationInstalling) {
         Installer.locationInstalling = locationInstalling;
     }
     public String getProduct() {
         return product;
     }
-    public void setProduct(String product) {
+    public static void setProduct(String product) {
         Installer.product = product;
     }
     public String getStatusInstalling() {
         return statusInstalling;
     }
-    public void setStatusInstalling(String statusInstalling) {
+    public  static void setStatusInstalling(String statusInstalling) {
         Installer.statusInstalling = statusInstalling;
     }
     public String getCompletionDate() {
         return completionDate;
     }
-    public void setCompletionDate(String completionDate) {
+    public static  void setCompletionDate(String completionDate) {
         Installer.completionDate = completionDate;
     }
 
@@ -69,7 +69,7 @@ public class Installer {
         return idInstallationFlag;
     }
 
-    public void setIdInstallationFlag(boolean idInstallationFlag) {
+    public static void setIdInstallationFlag(boolean idInstallationFlag) {
         Installer.idInstallationFlag = idInstallationFlag;
     }
     public static boolean idInstallationFlag;
@@ -79,7 +79,7 @@ public class Installer {
     public String getInstallerName() {
         return installerName;
     }
-    public void   setInstallerName(String setInstallerName) {
+    public  void   setInstallerName(String setInstallerName) {
         installerName = setInstallerName;
     }
     public static String installerName;
@@ -89,7 +89,7 @@ public class Installer {
         return theDataCancel;
     }
 
-    public void setTheDataCancel(boolean theDataCancel) {
+    public static void setTheDataCancel(boolean theDataCancel) {
         Installer.theDataCancel = theDataCancel;
     }
 
