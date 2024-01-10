@@ -1,12 +1,13 @@
 package org.example;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class Customer {
      public static final Logger logger = Logger.getLogger(Customer.class.getName());
-     Product product = new Product();
+    public static final String CUSTUMOR_DATA = "custumorData";
+    public static final String SRC_MAIN_RESOURCES_DATA_CUSTUMOR_DATA_TXT = "src/main/resources/Data/custumorData.txt";
+    Product product = new Product();
      Order order =new Order();
      Installer installer = new Installer();
     public String getUserName() {
@@ -150,28 +151,16 @@ public class Customer {
     public boolean truepass (String pass, String ConfirmPass){
         return pass.equals(ConfirmPass);
     }
-   public void writeToFile(String dataToWrite,String fileName){
-        RandomAccessFile file=null;
-        try {
-            file = new RandomAccessFile("src/main/resources/Data/"+fileName+".txt", "rw");
-
+    public void writeToFile(String dataToWrite, String fileName) {
+        try (RandomAccessFile file = new RandomAccessFile("src/main/resources/Data/" + fileName + ".txt", "rw")) {
             file.seek(file.length());
             file.writeBytes(dataToWrite);
-            file.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.log(Level.SEVERE, "An error occurred", e);
-        }finally {
-            if (file != null) {
-                try {
-                    file.close();
-                } catch (IOException e) {
-                    logger.log(Level.SEVERE, "An error occurred", e);
-                }
-            }
         }
     }
-public final void setTheCustomerIs(int numberOfLineCustomer){
+
+    public final void setTheCustomerIs(int numberOfLineCustomer){
         setNumberOfLine(numberOfLineCustomer);
 }
 
@@ -179,21 +168,21 @@ public final void setTheCustomerIs(int numberOfLineCustomer){
         searchTheCustomer();
         deleteLine();
         String data= getUserName()+","+newGmail+","+getPassword()+","+getAddress()+","+getId()+","+getPhone()+"\n";
-        writeToFile(data,"custumorData");
+        writeToFile(data, CUSTUMOR_DATA);
         searchTheCustomerNewLine();
     }
     public void editeNumber(String newPhone){
         searchTheCustomer();
         deleteLine();
         String data= getUserName()+","+getGmail()+","+getPassword()+","+getAddress()+","+getId()+","+newPhone+"\n";
-        writeToFile(data,"custumorData");
+        writeToFile(data, CUSTUMOR_DATA);
         searchTheCustomerNewLine();
     }
     public void editeAddress(String newAddress){
         searchTheCustomer();
         deleteLine();
         String data= getUserName()+","+getGmail()+","+getPassword()+","+newAddress+","+getId()+","+getPhone()+"\n";
-        writeToFile(data,"custumorData");
+        writeToFile(data, CUSTUMOR_DATA);
         searchTheCustomerNewLine();
     }
     public void  editePassword(String oldPass,String newPass,String conPass){
@@ -202,7 +191,7 @@ public final void setTheCustomerIs(int numberOfLineCustomer){
             if(truepass(newPass,conPass)) {
                 deleteLine();
                 String data = getUserName() + "," + getGmail() + "," + newPass + "," + getAddress() + "," + getId() + "," + getPhone() + "\n";
-                writeToFile(data, "custumorData");
+                writeToFile(data,  CUSTUMOR_DATA);
                 searchTheCustomerNewLine();
                 logger.log(Level.INFO, "The Password has been changed successfully");
 
@@ -219,7 +208,7 @@ public final void setTheCustomerIs(int numberOfLineCustomer){
 
 public void deleteLine() {
     try {
-        RandomAccessFile raf = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw");
+        RandomAccessFile raf = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_CUSTUMOR_DATA_TXT, "rw");
         long start = 0;
         long currentPos = raf.getFilePointer();
         int currentLine = -1;
@@ -262,7 +251,7 @@ public void deleteLine() {
 
     public void searchTheCustomer() throws RuntimeException {
         int count =-1;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_CUSTUMOR_DATA_TXT, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 count=count+1;
@@ -278,7 +267,7 @@ public void deleteLine() {
     }
     public  void searchTheCustomerNewLine() {
         int count=-1;
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/custumorData.txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_CUSTUMOR_DATA_TXT, "rw")) {
             String s;
             String isd= String.valueOf(getId());
             while ((s = ref.readLine()) != null) {
