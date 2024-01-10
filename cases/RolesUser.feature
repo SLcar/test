@@ -50,3 +50,7 @@ Feature: User Roles
     When  The Customer edit the email,password,phone,address;
     Then  The data of customer edit
 
+  Scenario: The Admin can manages installer profile
+    Given The admin is logged into the system
+    When  The Admin edit the email,password,phone of installer;
+    Then  The data of installer edit

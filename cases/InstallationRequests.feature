@@ -5,6 +5,7 @@ Feature: Installation Requests
     And  the preferred date is "1/1/2024"
     And  the preferred hour is "10:00 am "
     And  the installing location is " Nablus - Rafedia street- Hijawi buldings - ground floor"
+    When the customer is "noor12@gmail.com" and password is "1111"
     Then the request sent to installation to conform
 
   Scenario: the customer is request installation without filled the date
@@ -47,7 +48,7 @@ Feature: Installation Requests
 
   Scenario: customer can cancel pending request
     Given customer view pending request and the id "22"
-    When customer enter exist requestId "1401988804"
+    When customer enter exist requestId "1401988807"
     Then customer can cancel request
 
   Scenario: customer can't cancel non exits requestId
@@ -65,6 +66,7 @@ Feature: Installation Requests
     Given installer view pending request
     When  installer enter non exist requestId "-1"
     Then installer can't cancel request
+
   Scenario: admin can cancel pending request
     Given admin view pending request
     When admin enter exist requestId "1401988804"

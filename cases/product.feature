@@ -54,7 +54,7 @@ Feature: Product Category Management
 ################################### delete ##################################################
 
   Scenario: admin can delete product from category
-    Given the productId is "2"
+    Given the productId is "-1"
     And the CategoryName is "Exterior"
     Then the product will deleted
 

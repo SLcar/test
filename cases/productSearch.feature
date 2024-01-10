@@ -34,8 +34,8 @@ Feature: Product Category Search
 
   Scenario: Search for a product by description or part of it and found it
     Given the CategoryName  "Exterior"
-    When the user searches for a product with description "BMW E46 2009"
-    Then the system should display products with the description "BMW E46 2009"
+    When the user searches for a product with description "BMW"
+    Then the system should display products with the description "BMW"
 
   Scenario: Search for a product description and not found
     Given the CategoryName  "Exterior"
