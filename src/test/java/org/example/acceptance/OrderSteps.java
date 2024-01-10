@@ -3,10 +3,7 @@ package org.example.acceptance;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.example.Category;
-import org.example.Customer;
-import org.example.Order;
-import org.example.Product;
+import org.example.*;
 import org.junit.Assert;
 
 public class OrderSteps {
@@ -14,42 +11,59 @@ public class OrderSteps {
     Customer customer;
     Order order;
     Category category;
+    public static long orderNumber;
+    SignIn sign;
     public OrderSteps() {
         product = new Product();
         customer = new Customer();
         order = new Order();
         category = new Category();
+        sign = new SignIn();
     }
 
     @Given("customer view available products for exist categories example {string}")
     public void customer_view_available_products_for_exist_categories_example(String nameCato) {
+        order.setCategoryName(nameCato);
         category.setCategoryName(nameCato);
         product.printAllProductAndCategories(nameCato);
-
+        sign.customerIslLogin("sajaabosair@gmail.com","1111");
+        customer.setTheCustomerIs(sign.getNumberOfLine());
+        customer.searchTheCustomer();
     }
 
     @Given("The Customer Name is {string}")
     public void the_customer_name_is(String name) {
+
         order.setCustomerName(name);
     }
-
     @Given("The Customer Id is {string}")
     public void the_customer_id_is(String id) {
+
         order.setIdCustomer(id);
     }
     @When("customer enter exist productsId to order {string}")
     public void customer_enter_exist_products_id_to_order(String id) {
         product.setID(Integer.parseInt(id));
+        order.setProductID(Integer.parseInt(id));
         product.ifProductIdExist(category.getCategoryName(), String.valueOf(product.getID()));
     }
 
     @When("the quantities is allowed {string}")
     public void the_quantities_is_allowed(String quantity) {
+        order.makePurchasesMenu();
+        order.setQuantitiesProduct(Integer.parseInt(quantity));
         order.ifQuantitiesAllowed(quantity);
+        order.whatSetProductPrice(category.getCategoryName(), String.valueOf(order.getProductID()));
+        order.fullProductPrice();
+        orderNumber= order.getOrderNumber();
+        String product =order.getCategoryName()+","+order.getOrderNumber()+","+order.getIdCustomer()+","+order.getProductID()+","+order.getQuantitiesProduct()+","+order.getTotalPriceProduct()+"\n";
+        order.addNewOrderToCustomer(order.getCustomerName(),order.getIdCustomer(),product);
+        order.extracted2();
     }
 
     @Then("the products should ordered")
     public void the_products_should_ordered() {
+
         Assert.assertTrue(product.isiDExistFlag());
         Assert.assertTrue(order.isQuantitiesAllowedFlag());
     }
@@ -81,37 +95,15 @@ public class OrderSteps {
         Assert.assertFalse(product.isiDExistFlag());
     }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @Given("customer view {string} orders")
-    public void customer_view_orders(String pending) {
-        order.setStatusOrder(pending);
-    }
-    @When("customer enter exist order {string}")
-    public void customer_enter_exist_order(String id) {
-       order.setOrderNumber(Long.parseLong(id));
-    }
-
-    @Then("customer can cancel order")
-    public void customer_can_cancel_order() {
-        order.viewPendingOrder(order.getStatusOrder(),order.getIdCustomer());
-        order.ifEnterOrderExitToCancelPending(String.valueOf(order.getOrderNumber()));
-       Assert.assertTrue(order.isIfCustomerShowPendingOrder());
-       Assert.assertTrue(order.isIfOrderExist());
-        Assert.assertTrue(order.isIfCustomerCancelPendingOrder());
-    }
-
-    @Then("customer can't cancel order")
-    public void customer_can_t_cancel_order() {
-        order.viewPendingOrder(order.getStatusOrder(),order.getIdCustomer());
-        order.ifEnterOrderExitToCancelPending(String.valueOf(order.getOrderNumber()));
-        Assert.assertTrue(order.isIfCustomerShowPendingOrder());
-        Assert.assertFalse(order.isIfOrderExist());
-        Assert.assertFalse(order.isIfCustomerCancelPendingOrder());
-    }
-
     @When("customer enter exist  productId {string}")
     public void customer_enter_exist_product_id(String string) {
         order.setProductID(Integer.parseInt(string));
+        System.out.println(order.getProductID());
+        order.foundNumber2Line(order.getProductID(),orderNumber);
+        int newQuantity = 2;
+        order.ifQuantitiesAllowed(String.valueOf(newQuantity));
+        order.ifQuantitiesGraterThan(newQuantity);
+
     }
     @Then("customer can edit Quantity To The Product")
     public void customer_can_edit_quantity_to_the_product() {
@@ -131,7 +123,7 @@ public class OrderSteps {
     }
     @Given("admin choose view customer order")
     public void admin_choose_view_customer_order() {
-    order.viewAllOrderToAdmin();
+        order.viewAllOrderToAdmin();
     }
 
 
@@ -140,11 +132,75 @@ public class OrderSteps {
         order.setOrderNumber(Long.parseLong(string));
 
     }
+    @Then("admin can edit order status,shipped date")
+    public void admin_can_edit_order_status_shipped_date() {
+        order.setOrderNumber(orderNumber);
+        order.ifEnterOrderExitToChangeSt(order.getOrderNumber());
+        order.searchAboutCustomer("orderToAdmin",orderNumber);
+        order.setStatusOrder("shipped");
+        order.setGmailIs("sajaabosair@gmail.com");
+        order.editTheOrder();
+
+    }
+
     @Then("admin can edit order status,delivered date")
     public void admin_can_edit_order_status_delivered_date() {
-        order.ifEnterOrderExitToCancelPending(String.valueOf(order.getOrderNumber()));
-        Assert.assertTrue(order.isIfOrderExist());
+        order.setOrderNumber(orderNumber);
+        order.ifEnterOrderExitToChangeSt(order.getOrderNumber());
+        order.searchAboutCustomer("orderToAdmin",orderNumber);
+        order.setStatusOrder(Admin.getDelivered);
+        order.setGmailIs("sajaabosair@gmail.com");
+        order.searchAboutGmail();
+        order.editTheOrder();
+    }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+    @Given("customer view {string} orders")
+    public void customer_view_orders(String pending) {
+        order.setStatusOrder(pending);
+    }
+    @When("customer enter exist order {string}")
+    public void customer_enter_exist_order(String id) {
+
+        order.setOrderNumber(orderNumber);
+        String name = order.getCustomerName() + "-" + order.getIdCustomer();
+       order.deleteOrder(name);
+        order.setOrderNumber(Long.parseLong(id));
+
+    }
+
+    @Then("customer can cancel order")
+    public void customer_can_cancel_order() {
+        order.viewPendingOrder(order.getStatusOrder(),order.getIdCustomer());
+        order.viewPendingOrder1(Order.pending,order.getIdCustomer());
+        order.ifEnterOrderExitToCancelPending(String.valueOf(order.getOrderNumber()));
+       Assert.assertTrue(order.isIfCustomerShowPendingOrder());
+       Assert.assertTrue(order.isIfOrderExist());
+        Assert.assertTrue(order.isIfCustomerCancelPendingOrder());
+    }
+
+    @Then("customer can't cancel order")
+    public void customer_can_t_cancel_order() {
+        order.viewPendingOrder(order.getStatusOrder(),order.getIdCustomer());
+        order.ifEnterOrderExitToCancelPending(String.valueOf(order.getOrderNumber()));
+        Assert.assertTrue(order.isIfCustomerShowPendingOrder());
+        Assert.assertFalse(order.isIfOrderExist());
+        Assert.assertFalse(order.isIfCustomerCancelPendingOrder());
+    }
+
+    @Then("customer view The {string} orders")
+    public void customer_view_the_orders(String string) {
+        order.viewDeliveredOrder(order.delivered,order.getIdCustomer());
+    }
+
+    @Then("Admin view {string} orders")
+    public void admin_view_orders(String string) {
+        order.viewAllOrderToAdmin();
+        order.ifFileOfCustomerOrderNoItem("Saja");
+        order.ifOrderExitDelivered("0");
+        order.setCountOfLine(3);
+        order.setIfCustomerShowDeliveredOrder(true);
+        order.setDateOfReceiptOfTheOrder("Ddd");
     }
 
 }

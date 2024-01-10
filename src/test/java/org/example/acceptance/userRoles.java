@@ -98,6 +98,7 @@ public class userRoles {
     public void the_customer_edit_the_email_password_phone_address() {
         customer.setSettingFlag(true);
         sign.customerIslLogin("s12029704@stu.najah.edu","1111");
+        customer.setTheCustomerIs(sign.getNumberOfLine());
         customer.editeGmail("s12029704@stu.najah.edu");
         customer.editePassword("1111","1111","1111");
         customer.editeAddress("Nablus/Palestine Street/Al Quds Bakery");
@@ -112,6 +113,20 @@ public class userRoles {
     }
 
 
+    @When("The Admin edit the email,password,phone of installer;")
+    public void the_admin_edit_the_email_password_phone_of_installer() {
+        installer.showInstallerAccount();
+        installer.setInstallerName("lamees");
+        installer.setGmail("lameesahmed257@gmail.com");
+        installer.editeUserName(installer.getInstallerName());
+        installer.editeGmail(installer.getGmail());
+        installer.editePassword("121","121","121");
+        customer.setEditData(true);
+    }
+    @Then("The data of installer edit")
+    public void the_data_of_installer_edit() {
+        Assert.assertTrue(customer.isEditData());
 
+    }
 
 }

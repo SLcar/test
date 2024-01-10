@@ -3,16 +3,23 @@ package org.example.acceptance;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.example.Gmail;
-import org.example.Installer;
+import org.example.*;
 import org.junit.Assert;
+
+import static org.example.Installer.setIdInstallerRequest;
 
 public class installationSteps {
     Installer installer;
+    Customer customer;
+    SignIn sign;
 Gmail gmail;
+Order order;
     public installationSteps() {
       installer = new Installer();
+      customer = new Customer();
       gmail = new Gmail();
+      sign = new SignIn();
+      order=new Order();
     }
 
 
@@ -35,12 +42,23 @@ Gmail gmail;
     public void the_installing_location_is(String string) {
        installer.setLocationInstalling(string);
     }
+    @When("the customer is {string} and password is {string}")
+    public void the_customer_is_and_password_is(String string, String string2) {
+        sign.customerIslLogin(string,string2);
+        customer.setTheCustomerIs(sign.getNumberOfLine());
+        customer.searchTheCustomer();
+        installer.randomNumberGenerator();
+        installer.ifRandomNumberGeneratorNotFound();
+        setIdInstallerRequest(1401988804);
+        installer.setStatusInstalling("pending");
+        installer.setCompletionDate("--");
+        installer.addThisInstallerRequest();
 
+    }
     @Then("the request sent to installation to conform")
     public void the_request_sent_to_installation_to_conform() {
+
         Assert.assertTrue(installer.ifDataTrue());
-
-
     }
 
     @Then("the request not send to installation")
@@ -58,19 +76,21 @@ Gmail gmail;
 
     @When("customer enter exist requestId {string}")
     public void customer_enter_exist_request_id(String string) {
-        installer.setIdInstallerRequest(Long.parseLong(string));
+        setIdInstallerRequest(Long.parseLong(string));
         installer.ifExitIdInstallerRequestPending();
     }
 
     @Then("customer can cancel request")
     public void customer_can_cancel_request() {
-        Assert.assertTrue(installer.isIdInstallationFlag());
-
+        installer.ifExitIdInstallerRequestPending();
+        order.deleteOrder2("requestInstallation",installer.getNumberOfLine());
+        installer.setTheDataCancel(true);
+        Assert.assertTrue(installer.isTheDataCancel());
     }
 
     @When("customer enter non exist requestId {string}")
     public void customer_enter_non_exist_request_id(String string) {
-        installer.setIdInstallerRequest(Long.parseLong(string));
+        setIdInstallerRequest(Long.parseLong(string));
         installer.ifExitIdInstallerRequestPending();
 
     }
@@ -83,24 +103,25 @@ Gmail gmail;
 
     @Given("installer view pending request")
     public void installer_view_pending_request() {
+
         installer.showAllInstallationRequestToAdminANDInstaller("pending");
     }
 
     @When("installer enter exist request id {string}")
     public void installer_enter_exist_request_id(String string) {
-        installer.setIdInstallerRequest(Long.parseLong(string));
+        setIdInstallerRequest(Long.parseLong(string));
         installer.ifExitIdInstallerRequestPendingToAdmin();
     }
 
     @Then("installer can cancel request")
     public void installer_can_cancel_request() {
-        Assert.assertTrue(installer.isIdInstallationFlag());
+        Assert.assertTrue(installer.isTheDataCancel());
 
     }
 
     @When("installer enter non exist requestId {string}")
     public void installer_enter_non_exist_request_id(String string) {
-        installer.setIdInstallerRequest(Long.parseLong(string));
+        setIdInstallerRequest(Long.parseLong(string));
         installer.ifExitIdInstallerRequestPendingToAdmin();
     }
 
@@ -118,19 +139,19 @@ Gmail gmail;
 
     @When("admin enter exist requestId {string}")
     public void admin_enter_exist_request_id(String string) {
-        installer.setIdInstallerRequest(Long.parseLong(string));
+        setIdInstallerRequest(Long.parseLong(string));
         installer.ifExitIdInstallerRequestPendingToAdmin();
     }
 
     @Then("admin can cancel request")
     public void admin_can_cancel_request() {
-        Assert.assertTrue(installer.isIdInstallationFlag());
+        Assert.assertTrue(installer.isTheDataCancel());
 
     }
 
     @When("admin enter non exist requestId {string}")
     public void admin_enter_non_exist_request_id(String string) {
-        installer.setIdInstallerRequest(Long.parseLong(string));
+        setIdInstallerRequest(Long.parseLong(string));
         installer.ifExitIdInstallerRequestPendingToAdmin();
     }
 
@@ -141,7 +162,7 @@ Gmail gmail;
     }
     @When("the installer choose req with {string}")
     public void the_installer_choose_req_with(String string) {
-        installer.setIdInstallerRequest(Long.parseLong(string));
+        setIdInstallerRequest(Long.parseLong(string));
         installer.setDAta(Long.parseLong(string),"pending");
         installer.checkIfDayAndHourAppropriate(installer.getPreferredDate(),installer.getPreferredHour());
     }
@@ -164,7 +185,7 @@ Gmail gmail;
 
     @Given("the installer choose req with not allowed {string}")
     public void the_installer_choose_req_with_not_allowed(String string) {
-        installer.setIdInstallerRequest(Long.parseLong(string));
+        setIdInstallerRequest(Long.parseLong(string));
         installer.ifExitIdInstallerRequestPendingToAdmin();
     }
 
@@ -175,7 +196,7 @@ Gmail gmail;
 
     @When("the installer choose request with {string} and installer not available")
     public void the_installer_choose_request_with_and_installer_not_available(String string) {
-       installer.setIdInstallerRequest(Long.parseLong(string));
+       setIdInstallerRequest(Long.parseLong(string));
        installer.setDAta(installer.getIdInstallerRequest(),"pending");
 
     }
@@ -188,6 +209,12 @@ Gmail gmail;
 
     @When("the customer check new date and time From email")
     public void the_customer_check_new_date_and_time_from_email() {
+        installer.setPreferredDate("3/3/2023");
+        installer.putDay(installer.getPreferredDate());
+        installer.setNumberOfLine(7);
+        order.deleteOrder2("requestInstallation",6);
+        installer.setPreferredHour("10 Am");
+       installer.putTime(installer.getPreferredHour());
         installer.putDayAndTime(installer.getPreferredDate(),installer.getPreferredHour());
     }
 
@@ -198,7 +225,7 @@ Gmail gmail;
 
     @Given("the installer is completed the installation {string}")
     public void the_installer_is_completed_the_installation(String string) {
-       installer.setIdInstallerRequest(Long.parseLong(string));
+       setIdInstallerRequest(Long.parseLong(string));
         installer.changeStatus();
     }
 

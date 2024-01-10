@@ -19,7 +19,7 @@ public class ProductSearch {
     @Then("The category not found")
     public void the_category_not_found() {
         product.ifCategoryExist(product.getCategoryName());
-        Assert.assertEquals(false,product.isCategoryExistFlag());
+        Assert.assertFalse(product.isCategoryExistFlag());
 
     }
 
@@ -27,20 +27,22 @@ public class ProductSearch {
     public void the_user_searches_for_a_product_with_id(String id) {
         product.ifProductIdExist(product.getCategoryName(),id);
         product.ifCategoryExist(product.getCategoryName());
+        product.ifProductIdExist(product.getCategoryName(), id);
+        product.extractedSearchById(product.getCategoryName(),Integer.parseInt(id));
     }
 
 
     @Then("the system should display the product with ID {string}")
     public void the_system_should_display_the_product_with_id(String string) {
-        Assert.assertEquals(true,product.isCategoryExistFlag());
-        Assert.assertEquals(true,product.isiDExistFlag());
+        Assert.assertTrue(product.isCategoryExistFlag());
+        Assert.assertTrue(product.isiDExistFlag());
 
     }
 
 
     @Then("the system should display the product with ID {string} not found")
     public void the_system_should_display_the_product_with_id_not_found(String string) {
-        Assert.assertEquals(false,product.isiDExistFlag());
+        Assert.assertFalse(product.isiDExistFlag());
     }
     @When("the user searches for a product with name {string}")
     public void the_user_searches_for_a_product_with_name(String name) {
@@ -48,11 +50,13 @@ public class ProductSearch {
     }
     @Then("the system should display products with the name {string}")
     public void the_system_should_display_products_with_the_name(String string) {
-        Assert.assertEquals(true,product.ifProductNameExist2(product.getCount()));
+        product.ifProductNameExist(product.getCategoryName(),string);
+        product.extractedSearchByName(product.getCategoryName(),string);
+        Assert.assertTrue(product.ifProductNameExist2(product.getCount()));
     }
     @Then("the system should display products with the name {string} not found")
     public void the_system_should_display_products_with_the_name_not_found(String string) {
-        Assert.assertEquals(false,product.ifProductNameExist2(product.getCount()));
+        Assert.assertFalse(product.ifProductNameExist2(product.getCount()));
     }
 
     @When("the user searches for a product with description {string}")
@@ -61,11 +65,13 @@ public class ProductSearch {
     }
     @Then("the system should display products with the description {string}")
     public void the_system_should_display_products_with_the_description(String string) {
-        Assert.assertEquals(true,product.ifProductNameExist2(product.getCount()));
+        product.ifProductDescriptionsExist(product.getCategoryName(),string);
+        product.extractedSerachByDescription(product.getCategoryName(),string);
+        Assert.assertTrue(product.ifProductNameExist2(product.getCount()));
     }
     @Then("the system should display products with the description {string} not found")
     public void the_system_should_display_products_with_the_description_not_found(String string) {
-        Assert.assertEquals(false,product.ifProductNameExist2(product.getCount()));
+        Assert.assertFalse(product.ifProductNameExist2(product.getCount()));
 
     }
 
@@ -76,13 +82,13 @@ public class ProductSearch {
     }
     @Then("the system should display products with the availability {string}")
     public void the_system_should_display_products_with_the_availability(String string) {
-        Assert.assertEquals(true,product.ifProductNameExist2(product.getCount()));
-
+        product.ifProductAvailabilityExist(product.getCategoryName(),string);
+        product.extractedSearchByAvailability(product.getCategoryName(),string);
     }
 
     @Then("the system should display products with the availability {string} not found")
     public void the_system_should_display_products_with_the_availability_not_found(String string) {
-        Assert.assertEquals(false,product.ifProductNameExist2(product.getCount()));
+        Assert.assertFalse(product.ifProductNameExist2(product.getCount()));
 
     }
 

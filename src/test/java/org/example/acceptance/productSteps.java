@@ -3,6 +3,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import org.example.Product;
 import org.junit.Assert;
+
+import static org.junit.Assert.assertTrue;
+
 public class productSteps {
     Product product;
     public productSteps() {
@@ -41,21 +44,22 @@ public class productSteps {
     public void admin_can_add_product() {
         product.ifCategoryExist(product.getCategoryName());
         product.ifProductIdExist(product.getCategoryName(), String.valueOf(product.getID()));
-        Assert.assertTrue(product.isCategoryExistFlag());
+        product.addNewProducts(product.categoryName,"added");
+        assertTrue(product.isCategoryExistFlag());
         Assert.assertFalse(product.isiDExistFlag());
     }
 
     @Then("admin can't add product")
     public void admin_can_t_add_product() {
         product.ifProductIdExist(product.getCategoryName(), String.valueOf(product.getID()));
-        Assert.assertEquals(true,product.isiDExistFlag());
+        assertTrue(product.isiDExistFlag());
 
     }
 
     @Then("the category not found")
     public void the_category_not_found() {
         product.ifCategoryExist(product.getCategoryName());
-        Assert.assertEquals(false,product.isCategoryExistFlag());
+        Assert.assertFalse(product.isCategoryExistFlag());
 
     }
 
@@ -63,14 +67,14 @@ public class productSteps {
     public void admin_can_update_product() {
         product.ifCategoryExist(product.getCategoryName());
         product.ifProductIdExist(product.getCategoryName(), String.valueOf(product.getID()));
-        Assert.assertEquals(true,product.isCategoryExistFlag());
-        Assert.assertEquals(true,product.isiDExistFlag());
+        assertTrue(product.isCategoryExistFlag());
+        assertTrue(product.isiDExistFlag());
     }
 
     @Then("admin can't update")
     public void admin_can_t_update() {
         product.ifProductIdExist(product.getCategoryName(), String.valueOf(product.getID()));
-        Assert.assertEquals(false,product.isiDExistFlag());
+        Assert.assertFalse(product.isiDExistFlag());
     }
 
 
@@ -79,27 +83,29 @@ public class productSteps {
     public void the_product_will_deleted() {
         product.ifCategoryExist(product.getCategoryName());
         product.ifProductIdExist(product.getCategoryName(), String.valueOf(product.getID()));
-        Assert.assertEquals(true,product.isCategoryExistFlag());
-        Assert.assertEquals(true,product.isiDExistFlag());
+        product.deleteThisProduct(product.getCategoryName());
+        assertTrue(product.isCategoryExistFlag());
+        assertTrue(product.isiDExistFlag());
     }
 
     @Then("the product not deleted")
     public void the_product_not_deleted() {
         product.ifProductIdExist(product.getCategoryName(), String.valueOf(product.getID()));
-        Assert.assertEquals(false,product.isiDExistFlag());
+        Assert.assertFalse(product.isiDExistFlag());
 
     }
 
     @Then("all product category shown")
     public void all_product_category_shown() {
         product.ifCategoryExist(product.getCategoryName());
-        Assert.assertEquals(true,product.isCategoryExistFlag());
+        product.printAllProductAndCategories(product.getCategoryName());
+        assertTrue(product.isCategoryExistFlag());
     }
 
     @Then("the category not shown")
     public void the_category_not_shown() {
         product.ifCategoryExist(product.getCategoryName());
-        Assert.assertEquals(false,product.isCategoryExistFlag());
+        Assert.assertFalse(product.isCategoryExistFlag());
     }
 
 }
