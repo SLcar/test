@@ -276,7 +276,7 @@ public class Main {
         if(sign.getTheUser() == 1){
             String enterEmail = enterEmailS();
             String enterPassword = enterPassS();
-            sign.AdminLogin(enterEmail,enterPassword);
+            sign.adminLogin(enterEmail,enterPassword);
             if (sign.adminloged)
                 adminMenu(sign.getAdminMenuName());
         }
