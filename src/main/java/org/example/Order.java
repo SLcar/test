@@ -5,20 +5,29 @@ import java.io.RandomAccessFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.security.SecureRandom;
-import static org.example.Registration.logger;
 
-public class Order {
+public class Order extends RuntimeException  {
+
+    public Order(String message, Throwable cause) {
+        super(message, cause);
+
+    }
+    public Order (){
+
+    }
     public static final String M_THE_ORDER_NOT_FOUND = "\u001B[31m The order Not Found";
     public static final String M_INVALID_VALUE = "\u001B[31mInvalid value ";
     public static final String M = "\u001B[0m";
     public static final String ENTER_YOUR_CHOICE = "Enter your choice: ";
-    public ArrayList<Integer> lines = new ArrayList<>();
-    public static final  String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
-    public   static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
+    public static final String SRC_MAIN_RESOURCES_DATA = "src/main/resources/Data/";
+    public List <Integer> lines = new ArrayList<>();
+    protected static final  String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
+    protected   static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
     public static final Logger logger = Logger.getLogger(Order.class.getName());
     public final SecureRandom secureRandom = new SecureRandom();
     public boolean isSendEmailConfirmation() {
@@ -270,12 +279,9 @@ public class Order {
         }
 
     }
-    
-
-  
 
     public void whatSetProductPrice(String categoryName,String id) {
-        try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" + categoryName + ".txt", "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA + categoryName + ".txt", "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productInfo = s.split(",");
@@ -552,7 +558,7 @@ public class Order {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
     }
 
@@ -570,7 +576,7 @@ public class Order {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
 
 
@@ -595,7 +601,7 @@ public class Order {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
     }
 
@@ -660,7 +666,7 @@ public class Order {
 
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
 
     }
@@ -689,7 +695,7 @@ public class Order {
                 logger.info("There is no delivered Orders");
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
     }
 
@@ -716,7 +722,7 @@ public class Order {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
 
     }
@@ -740,7 +746,7 @@ public class Order {
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
 
     }
@@ -764,7 +770,7 @@ public class Order {
                 }}
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
 
     }
@@ -809,7 +815,7 @@ public class Order {
                 setIfCustomerCancelPendingOrder(false);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
     }
     public void ifEnterOrderExitToChangeSt(long idOrder){
@@ -846,7 +852,7 @@ public class Order {
                 setIfOrderExist(false);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
     }
 
@@ -938,7 +944,7 @@ public class Order {
 
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
     }
 
@@ -987,9 +993,8 @@ public class Order {
     public boolean ifFileOfCustomerOrderNoItem(String nameCustomer){
         countOfLine=-1;
         try (RandomAccessFile ref = new RandomAccessFile("src/main/resources/Data/" +nameCustomer+"-"+idCustomer + ".txt", "rw")) {
-            String s;
             setProductExitFlag(false);
-            while ((s = ref.readLine()) != null) {
+            while (ref.readLine() != null) {
                 setCountOfLine(countOfLine+1);
             }
             if (getCountOfLine()==0){
@@ -1019,7 +1024,7 @@ public class Order {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
     }
 
@@ -1047,7 +1052,7 @@ public class Order {
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
 
     }
@@ -1067,7 +1072,7 @@ public class Order {
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
 
     }
@@ -1107,7 +1112,7 @@ public class Order {
 
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order("Error during Order", e);
         }
     }
 
