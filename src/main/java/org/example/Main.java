@@ -1159,7 +1159,7 @@ public class Main {
             logger.log(Level.WARNING, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             manageOrderMenu();
         }}
-    public void returnEnterEmail() {
+    public static void returnEnterEmail() {
         logger.log(Level.INFO,"Enter The Email:");
         Scanner scanner = new Scanner(System.in);
         ob.setEmail(scanner.next());
