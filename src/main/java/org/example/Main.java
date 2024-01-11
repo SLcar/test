@@ -16,6 +16,7 @@ public class Main {
     public static final String ENTER_THE_OLD_PASSWORD = "Enter The old password:";
     public static final String ENTER_THE_NEW_PASSWORD = "Enter The new password:";
     public static final String CONFIRM_THE_PASSWORD = "Confirm The  password:";
+    public static final String THE_REGISTRATION_PROCESS_WAS_COMPLETED_SUCCESSFULLY = "The registration process was completed successfully\n";
     static Scanner  scanner = new Scanner(System.in);
     public static final String WRONG_DATA = "Invalid choice! Please enter a valid choice.";
     public static final String ENTER_THE_NUMBER_OF_ORDER = "Enter The Number Of Order: ";
@@ -74,11 +75,11 @@ public class Main {
         ob.searchIfEmailIsAlreadyExist(ob.getEmail());
         if(ob.isIfEmailFound()){
             logger.log(Level.WARNING,"This email is already exist");
-            ob.returnEnterEmail();
+            returnEnterEmail();
 
         }
         else if(!ob.truepass(ob.getPassword(),ob.getComPassword())){
-           ob.returnEnterPass(ob);
+          returnEnterPass(ob);
         }
         else {
             String dD =ob.getName()+"," +ob.getEmail() + "," + ob.getPassword() + "," + ob.getAddress() + "," + ob.getId()+","+ob.getPhone()+"\n";
@@ -1158,6 +1159,41 @@ public class Main {
             logger.log(Level.WARNING, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             manageOrderMenu();
         }}
+    public void returnEnterEmail() {
+        logger.log(Level.INFO,"Enter The Email:");
+        Scanner scanner = new Scanner(System.in);
+        ob.setEmail(scanner.next());
+        ob.searchIfEmailIsAlreadyExist(ob.getEmail());
+        if(ob.isIfEmailFound()){
+            returnEnterEmail();
+        }
+        else if (!ob.truepass(ob.getPassword(),ob.getComPassword())) {
+            returnEnterPass(ob);
+        }
+        else {
+            String dD =ob.getName()+"," +ob.getEmail() + "," + ob.getPassword() + "," +  ob.getAddress()+ "," + ob.getId()+","+ob.getPhone()+"\n";
+            ob.storeDataToFile(dD);
+            logger.log(Level.INFO,THE_REGISTRATION_PROCESS_WAS_COMPLETED_SUCCESSFULLY);
+            loginMenu();
+        }
+    }
+    public static void returnEnterPass(Registration ob ){
+        Scanner scanner = new Scanner(System.in);
+        logger.log(Level.WARNING,"The two passwords do not match!");
+        logger.log(Level.INFO,"Enter your Password:");
+        ob.setPassword(scanner.next());
+        logger.log(Level.INFO,CONFIRM_THE_PASSWORD);
+        ob.setComPassword(scanner.next());
+        if(ob.truepass(ob.getPassword(), ob.getComPassword())){
+            String dD =ob.getName()+"," +ob.getEmail() + "," + ob.getPassword() + "," + ob.getAddress() + "," + ob.getId()+","+ob.getPhone()+"\n";
+            ob.storeDataToFile(dD);
+            logger.log(Level.INFO, THE_REGISTRATION_PROCESS_WAS_COMPLETED_SUCCESSFULLY);
+            loginMenu();
+        }
+        else {
+            returnEnterPass(ob);
+        }
+    }
 
 
     public static void main(String[] args) {
