@@ -2,6 +2,7 @@ package org.example;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -302,9 +303,9 @@ public class Installer extends RuntimeException {
                 String nameLoop  = productData[0];
                 String mail  = productData[1];
                 String password  = productData[2];
+
                 logger.info("\u001B[36m"+"Name : "+nameLoop +
                         "  Gmail:  "+mail+" password : "+password+"\n\u001B[37m");
-
             }
         } catch (IOException e) {
             throw new Installer("Error during customer login", e);
@@ -340,7 +341,6 @@ public class Installer extends RuntimeException {
             String IdInstallation = String.valueOf(getIdInstallerRequest());
             while ((s = ref.readLine()) != null) {
                 numberOfLine=numberOfLine+1;
-                System.out.println(numberOfLine);
                 String[] productInfo = s.split(",");
                 if(productInfo[0].equals(IdInstallation) && productInfo[9].equals("pending")){
                     setIdInstallationFlag(true);
@@ -391,17 +391,21 @@ public class Installer extends RuntimeException {
     }
 
     public void printDataToAdmin() {
-        logger.info("\u001B[34m The ID Of Installation Request :\u001B[35m " +listPrint.get(0)+" |"
-                +"\u001B[34m ID Customer :\u001B[35m "+listPrint.get(1)+" |"
-                +"\u001B[34m Phone Number :\u001B[35m "+listPrint.get(2)+" |"
-                +"\u001B[34m Name :\u001B[35m "+listPrint.get(3)+" |"
-                +"\u001B[34m Email :\u001B[35m "+listPrint.get(4)+" |"
-                +"\u001B[34m Request for produc :\u001B[35m "+listPrint.get(5)+" |"
-                +"\u001B[34m Preferred date  :\u001B[35m "+listPrint.get(6)+" |"
-                +"\u001B[34m preferred day :\u001B[35m "+listPrint.get(7)+" |"
-                +"\u001B[34m Installing location :\u001B[35m "+listPrint.get(8)+" |"
-                +"\u001B[34m Request Status :\u001B[35m "+listPrint.get(9)+" |"
-                +"\u001B[34m Completion date :\u001B[35m "+listPrint.get(10)+" |");
+        String logMessage = String.format(
+                "\u001B[34m The ID Of Installation Request : \u001B[35m %s |" +
+                        "\u001B[34m ID Customer : \u001B[35m %s |" +
+                        "\u001B[34m Phone Number : \u001B[35m %s |" +
+                        "\u001B[34m Name : \u001B[35m %s |" +
+                        "\u001B[34m Email : \u001B[35m %s |" +
+                        "\u001B[34m Request for produc : \u001B[35m %s |" +
+                        "\u001B[34m Preferred date : \u001B[35m %s |" +
+                        "\u001B[34m Preferred day : \u001B[35m %s |" +
+                        "\u001B[34m Installing location : \u001B[35m %s |" +
+                        "\u001B[34m Request Status : \u001B[35m %s |" +
+                        "\u001B[34m Completion date : \u001B[35m %s |",
+                listPrint.toArray()
+        );
+        logger.info(logMessage);
     }
 
     public void showAllInstallationRequest() {
@@ -472,16 +476,18 @@ public class Installer extends RuntimeException {
     }
 
     private void printDataToCustomer() {
-        logger.info("\u001B[34m The ID Of Installation Request :\u001B[35m " +listPrint.get(0)+" |"
-                +"\u001B[34m Your Phone Number :\u001B[35m "+listPrint.get(1)+" |"
-                +"\u001B[34m Your Name :\u001B[35m "+listPrint.get(2)+" |"
-                +"\u001B[34m Your Email :\u001B[35m "+listPrint.get(3)+" |"
-                +"\u001B[34m Request for produc :\u001B[35m "+listPrint.get(4)+" |"
-                +"\u001B[34m Preferred date  :\u001B[35m "+listPrint.get(5)+" |"
-                +"\u001B[34m preferred day :\u001B[35m "+listPrint.get(6)+" |"
-                +"\u001B[34m Installing location :\u001B[35m "+listPrint.get(7)+" |"
-                +"\u001B[34m Request Status :\u001B[35m "+listPrint.get(8)+" |"
-                +"\u001B[34m Completion date :\u001B[35m "+listPrint.get(9)+" |");
+        String logMessage = MessageFormat.format("\u001B[34m The ID Of Installation Request :\u001B[35m {0} |" +
+                        "\u001B[34m Your Phone Number :\u001B[35m {1} |" +
+                        "\u001B[34m Your Name :\u001B[35m {2} |" +
+                        "\u001B[34m Your Email :\u001B[35m {3} |" +
+                        "\u001B[34m Request for product :\u001B[35m {4} |" +
+                        "\u001B[34m Preferred date :\u001B[35m {5} |" +
+                        "\u001B[34m Preferred day :\u001B[35m {6} |" +
+                        "\u001B[34m Installing location :\u001B[35m {7} |" +
+                        "\u001B[34m Request Status :\u001B[35m {8} |" +
+                        "\u001B[34m Completion date :\u001B[35m {9} |",
+                listPrint.toArray());
+        logger.info(logMessage);
 
     }
 
@@ -660,13 +666,17 @@ public class Installer extends RuntimeException {
     public static void setCustomerName(String customerName) {Installer.customerName = customerName;
     }
 
-    public static String address,idCustomer,phoneCustomer,gmail,customerName;
+    public static String address;
+    public static String idCustomer;
+    public static String phoneCustomer;
+    public static String  gmail;
+    public static String customerName;
 
 
     public  void setInstallerAvailableToCustomer(boolean installerAvailableToCustomer) {
         this.installerAvailableToCustomer = installerAvailableToCustomer;
     }
-    public  boolean installerAvailableToCustomer;
+    public boolean installerAvailableToCustomer;
 
 
     public void checkIfDayAndHourAppropriate(String dateDay, String hour) {
