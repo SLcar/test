@@ -49,21 +49,21 @@ public class loginSteps {
         ob1.setAdminMenuName(ob1.getEmail());
         ob1.adminInInSystem();
         ob1.setId(Integer.parseInt(ob1.getPassword()));
-        ob1.AdminLogin(ob1.getAdminMenuName(), String.valueOf(ob1.getId()));
+        ob1.adminLogin(ob1.getAdminMenuName(), String.valueOf(ob1.getId()));
         Assert.assertTrue(ob1.getAdminloged());
 
     }
     @Then("Admin cant login because email wrong")
     public void admin_cant_login_because_email_wrong() {
-        ob1.AdminWrongEmail(ob1.getEmail(),ob1.getPassword());
-        ob1.AdminLogin(ob1.getEmail(),ob1.getPassword());
+        ob1.adminWrongEmail(ob1.getEmail(),ob1.getPassword());
+        ob1.adminLogin(ob1.getEmail(),ob1.getPassword());
         Assert.assertFalse(ob1.getAdminloged());
     }
 
     @Then("Admin cant login because pass wrong")
     public void admin_cant_login_because_pass_wrong() {
-        ob1.AdminWrongPass(ob1.getEmail(),ob1.getPassword());
-        ob1.AdminLogin(ob1.getEmail(),ob1.getPassword());
+        ob1.adminWrongPass(ob1.getEmail(),ob1.getPassword());
+        ob1.adminLogin(ob1.getEmail(),ob1.getPassword());
         Assert.assertFalse(ob1.getAdminloged());
     }
 
