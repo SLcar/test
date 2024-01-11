@@ -23,23 +23,25 @@ public class SignIn {
         this.adminMenuName = adminMenuName;
     }
 
-    public String adminMenuName;
-    public String customerName;
-    Admin admin = new Admin();
+    String adminMenuName;
+    String customerName;
     Customer customer = new Customer();
-    static Logger logger = Logger.getLogger(Registration.class.getName());
+    static Logger logger = Logger.getLogger(SignIn.class.getName());
     public String installerName, name;
     private String email;
     private String password;
-    private String TrueEmail;
-    private String TruePassword;
+    private String trueEmail;
+    private String truePassword;
 
     public void setTheUser(int theUser) {
         this.theUser = theUser;
     }
 
-    private int theUser, id;
-    public boolean adminloged, customerLogin, installerLogin;
+    private int theUser;
+    private int  id;
+    public boolean adminloged;
+    public boolean customerLogin;
+    public boolean  installerLogin;
 
     public boolean getCustomerLogin() {
         return customerLogin;
@@ -127,10 +129,10 @@ public class SignIn {
                 numberOfLine = numberOfLine + 1;
                 String[] loginCustomer = s.split(",");
                 customerName = loginCustomer[0];
-                TrueEmail = loginCustomer[1];
-                TruePassword = loginCustomer[2];
+                trueEmail = loginCustomer[1];
+                truePassword = loginCustomer[2];
 
-                if (TrueEmail.equals(email) && TruePassword.equals(password)) {
+                if (trueEmail.equals(email) && truePassword.equals(password)) {
                     order.setGmailIs(email);
                     setCustomerLogin(true);
                     customerInInSystem();
@@ -150,9 +152,9 @@ public class SignIn {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
-                TrueEmail = loginCustomer[1];
-                TruePassword = loginCustomer[2];
-                if (TrueEmail.equals(email) && !TruePassword.equals(password)) {
+                trueEmail = loginCustomer[1];
+                truePassword = loginCustomer[2];
+                if (trueEmail.equals(email) && !truePassword.equals(password)) {
                     notFoundPasswordCustomer(email, password);
                     return;
                 }
@@ -169,9 +171,9 @@ public class SignIn {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
-                TrueEmail = loginCustomer[1];
-                TruePassword = loginCustomer[2];
-                if (TrueEmail.equals(email) && !TruePassword.equals(password)) {
+                trueEmail = loginCustomer[1];
+                truePassword = loginCustomer[2];
+                if (trueEmail.equals(email) && !truePassword.equals(password)) {
                     logger.log(Level.WARNING, "Customer password is Wrong! Try Again ");
                     return;
                 }
@@ -187,9 +189,9 @@ public class SignIn {
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
                 setAdminMenuName(loginCustomer[0]);
-                TrueEmail = loginCustomer[1];
-                TruePassword = loginCustomer[2];
-                if (TrueEmail.equals(email) && TruePassword.equals(password)) {
+                trueEmail = loginCustomer[1];
+                truePassword = loginCustomer[2];
+                if (trueEmail.equals(email) && truePassword.equals(password)) {
                     setAdminloged(true);
                     adminInInSystem();
                     return;
@@ -206,10 +208,10 @@ public class SignIn {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
-                TrueEmail = loginCustomer[1];
-                TruePassword = loginCustomer[2];
+                trueEmail = loginCustomer[1];
+                truePassword = loginCustomer[2];
 
-                if (TrueEmail.equals(email) && !TruePassword.equals(password)) {
+                if (trueEmail.equals(email) && !truePassword.equals(password)) {
                     AdminWrongPass(email, password);
                     return;
                 }
@@ -225,9 +227,9 @@ public class SignIn {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
-                TrueEmail = loginCustomer[1];
-                TruePassword = loginCustomer[2];
-                if (TrueEmail.equals(email) && !TruePassword.equals(password)) {
+                trueEmail = loginCustomer[1];
+                truePassword = loginCustomer[2];
+                if (trueEmail.equals(email) && !truePassword.equals(password)) {
                     logger.log(Level.WARNING, "Admin password is Wrong! Try Again ");
                     return;
                 }
@@ -243,9 +245,9 @@ public class SignIn {
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
                 installerName = loginCustomer[0];
-                TrueEmail = loginCustomer[1];
-                TruePassword = loginCustomer[2];
-                if (TrueEmail.equals(enterEmail) && TruePassword.equals(enterPassword)) {
+                trueEmail = loginCustomer[1];
+                truePassword = loginCustomer[2];
+                if (trueEmail.equals(enterEmail) && truePassword.equals(enterPassword)) {
                     setInstallerLogin(true);
                     installerInSystem();
                     return;
@@ -262,10 +264,10 @@ public class SignIn {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
-                TrueEmail = loginCustomer[1];
-                TruePassword = loginCustomer[2];
+                trueEmail = loginCustomer[1];
+                truePassword = loginCustomer[2];
 
-                if (TrueEmail.equals(enterEmail) && !TruePassword.equals(enterPassword)) {
+                if (trueEmail.equals(enterEmail) && !truePassword.equals(enterPassword)) {
                     installerWrongPassword(enterEmail, enterPassword);
                     return;
                 }
@@ -282,9 +284,9 @@ public class SignIn {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
-                TrueEmail = loginCustomer[1];
-                TruePassword = loginCustomer[2];
-                if (TrueEmail.equals(enterEmail) && !TruePassword.equals(enterPassword)) {
+                trueEmail = loginCustomer[1];
+                truePassword = loginCustomer[2];
+                if (trueEmail.equals(enterEmail) && !truePassword.equals(enterPassword)) {
                     logger.log(Level.WARNING, "installer password is Wrong! Try Again ");
                     return;
                 }
