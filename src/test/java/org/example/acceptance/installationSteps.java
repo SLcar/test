@@ -22,25 +22,26 @@ Order order;
       order=new Order();
     }
 
+    public static final String[] arrayOfTopic =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
 
     @Given("customer request for product {string}")
     public void customer_request_for_product(String string) {
-       installer.setProduct(string);
+       Installer.setProduct(string);
     }
 
     @Given("the preferred date is {string}")
     public void the_preferred_date_is(String string) {
-      installer.setPreferredDate(string);
+      Installer.setPreferredDate(string);
     }
 
     @Given("the preferred hour is {string}")
     public void the_preferred_hour_is(String string) {
-      installer.setPreferredHour(string);
+      Installer.setPreferredHour(string);
     }
 
     @Given("the installing location is {string}")
     public void the_installing_location_is(String string) {
-       installer.setLocationInstalling(string);
+       Installer.setLocationInstalling(string);
     }
     @When("the customer is {string} and password is {string}")
     public void the_customer_is_and_password_is(String string, String string2) {
@@ -50,8 +51,8 @@ Order order;
         installer.randomNumberGenerator();
         installer.ifRandomNumberGeneratorNotFound();
         setIdInstallerRequest(1401988804);
-        installer.setStatusInstalling("pending");
-        installer.setCompletionDate("--");
+        Installer.setStatusInstalling("pending");
+        Installer.setCompletionDate("--");
         installer.addThisInstallerRequest();
 
     }
@@ -69,7 +70,7 @@ Order order;
 
     @Given("customer view pending request and the id {string}")
     public void customer_view_pending_request_and_the_id(String string) {
-        installer.setIdCustomer(string);
+        Installer.setIdCustomer(string);
         installer.showAllInstallationRequestPending();
 
     }
@@ -84,7 +85,7 @@ Order order;
     public void customer_can_cancel_request() {
         installer.ifExitIdInstallerRequestPending();
         order.deleteOrder2("requestInstallation",installer.getNumberOfLine());
-        installer.setTheDataCancel(true);
+        Installer.setTheDataCancel(true);
         Assert.assertTrue(installer.isTheDataCancel());
     }
 
@@ -202,18 +203,18 @@ Order order;
     }
     @Then("the installer send email to customer suggested new time and date")
     public void the_installer_send_email_to_customer_suggested_new_time_and_date() {
-      gmail.sendEmail(installer.getGmail(),installer.arrayOfTopic[1],"the_installer_send_email_to_customer_suggested_new_time_and_date");
+      gmail.sendEmail(installer.getGmail(),arrayOfTopic[1],"the_installer_send_email_to_customer_suggested_new_time_and_date");
     }
 
 
 
     @When("the customer check new date and time From email")
     public void the_customer_check_new_date_and_time_from_email() {
-        installer.setPreferredDate("3/3/2023");
+        Installer.setPreferredDate("3/3/2023");
         installer.putDay(installer.getPreferredDate());
         installer.setNumberOfLine(7);
         order.deleteOrder2("requestInstallation",6);
-        installer.setPreferredHour("10 Am");
+        Installer.setPreferredHour("10 Am");
        installer.putTime(installer.getPreferredHour());
         installer.putDayAndTime(installer.getPreferredDate(),installer.getPreferredHour());
     }
