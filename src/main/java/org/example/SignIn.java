@@ -6,7 +6,13 @@ import java.util.logging.Logger;
 
 import static org.example.Main.installer;
 
-public class SignIn {
+public class SignIn  extends RuntimeException{
+    public SignIn(String message, Throwable cause){
+        
+            super(message, cause);
+
+        }
+    
     public static final String SRC_MAIN_RESOURCES_DATA_CUSTUMOR_DATA_TXT = "src/main/resources/Data/custumorData.txt";
     public static final String SRC_MAIN_RESOURCES_DATA_ADMIN_DATA_TXT = "src/main/resources/Data/AdminData.txt";
     public static final String SRC_MAIN_RESOURCES_DATA_INSTALLER_TXT = "src/main/resources/Data/installer.txt";
@@ -148,7 +154,7 @@ public class SignIn {
             notFoundEmailCustomer(email, password);
         } catch (IOException e) {
 
-            throw new RuntimeException(e);
+            throw new SignIn("Error during customer login", e);
         }
     }
 
@@ -167,7 +173,7 @@ public class SignIn {
             logger.log(Level.WARNING, "Customer Email is Wrong! Try Again");
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SignIn("Error during customer login", e);
         }
     }
 
@@ -184,7 +190,7 @@ public class SignIn {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SignIn("Error during customer login", e);
         }
     }
 
@@ -223,7 +229,7 @@ public class SignIn {
             }
             logger.log(Level.WARNING, "Admin Email is Wrong! Try Again");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SignIn("Error during customer login", e);
         }
     }
 
@@ -240,7 +246,7 @@ public class SignIn {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SignIn("Error during customer login", e);
         }
     }
 
@@ -260,7 +266,7 @@ public class SignIn {
             }
             installerWrongEmail(enterEmail, enterPassword);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SignIn("Error during customer login", e);
         }
     }
 
@@ -280,7 +286,7 @@ public class SignIn {
             logger.log(Level.WARNING, "installer Email is Wrong! Try Again");
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SignIn("Error during customer login", e);
         }
     }
 
@@ -297,7 +303,7 @@ public class SignIn {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new SignIn("Error during customer login", e);
         }
     }
 }
