@@ -21,11 +21,11 @@ public class Installer extends RuntimeException {
 
 
     public static final String SRC_MAIN_RESOURCES_DATA_INSTALLER_TXT = "src/main/resources/Data/installer.txt";
-    String data ;
+    protected static String data ;
     Order order = new Order();
 
 
-    static String first;
+    protected static String first;
     public static final Logger logger = Logger.getLogger(Installer.class.getName());
     public static final String ENTER_CHOICE_MESSAGE = "Enter your choice: ";
     public static final String BOLD = "\u001B[1m";
@@ -580,7 +580,7 @@ public class Installer extends RuntimeException {
             }}
     }
 
-    
+
 
 
     public static void setAddress(String address) {
