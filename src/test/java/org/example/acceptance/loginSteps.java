@@ -25,7 +25,10 @@ public class loginSteps {
 
     @Then("customer login")
     public void customer_login() {
-        ob1.customerIslLogin(ob1.getEmail(),ob1.getPassword());
+        ob1.setTheUser(Integer.parseInt(ob1.getPassword()));
+        ob1.setName(ob1.getEmail());
+        ob1.customerInInSystem();
+        ob1.customerIslLogin(ob1.getName(), String.valueOf(ob1.getTheUser()));
         Assert.assertTrue(ob1.getCustomerLogin());
     }
 
@@ -43,7 +46,10 @@ public class loginSteps {
 
     @Then("Admin can login")
     public void admin_can_login() {
-        ob1.AdminLogin(ob1.getEmail(),ob1.getPassword());
+        ob1.setAdminMenuName(ob1.getEmail());
+        ob1.adminInInSystem();
+        ob1.setId(Integer.parseInt(ob1.getPassword()));
+        ob1.AdminLogin(ob1.getAdminMenuName(), String.valueOf(ob1.getId()));
         Assert.assertTrue(ob1.getAdminloged());
 
     }
@@ -64,6 +70,7 @@ public class loginSteps {
 
     @Then("Installer can login")
     public void installer_can_login() {
+        ob1.installerInSystem();
         ob1.installerIsLogin(ob1.getEmail(),ob1.getPassword());
         Assert.assertTrue(ob1.getInstallerLogin());
     }
