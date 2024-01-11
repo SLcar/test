@@ -9,21 +9,20 @@ public class Customer {
     public static final String SRC_MAIN_RESOURCES_DATA_CUSTUMOR_DATA_TXT = "src/main/resources/Data/custumorData.txt";
     Product product = new Product();
      Order order =new Order();
-     Installer installer = new Installer();
     public String getUserName() {
         return userName;
     }
 
 
-    public static int getNumberOfLine() {
-        return numberOfLine;
-    }
+  public static int getNumberOfLine() {
+     return numberOfLine;
+   }
 
-    public static void setNumberOfLine(int numberOfLine) {
-        Customer.numberOfLine = numberOfLine;
-    }
+ public static void setNumberOfLine(int numberOfLine) {
+      Customer.numberOfLine = numberOfLine;
+   }
 
-    public  static int  numberOfLine;
+    protected  static  int  numberOfLine ;
 
 
     public void setUserName(String userName) {
@@ -161,6 +160,7 @@ public class Customer {
     }
 
     public final void setTheCustomerIs(int numberOfLineCustomer){
+
         setNumberOfLine(numberOfLineCustomer);
 }
 
@@ -242,11 +242,11 @@ public void deleteLine() {
             setPhone(Integer.parseInt(productInfo[5]));
             order.setIdCustomer(productInfo[4]);
             order.setCustomerName(productInfo[0]);
-            installer.setIdCustomer(productInfo[4]);
-            installer.setCustomerName(productInfo[0]);
-            installer.setPhoneCustomer(productInfo[5]);
-            installer.setGmail(productInfo[1]);
-            installer.setAddress(productInfo[3]);
+            Installer.setIdCustomer(productInfo[4]);
+            Installer.setCustomerName(productInfo[0]);
+            Installer.setPhoneCustomer(productInfo[5]);
+            Installer.setGmail(productInfo[1]);
+            Installer.setAddress(productInfo[3]);
     }
 
     public void searchTheCustomer() throws RuntimeException {
