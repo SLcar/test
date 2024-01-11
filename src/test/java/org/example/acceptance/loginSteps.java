@@ -40,6 +40,7 @@ public class loginSteps {
         ob1.customerIslLogin(ob1.getEmail(),ob1.getPassword());
         Assert.assertFalse(ob1.getCustomerLogin());
     }
+
     @Then("Admin can login")
     public void admin_can_login() {
         ob1.AdminLogin(ob1.getEmail(),ob1.getPassword());
@@ -74,6 +75,7 @@ public class loginSteps {
     }
     @Then("Installer enter false pass then can't login")
     public void installer_enter_false_pass_then_can_t_login() {
+        ob1.installerWrongPassword(ob1.getEmail(),ob1.getPassword());
         ob1.installerIsLogin(ob1.getEmail(),ob1.getPassword());
         Assert.assertFalse(ob1.getInstallerLogin());
     }
