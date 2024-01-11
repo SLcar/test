@@ -8,13 +8,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.security.SecureRandom;
 
-public class Installer {
+public class Installer extends RuntimeException {
+    public Installer(){
+
+    }
+
+    public Installer(String message, Throwable cause) {
+        super(message, cause);
+
+    }
+
+
     public static final String SRC_MAIN_RESOURCES_DATA_INSTALLER_TXT = "src/main/resources/Data/installer.txt";
     String data ;
     Order order = new Order();
 
 
-    public static String first;
+    static String first;
     public static final Logger logger = Logger.getLogger(Installer.class.getName());
     public static final String ENTER_CHOICE_MESSAGE = "Enter your choice: ";
     public static final String BOLD = "\u001B[1m";
@@ -71,18 +81,23 @@ public class Installer {
     public static void setIdInstallationFlag(boolean idInstallationFlag) {
         Installer.idInstallationFlag = idInstallationFlag;
     }
-    public static boolean idInstallationFlag = false;
-    public static long idInstallerRequest;
-    public static String preferredDate,preferredHour,product,locationInstalling,statusInstalling,completionDate;
+    static  boolean idInstallationFlag = false;
+    static long idInstallerRequest;
+    static String preferredDate;
+    static String preferredHour;
+    static String product;
+    static String locationInstalling;
+    static String statusInstalling;
+    static String completionDate;
     public static final String REQUEST_INSTALLATION_FILE_PATH = "src/main/resources/Data/requestInstallation.txt";
-    public String getInstallerName() {
+    public  String getInstallerName() {
         return installerName;
     }
-    public  void   setInstallerName(String setInstallerName) {
+    public  static void   setInstallerName(String setInstallerName) {
         installerName = setInstallerName;
     }
-    public static String installerName;
-    public ArrayList<String> listPrint = new ArrayList<>();
+    static String installerName;
+    ArrayList<String> listPrint = new ArrayList<>();
 
     public boolean isTheDataCancel() {
         return theDataCancel;
@@ -92,7 +107,7 @@ public class Installer {
         Installer.theDataCancel = theDataCancel;
     }
 
-    public static boolean theDataCancel;
+    static boolean theDataCancel;
     public  static final SecureRandom secureRandom = new SecureRandom();
 
     public void randomNumberGenerator() {
@@ -120,15 +135,11 @@ public class Installer {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
         }
     }
 
 
-    public Installer() {
-        viewRequestsFlag =false;
-        scheduleAppointmentFlag =false;
-    }
 
     public boolean isViewRequestsFlag() {
         return viewRequestsFlag;
@@ -251,10 +262,8 @@ public class Installer {
             raf.seek(start);
             raf.write(remainingBytes);
             raf.setLength(start + remainingBytes.length);
-            raf.close();
-
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
         }
     }
 
@@ -282,7 +291,7 @@ public class Installer {
             }
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
         }
 
     }
@@ -299,7 +308,7 @@ public class Installer {
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
         }
     }
 
@@ -322,7 +331,7 @@ public class Installer {
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
         }
     }
     public void ifExitIdInstallerRequestPendingToAdmin() {
@@ -341,7 +350,7 @@ public class Installer {
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
         }
     }
 
@@ -375,7 +384,7 @@ public class Installer {
                 logger.info("There is no Installation Request history");
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
         }
     }
 
@@ -426,7 +435,7 @@ public class Installer {
         }
     }
 
-    public void showAllInstallationRequestPending() {
+    public void showAllInstallationRequestPending()  {
         boolean dv =false;
         try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
             String s;
@@ -455,7 +464,8 @@ public class Installer {
                 logger.info("There is no Installation Request pending");
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
+
         }
     }
 
@@ -506,7 +516,7 @@ public class Installer {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
         }
     }
     public  void  enterDataOfRequest(){
@@ -576,7 +586,6 @@ public class Installer {
                 }
             }}
     }
-    /////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -686,7 +695,7 @@ public class Installer {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
         }
     }
 
@@ -756,7 +765,7 @@ public class Installer {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Installer("Error during customer login", e);
         }
 
     }
