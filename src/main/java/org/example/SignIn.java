@@ -3,6 +3,9 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static org.example.Main.installer;
+
 public class SignIn {
     public static final String SRC_MAIN_RESOURCES_DATA_CUSTUMOR_DATA_TXT = "src/main/resources/Data/custumorData.txt";
     public static final String SRC_MAIN_RESOURCES_DATA_ADMIN_DATA_TXT = "src/main/resources/Data/AdminData.txt";
@@ -72,7 +75,7 @@ public class SignIn {
     }
 
     public void installerInSystem() {
-        Installer.setInstallerLogin(getInstallerLogin());
+        installer.setInstallerLogin(getInstallerLogin());
     }
 
     public void setName(String name) {
