@@ -10,8 +10,8 @@ import static org.example.Registration.logger;
 
 
 public class Main {
-   public final  static String[] ARRAY_OF_TOPIC =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
-    public final static String[] ARRAY_OF_MSG = {"The Installation has been confirmed","We are sorry, but the Installation Request has been canceled due to logistical restrictions beyond our store's control","Thank you for using our company"}; // Creating an array that can hold 3 strings
+    public static final String[] ARRAY_OF_TOPIC =  {"Installation confirmation", "installer not available", "Cancel Installation Request","Task finished"}; // Creating an array that can hold 3 strings
+    public static final String[] ARRAY_OF_MSG = {"The Installation has been confirmed","We are sorry, but the Installation Request has been canceled due to logistical restrictions beyond our store's control","Thank you for using our company"}; // Creating an array that can hold 3 strings
     public static final String ENTER_YOUR_CHOICE = "Enter your choice: ";
     public static final String ENTER_THE_NAME_OF_CATEGORY = "Enter The name of category";
     public static final String INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE = "Invalid choice! Please enter a valid choice.\n";
@@ -286,7 +286,7 @@ public class Main {
             String enterPassword = sign.enterPass();
             sign.customerIslLogin(enterEmail,enterPassword);
             if(sign.customerLogin) {
-                Customer_menu(sign.customerName);
+                customerMenu(sign.customerName);
                 customer.setTheCustomerIs(sign.getNumberOfLine());
             }
         }   else if (sign.getTheUser() == 3) {
@@ -419,7 +419,7 @@ public class Main {
             logger.log(Level.WARNING, Product.CATEGORY_NOT_EXIST_WARNING +"\n");
 
     }
-    public static void Customer_menu (String costName) {
+    public static void customerMenu(String costName) {
         customer.setUserName(costName);
         customer.setBrowseProductsFlag(false);
         customer.setViewOrdersFlag(false);
@@ -428,7 +428,7 @@ public class Main {
         customer.setSettingFlag(false);
         int choice;
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n -------  Welcome " +  costName  + " ---------"+"\n"+
+        logger.log(Level.INFO,"\n -------  Welcome " +  costName  + " ---------\n"+
                 "|      1.Browse products           |\n"+
                 "|      2.make purchases            |\n"+
                 "|      3.view orders               |\n"+
@@ -473,7 +473,7 @@ public class Main {
             customer.searchTheCustomer();
             order.makePurchasesMenu();
             order.makePurchasesMenu1();
-            Customer_menu(sign.customerName);
+            customerMenu(sign.customerName);
         }
         else if (customer.viewOrdersFlag) {
             customer.searchTheCustomer();
@@ -547,7 +547,7 @@ public class Main {
             settingMenuCustomer();
         }
         else if (choice==5){
-            Customer_menu (customer.getUserName());
+            customerMenu(customer.getUserName());
         }
         else {
             logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
@@ -576,7 +576,7 @@ public class Main {
         else if (choice == 2) {searchMenu();
             browseProductsMenu();
         } else if (choice==3) {
-            Customer_menu(sign.customerName);
+            customerMenu(sign.customerName);
         } else {
             logger.log(Level.INFO, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             browseProductsMenu();
@@ -666,7 +666,11 @@ public class Main {
                     """;
             logger.log(Level.INFO, enter);
             logger.log(Level.INFO, Admin.getMsg);
-            choice = scanner.nextInt(); String choice2; String oldPass; String newPass; String newPassCon;
+            choice = scanner.nextInt();
+            String choice2;
+            String oldPass;
+            String newPass;
+            String newPassCon;
             if (choice == 1) {
                 logger.log(Level.INFO, "Enter The new user Name:");
                 choice2 = scanner1.nextLine();
@@ -823,7 +827,7 @@ public class Main {
         Installer.setScheduleAppointmentFlag(false);
         int choice;
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n\u001B[35m" + "------- Welcome  " + installerName +"  ------\n"+
+        logger.log(Level.INFO,"------- Welcome  " + installerName +"  ------\n"+
                 "|     1.View history requests      |\n"+
                 "|     2.schedule appointment.      |\n"+
                 "|     3.Home                       |\n"+
@@ -989,7 +993,7 @@ public class Main {
             cancelIt();
             installerServicesMenu();
         } else if (choice==4) {
-            Customer_menu(sign.customerName);
+            customerMenu(sign.customerName);
         } else {
             logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }
@@ -1034,7 +1038,7 @@ public class Main {
             userAccountMenuOrder();
 
         } else if (choice==3) {
-            Customer_menu(sign.customerName);
+            customerMenu(sign.customerName);
         } else {
             logger.log(Level.WARNING, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }
@@ -1069,7 +1073,7 @@ public class Main {
                 ---------------------------------------
                 """;
         logger.log(Level.INFO,order.show);
-        logger.log(Level.INFO, Order.ENTER_YOUR_CHOICE + Order.M);
+        logger.log(Level.INFO, Order.ENTER_YOUR_CHOICE );
         choice = scanner.nextInt();
         if (choice == 1) {
             order.ifOrderExit(scanner);
@@ -1078,7 +1082,7 @@ public class Main {
                 pendingMenu();
             }
             else{
-                logger.log(Level.WARNING, Order.getString2() + Order.M_THE_ORDER_NOT_FOUND + Order.M);
+                logger.log(Level.WARNING, Order.M_THE_ORDER_NOT_FOUND);
                 pendingMenu();
             }
         }
@@ -1091,7 +1095,7 @@ public class Main {
             }
 
             else{
-                logger.log(Level.WARNING, Order.getString2() + Order.M_THE_ORDER_NOT_FOUND + Order.M);
+                logger.log(Level.WARNING, Order.M_THE_ORDER_NOT_FOUND);
                 pendingMenu();
             }
 
@@ -1142,7 +1146,7 @@ public class Main {
         logger.log(Level.INFO, Order.ENTER_YOUR_CHOICE);
         choice = scanner.nextInt();
         if (choice == 1) {
-            logger.log(Level.INFO,"Enter The Number Of Order: ");
+            logger.log(Level.INFO,ENTER_THE_NUMBER_OF_ORDER);
             order.setOrderNumber(scanner.nextLong());
             order.ifOrderExitDelivered(String.valueOf(order.getOrderNumber()));
             if(order.isIfOrderExist()){
