@@ -10,8 +10,11 @@ import static org.example.Registration.logger;
 
 
 public class Main {
+    public static final String ENTER_YOUR_CHOICE = "Enter your choice: ";
+    public static final String ENTER_THE_NAME_OF_CATEGORY = "Enter The name of category";
+    public static final String INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE = "Invalid choice! Please enter a valid choice.\n";
     static Scanner  scanner = new Scanner(System.in);
-    public static final String wrongData = "Invalid choice! Please enter a valid choice.";
+    public static final String WRONG_DATA = "Invalid choice! Please enter a valid choice.";
     public static final String ENTER_THE_NUMBER_OF_ORDER = "Enter The Number Of Order: ";
     static Category category=new Category();
     static Gmail  gmailSend = new Gmail();
@@ -34,7 +37,7 @@ public class Main {
             |                                |
             ----------------------------------
             """);
-        logger.log(Level.INFO,"Enter your choice: ");
+        logger.log(Level.INFO, ENTER_YOUR_CHOICE);
         choice = scanner.nextInt();
         if (choice == 1) {signupMenu(); menu();
         } else if (choice == 2) {
@@ -43,7 +46,7 @@ public class Main {
         } else if (choice == 3) {
             System.exit(0);
         } else {
-            logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.\n");
+            logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             menu();
         }
 
@@ -95,12 +98,12 @@ public class Main {
                 |                                 |
                 ----------------------------------
                 """);
-        logger.log(Level.INFO,"Enter your choice: ");
+        logger.log(Level.INFO,ENTER_YOUR_CHOICE);
         choice = scanner.nextInt();
         if (choice == 1) {
             category.printAllCategory(); back();}
         else if (choice == 2) {
-            logger.log(Level.INFO,"Enter The name of category");
+            logger.log(Level.INFO, ENTER_THE_NAME_OF_CATEGORY);
             String names = Category.getTheNameOfCat(scanner); category.addNewCategory(names);
             category.extractedAddNewCat(names);back();}
         else if (choice == 3) {
@@ -113,7 +116,7 @@ public class Main {
             back();
         }
         else if (choice == 4) {
-            logger.log(Level.INFO,"Enter The name of category");
+            logger.log(Level.INFO,ENTER_THE_NAME_OF_CATEGORY);
             String names = Category.getTheNameOfCat(scanner);
             category.deleteTheCategory(names);
             category.extractedDeleteCat(names);
@@ -122,7 +125,7 @@ public class Main {
         else if (choice==5) menu();
 
         else {
-            logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice."+ Category.RESET_COLOR);
+            logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             menuCategory();
         }
 
@@ -132,8 +135,10 @@ public class Main {
 
                 1) back\s
                 2) Exit""");
-        int choice; Scanner scanner = new Scanner(System.in); choice = scanner.nextInt();
-        if(choice==1)  menuCategory(); System.exit(0); }
+        int choice;
+        choice = scanner.nextInt();
+        if(choice==1)  menuCategory();
+        else System.exit(0); }
 
     public static  void userAccountMenu(){
         if (admin.isProductsFlag()) menuProduct();
@@ -142,7 +147,7 @@ public class Main {
         else if (admin.orderCustomerFlag) menuOrderCustomer();
         else if (admin.installationRequestsFlag) installer_menu(admin.getAdminName());
     }
-    public static String enter;
+    static String enter;
     public static void menuOrderCustomer(){
         int choice;
         Scanner scanner = new Scanner(System.in);
@@ -204,14 +209,7 @@ public class Main {
         admin.setInstallationRequestsFlag(false);
         admin.setAdminName(adminName);
 
-        String menu = "\n\u001B[37m" + "----------  Welcome " + adminName + " -------" + "\n" +
-                "|    1. Manage products                  |\n" +
-                "|    2. Manage categories                |\n" +
-                "|    3. Manage user accounts.            |\n" +
-                "|    4. Manage order Customer.           |\n" +
-                "|    5. Manage Installation Requests     |\n" +
-                "|    6. Home                             |\n" +
-                "------------------------------------------\n";
+        String menu = "\n----------  Welcome %s -------\n|    1. Manage products                  |\n|    2. Manage categories                |\n|    3. Manage user accounts.            |\n|    4. Manage order Customer.           |\n|    5. Manage Installation Requests     |\n|    6. Home                             |\n------------------------------------------\n".formatted(adminName);
 
         logger.log(Level.INFO, menu);
         logger.log(Level.INFO, Admin.getMsg);
@@ -227,7 +225,7 @@ public class Main {
             case 5 -> admin.installationRequestsFlag = true;
             case 6 ->menu();
             default -> {
-                logger.log(Level.WARNING, String.format("%s", Admin.INVALID_CHOICE_MESSAGE));
+                logger.log(Level.WARNING,Admin.INVALID_CHOICE_MESSAGE);
                 adminMenu(adminName);
                 return;
             }
@@ -247,13 +245,13 @@ public class Main {
                 |          4. Home               |
                 ----------------------------------
                 """);
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO,ENTER_YOUR_CHOICE);
         choice1 = scanner1.nextInt();
         if (choice1 == 1){ sign.setTheUser(1); whoIsLogin();}
         else if (choice1 ==2){sign.setTheUser(2);whoIsLogin();}
         else if (choice1==3) {sign.setTheUser(3);whoIsLogin();}
         else if (choice1==4) menu();
-        else{logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.");}
+        else{logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);}
     }
 
     public  static  void whoIsLogin(){
@@ -304,7 +302,7 @@ public class Main {
         if(choice==1)
         {
             product.printAllCategory();
-            logger.log(Level.INFO,"Enter The name of category");
+            logger.log(Level.INFO,ENTER_THE_NAME_OF_CATEGORY);
             String nameCato= Product.getTheNameOfCat(scanner);
             product.ifCategoryExist(nameCato);
             if (product.isCategoryExistFlag()){
@@ -334,7 +332,7 @@ public class Main {
         } else if (choice==6) adminMenu(admin.getAdminName());
 
             else {
-            logger.log(Level.INFO, "Invalid choice! Please enter a valid choice.");
+            logger.log(Level.INFO, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             menuProduct();
         }
     }
@@ -385,7 +383,7 @@ public class Main {
         else if (choice==5) adminMenu(admin.getAdminName());
 
         else {
-            logger.log(Level.INFO,"Invalid choice! Please enter a valid choice.");
+            logger.log(Level.INFO,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             menuProduct();
         }
     }
@@ -393,7 +391,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         product.printAllCategory();
 
-        logger.log(Level.INFO, "\u001B[35m What is the category of product?");
+        logger.log(Level.INFO, "What is the category of product?");
         product.categoryName = scanner.nextLine();
         product.ifCategoryExist(product.categoryName);
         if(product.isCategoryExistFlag()){
@@ -403,8 +401,8 @@ public class Main {
             logger.log(Level.WARNING, Product.CATEGORY_NOT_EXIST_WARNING +"\n");
 
     }
-    public static void Customer_menu (String CostName) {
-        customer.setUserName(CostName);
+    public static void Customer_menu (String costName) {
+        customer.setUserName(costName);
         customer.setBrowseProductsFlag(false);
         customer.setViewOrdersFlag(false);
         customer.setMakePurchasesFlag(false);
@@ -412,17 +410,8 @@ public class Main {
         customer.setSettingFlag(false);
         int choice;
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"\n -------  Welcome " +  CostName  + " ---------"+"\n"+
-                "|                                  |\n" +
-                "|      1.Browse products           |\n"+
-                "|      2.make purchases            |\n"+
-                "|      3.view orders               |\n"+
-                "|      4.Installation Services     |\n"+
-                "|      5.Setting                   |\n"+
-                "|      6.logout                    |\n"+
-                "|                                  |\n"+
-                "-----------------------------------\n");
-        logger.log(Level.INFO,"Enter your choice: "+"\u001B[0m");
+        logger.log(Level.INFO, "\n -------  Welcome %s ---------\n|      1.Browse products           |\n|      2.make purchases            |\n|      3.view orders               |\n|      4.Installation Services     |\n|      5.Setting                   |\n|      6.logout                    |\n-----------------------------------\n".formatted(costName));
+        logger.log(Level.INFO,ENTER_YOUR_CHOICE);
         choice = scanner.nextInt();
         if (choice == 1) {
             customer.browseProductsFlag = true;
@@ -448,7 +437,7 @@ public class Main {
         }
         else if (choice == 6) menu();
         else {
-            logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }
     }
     public static void userAccountMenuCustomer(){
@@ -473,7 +462,7 @@ public class Main {
 
         }
         else {
-            logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }
     }
     public static void settingMenuCustomer() {
@@ -484,16 +473,14 @@ public class Main {
         logger.log(Level.INFO, """
 
                 \u001B[36m------- Customer Profile -------
-                |                             |
                 |     1. edit Password        |
                 |     2. edit Gmail           |
                 |     3. edit PhoneNumber     |
                 |     4. edit Address         |
                 |     5. back                 |
-                |                             |
                 ------------------------------
                 """);
-        logger.log(Level.INFO,"Enter your choice: ");
+        logger.log(Level.INFO,ENTER_YOUR_CHOICE);
         choice = scanner.nextInt();
         String choice2 ;
         String oldPass ;
@@ -538,7 +525,7 @@ public class Main {
             Customer_menu (customer.getUserName());
         }
         else {
-            logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }
     }
     public static void BrowseProductsMenu() {
@@ -547,17 +534,16 @@ public class Main {
         logger.log(Level.INFO, """
             
             \u001B[35m---------------------------------
-            |                                    |
             |      1. Show all products          |
             |      2. Search products            |
             |      3. Back                       |\s
             --------------------------------------
             """);
-        logger.log(Level.INFO,"Enter your choice: ");
+        logger.log(Level.INFO,ENTER_YOUR_CHOICE);
         choice = scanner.nextInt();
         if (choice == 1) {
             product.printAllCategory();
-            logger.log(Level.INFO,"Enter The name of category");
+            logger.log(Level.INFO,ENTER_THE_NAME_OF_CATEGORY);
             Scanner scanner2 = new Scanner(System.in);
             customer.ShowTheProduct(scanner2.next());
             BrowseProductsMenu();
@@ -567,7 +553,7 @@ public class Main {
         } else if (choice==3) {
             Customer_menu(sign.customerName);
         } else {
-            logger.log(Level.INFO, "Invalid choice! Please enter a valid choice.");
+            logger.log(Level.INFO, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             BrowseProductsMenu();
 
         }
@@ -587,13 +573,13 @@ public class Main {
                 |                                    |
                 -------------------------------------
                 """);
-        logger.log(Level.INFO, "Enter your choice: ");
+        logger.log(Level.INFO, ENTER_YOUR_CHOICE);
         choice = scanner.nextInt();
         if (choice == 4) {
             menuManageAccountUserAdmin();
         }
         else
-        {logger.log(Level.INFO, wrongData);}
+        {logger.log(Level.INFO, WRONG_DATA);}
 
 }
     public static void enterData() {
@@ -754,7 +740,7 @@ public class Main {
             installer_menu(sign.installerName);
 
         } else {
-            logger.log(Level.WARNING, "Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             scheduleAppointment_menu();
         }
     }
@@ -805,7 +791,7 @@ public class Main {
         } else if (choice==4) {
             scheduleAppointment_menu();
         } else {
-            logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             sendEmailNewDayHour();
         }
     }
@@ -822,7 +808,7 @@ public class Main {
                 "|     3.Home                       |\n"+
                 "|                                  |\n"+
                 " ---------------------------------- \n");
-        logger.log(Level.INFO,"Enter your choice: ");
+        logger.log(Level.INFO,ENTER_YOUR_CHOICE);
 
         choice = scanner.nextInt();
         if (choice == 1) {
@@ -834,7 +820,7 @@ public class Main {
         } else if (choice==3) {
             menu();
         } else {
-            logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             installer_menu(installerName);
         }
 
@@ -906,7 +892,7 @@ public class Main {
         else if (choice==3)   menuManageAccountUserAdmin();
 
         else {
-            logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }
     }
     public static void changeInstallerAccountMenu() {
@@ -949,7 +935,7 @@ public class Main {
         } else if (choice==4) {
             menuInstallerAdmin();
         } else {
-            logger.log(Level.WARNING, "Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }
     }
     public static void installerServicesMenu() {
@@ -985,7 +971,7 @@ public class Main {
         } else if (choice==4) {
             Customer_menu(sign.customerName);
         } else {
-            logger.log(Level.WARNING,"Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }
     }
 
@@ -1030,7 +1016,7 @@ public class Main {
         } else if (choice==3) {
             Customer_menu(sign.customerName);
         } else {
-            logger.log(Level.WARNING, Order.getString2() + "\u001B[31mInvalid choice! Please enter a valid choice." + Order.M);
+            logger.log(Level.WARNING, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }
 
     }
@@ -1094,7 +1080,7 @@ public class Main {
             if(order.isIfOrderExist()) {
                 String name = order.getCustomerName() + "-" + order.getIdCustomer();
                 order.deleteOrder(name);
-                logger.log(Level.INFO, Order.getString2() + "\u001B[31m The Order is deleted Successfully" + Order.M);
+                logger.log(Level.INFO, Order.getString2() + "The Order is deleted Successfully");
                 pendingMenu();
             }
             else{
@@ -1104,7 +1090,7 @@ public class Main {
         } else if (choice==4) {
             manageOrderMenu();
         } else{
-            logger.log(Level.WARNING, Order.getString2() + "Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }}
     public  static void extractedEdit(Scanner scanner) {
 
@@ -1152,7 +1138,7 @@ public class Main {
             }}
 
         else{
-            logger.log(Level.WARNING, "Invalid choice! Please enter a valid choice.");
+            logger.log(Level.WARNING, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             manageOrderMenu();
         }}
 
