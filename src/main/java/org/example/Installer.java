@@ -1,4 +1,5 @@
 package org.example;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -8,9 +9,11 @@ import java.util.logging.Logger;
 import java.security.SecureRandom;
 
 public class Installer {
-    public static final String REQUEST_INSTALLATION = "requestInstallation";
+    public static final String SRC_MAIN_RESOURCES_DATA_INSTALLER_TXT = "src/main/resources/Data/installer.txt";
     String data ;
     Order order = new Order();
+
+
     public static String first;
     public static final Logger logger = Logger.getLogger(Installer.class.getName());
     public static final String ENTER_CHOICE_MESSAGE = "Enter your choice: ";
@@ -180,15 +183,15 @@ public class Installer {
             if(truepass(newPass,newPassCon)){
                 deleteFileFunction();
                 writeToFile(getFirst()+","+getSec()+","+newPass);
-                logger.log(Level.INFO,"The Password has been changed successfully");
+                logger.log(Level.INFO,"\u001B[35m"+"The Password has been changed successfully"+RESET_COLOR);
 
             }
             else
-                logger.log(Level.WARNING,"The Two password does not match");
+                logger.log(Level.WARNING,BOLD+"\u001B[31mThe Two password does not match"+RESET_COLOR);
 
         }
         else
-            logger.log(Level.WARNING,"The password is incorrect");
+            logger.log(Level.WARNING,BOLD+"\u001B[31mThe password is incorrect"+RESET_COLOR);
 
     }
     public void editeUserName(String choice2) {
@@ -207,7 +210,7 @@ public class Installer {
     public void writeToFile(String s) {
         RandomAccessFile file=null;
         try {
-            file = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw");
+            file = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_INSTALLER_TXT, "rw");
             file.seek(file.length());
             file.writeBytes(s);
             file.close();
@@ -227,7 +230,7 @@ public class Installer {
     }
 
     private void deleteFileFunction() {
-        try (RandomAccessFile raf = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
+        try (RandomAccessFile raf = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_INSTALLER_TXT, "rw")) {
             // Seek to the beginning of the file
             long start = 0;
             long currentPos = raf.getFilePointer();
@@ -248,6 +251,7 @@ public class Installer {
             raf.seek(start);
             raf.write(remainingBytes);
             raf.setLength(start + remainingBytes.length);
+            raf.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -268,7 +272,7 @@ public class Installer {
     public static String third;
     public void fileFunction(){
 
-        try (RandomAccessFile raf = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
+        try (RandomAccessFile raf = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_INSTALLER_TXT, "rw")) {
             String s;
             while ((s = raf.readLine()) != null) {
                 String[] loginCustomer = s.split(",");
@@ -283,7 +287,7 @@ public class Installer {
 
     }
     public void showInstallerAccount() {
-        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_INSTALLER_TXT, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
                 String[] productData = s.split(",");
@@ -302,7 +306,7 @@ public class Installer {
 
     public void ifExitIdInstallerRequestPending() {
         numberOfLine=-1;
-        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
+        try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH, "rw")) {
             String s;
             String IdInstallation = String.valueOf(getIdInstallerRequest());
             while ((s = ref.readLine()) != null) {
@@ -687,15 +691,16 @@ public class Installer {
     }
 
     public void putDay(String anyDay) {
-        order.deleteOrder2(REQUEST_INSTALLATION,getNumberOfLine());
+        order.deleteOrder2("requestInstallation",getNumberOfLine());
         checkIfDayAndHourAppropriate(anyDay,getPreferredHour());
         dataTrueOrNO();
     }
 
     public void putTime(String anyTime) {
-        order.deleteOrder2(REQUEST_INSTALLATION,getNumberOfLine());
+        order.deleteOrder2("requestInstallation",getNumberOfLine());
         checkIfDayAndHourAppropriate(getPreferredDate(),anyTime);
         dataTrueOrNO();
+        //   addThisInstallerRequest();
 
     }
     public void putDayAndTime(String anyDay,String time) {
