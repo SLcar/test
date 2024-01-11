@@ -5,6 +5,8 @@ Feature: user sign up
     And   the  password "1111"
     And   the confirmPassword is "1111"
     And   the id is "12345678"
+    And   The Address is "Quds Street"
+    And   The phone Number is "0594444"
     Then  customer can sign up
 
   Scenario: Customer Enter different password
