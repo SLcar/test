@@ -274,24 +274,24 @@ public class Main {
 
     public  static  void whoIsLogin(){
         if(sign.getTheUser() == 1){
-            String enterEmail = sign.enterEmail();
-            String enterPassword = sign.enterPass();
+            String enterEmail = enterEmailS();
+            String enterPassword = enterPassS();
             sign.AdminLogin(enterEmail,enterPassword);
             if (sign.adminloged)
                 adminMenu(sign.getAdminMenuName());
         }
 
         else if (sign.getTheUser() == 2) {
-            String enterEmail = sign.enterEmail();
-            String enterPassword = sign.enterPass();
+            String enterEmail = enterEmailS();
+            String enterPassword = enterPassS();
             sign.customerIslLogin(enterEmail,enterPassword);
             if(sign.customerLogin) {
                 customerMenu(sign.customerName);
                 customer.setTheCustomerIs(sign.getNumberOfLine());
             }
         }   else if (sign.getTheUser() == 3) {
-            String enterEmail = sign.enterEmail();
-            String enterPassword = sign.enterPass();
+            String enterEmail = enterEmailS();
+            String enterPassword = enterPassS();
             sign.installerIsLogin(enterEmail,enterPassword);
             if(sign.installerLogin)
                 installer_menu(sign.installerName);
@@ -1201,6 +1201,9 @@ public class Main {
         }
     }
 
+
+    public static String enterEmailS(){scanner = new Scanner(System.in);logger.log(Level.INFO,"\u001B[32mEnter the email:" + "\u001B[0m");return scanner.nextLine();}
+    public static String enterPassS(){scanner = new Scanner(System.in);logger.log(Level.INFO,"Enter the password:");return scanner.nextLine();}
 
     public static void main(String[] args) {
         menu();
