@@ -13,6 +13,9 @@ public class Main {
     public static final String ENTER_YOUR_CHOICE = "Enter your choice: ";
     public static final String ENTER_THE_NAME_OF_CATEGORY = "Enter The name of category";
     public static final String INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE = "Invalid choice! Please enter a valid choice.\n";
+    public static final String ENTER_THE_OLD_PASSWORD = "Enter The old password:";
+    public static final String ENTER_THE_NEW_PASSWORD = "Enter The new password:";
+    public static final String CONFIRM_THE_PASSWORD = "Confirm The  password:";
     static Scanner  scanner = new Scanner(System.in);
     public static final String WRONG_DATA = "Invalid choice! Please enter a valid choice.";
     public static final String ENTER_THE_NUMBER_OF_ORDER = "Enter The Number Of Order: ";
@@ -209,7 +212,14 @@ public class Main {
         admin.setInstallationRequestsFlag(false);
         admin.setAdminName(adminName);
 
-        String menu = "\n----------  Welcome %s -------\n|    1. Manage products                  |\n|    2. Manage categories                |\n|    3. Manage user accounts.            |\n|    4. Manage order Customer.           |\n|    5. Manage Installation Requests     |\n|    6. Home                             |\n------------------------------------------\n".formatted(adminName);
+        String menu = "\n----------  Welcome " + adminName + " -------\n" +
+                "|    1. Manage products                  |\n" +
+                "|    2. Manage categories                |\n" +
+                "|    3. Manage user accounts.            |\n" +
+                "|    4. Manage order Customer.           |\n" +
+                "|    5. Manage Installation Requests     |\n" +
+                "|    6. Home                             |\n" +
+                "------------------------------------------\n";
 
         logger.log(Level.INFO, menu);
         logger.log(Level.INFO, Admin.getMsg);
@@ -410,7 +420,14 @@ public class Main {
         customer.setSettingFlag(false);
         int choice;
         Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO, "\n -------  Welcome %s ---------\n|      1.Browse products           |\n|      2.make purchases            |\n|      3.view orders               |\n|      4.Installation Services     |\n|      5.Setting                   |\n|      6.logout                    |\n-----------------------------------\n".formatted(costName));
+        logger.log(Level.INFO,"\n -------  Welcome " +  costName  + " ---------"+"\n"+
+                "|      1.Browse products           |\n"+
+                "|      2.make purchases            |\n"+
+                "|      3.view orders               |\n"+
+                "|      4.Installation Services     |\n"+
+                "|      5.Setting                   |\n"+
+                "|      6.logout                    |\n"+
+                "-----------------------------------\n");
         logger.log(Level.INFO,ENTER_YOUR_CHOICE);
         choice = scanner.nextInt();
         if (choice == 1) {
@@ -489,11 +506,11 @@ public class Main {
 
 
         if (choice ==1) {
-            logger.log(Level.INFO,"Enter The old password:");
+            logger.log(Level.INFO, ENTER_THE_OLD_PASSWORD);
             oldPass = scanner1.nextLine();
-            logger.log(Level.INFO,"Enter The new password:");
+            logger.log(Level.INFO, ENTER_THE_NEW_PASSWORD);
             newPass = scanner1.nextLine();
-            logger.log(Level.INFO,"Confirm The  password:");
+            logger.log(Level.INFO, CONFIRM_THE_PASSWORD);
             newPassCon = scanner1.nextLine();
             customer.editePassword(oldPass,newPass,newPassCon);
             settingMenuCustomer();
@@ -651,11 +668,11 @@ public class Main {
                 logger.log(Level.INFO, "The user name has been changed successfully");
                 continue;
             } else if (choice == 2) {
-                logger.log(Level.INFO, "Enter The old password:");
+                logger.log(Level.INFO, ENTER_THE_OLD_PASSWORD);
                 oldPass = scanner1.nextLine();
-                logger.log(Level.INFO, "Enter The new password:");
+                logger.log(Level.INFO, ENTER_THE_NEW_PASSWORD);
                 newPass = scanner1.nextLine();
-                logger.log(Level.INFO, "Confirm The  password:");
+                logger.log(Level.INFO, CONFIRM_THE_PASSWORD);
                 newPassCon = scanner1.nextLine();
                 admin.editePassword(oldPass, newPass, newPassCon);
                 continue;
@@ -920,11 +937,11 @@ public class Main {
             installer.editeUserName(choice2);
             logger.log(Level.INFO, "The user name has been changed successfully");
         } else if (choice == 2) {
-            logger.log(Level.INFO, "Enter The old password:");
+            logger.log(Level.INFO, ENTER_THE_OLD_PASSWORD);
             oldPass = scanner1.nextLine();
-            logger.log(Level.INFO, "Enter The new password:");
+            logger.log(Level.INFO, ENTER_THE_NEW_PASSWORD);
             newPass = scanner1.nextLine();
-            logger.log(Level.INFO, "Confirm The  password:");
+            logger.log(Level.INFO, CONFIRM_THE_PASSWORD);
             newPassCon = scanner1.nextLine();
             installer.editePassword(oldPass, newPass, newPassCon);
         } else if (choice == 3) {
