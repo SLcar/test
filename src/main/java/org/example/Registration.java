@@ -1,16 +1,17 @@
 package org.example;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class Registration {
-    SignIn ob1 =new SignIn();
     static Logger logger = Logger.getLogger(Registration.class.getName());
     private String name;
     private String email;
     private String password;
     private String comPassword;
+    private String address;
+    private int id;
+    private int phone;
     public String getAddress() {
         return address;
     }
@@ -23,16 +24,16 @@ public class Registration {
     public void setPhone(int phone) {
         this.phone = phone;
     }
-    private String address;
-    private int id;
-    private int phone;
+
     public boolean isIfEmailFound() {
         return ifEmailFound;
     }
+
     public void setIfEmailFound(boolean ifEmailFound) {
         this.ifEmailFound = ifEmailFound;
     }
     private boolean ifEmailFound;
+
     public boolean getCustomerRegistrationCompleted() {
         return customerRegistrationCompleted;
     }
@@ -124,40 +125,5 @@ public class Registration {
         }
 
     }
-    public void returnEnterEmail() {
-        logger.log(Level.INFO,"Enter The Email:");
-        Scanner scanner = new Scanner(System.in);
-        setEmail(scanner.next());
-        searchIfEmailIsAlreadyExist(getEmail());
-        if(isIfEmailFound()){
-            returnEnterEmail();
-        }
-        else if (!truepass(getPassword(),getComPassword())) {
-            returnEnterPass(this);
-        }
-        else {
-            String dD =getName()+"," +getEmail() + "," + getPassword() + "," + getComPassword() + "," + getId()+","+getPhone()+"\n";
-            storeDataToFile(dD);
-            logger.log(Level.INFO,"The registration process was completed successfully ");
-           // ob1.loginMenu();
-        }
-    }
-    public void returnEnterPass(Registration ob ){
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.WARNING,"\u001B[1m" +"\u001B[31m" + "The two passwords do not match!");
-        logger.log(Level.INFO,"Enter your Password:");
-        ob.setPassword(scanner.next());
-        logger.log(Level.INFO,"Confirm your Password:");
-        ob.setComPassword(scanner.next());
-        if(truepass(ob.getPassword(), ob.getComPassword())){
-            String dD =getName()+"," +getEmail() + "," + getPassword() + "," + getComPassword() + "," + getId()+","+getPhone()+"\n";
-            storeDataToFile(dD);
-            logger.log(Level.INFO,"The registration process was completed successfully\n");
 
-           // ob1.loginMenu();
-            }
-        else {
-            returnEnterPass(this);
-        }
-    }
 }
