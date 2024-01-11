@@ -17,6 +17,11 @@ public class Main {
     public static final String ENTER_THE_NEW_PASSWORD = "Enter The new password:";
     public static final String CONFIRM_THE_PASSWORD = "Confirm The  password:";
     public static final String THE_REGISTRATION_PROCESS_WAS_COMPLETED_SUCCESSFULLY = "The registration process was completed successfully\n";
+    public static final String THE_GMAIL_HAS_BEEN_CHANGED_SUCCESSFULLY = "The Gmail has been changed successfully";
+    public static final String ENTER_THE_NEW_GMAIL = "Enter The new Gmail:";
+    public static final String PENDING = "pending";
+    public static final String SCHEDULED = "scheduled";
+    public static final String REQUEST_INSTALLATION = "requestInstallation";
     static Scanner  scanner = new Scanner(System.in);
     public static final String WRONG_DATA = "Invalid choice! Please enter a valid choice.";
     public static final String ENTER_THE_NUMBER_OF_ORDER = "Enter The Number Of Order: ";
@@ -460,7 +465,7 @@ public class Main {
     }
     public static void userAccountMenuCustomer(){
         if (customer.browseProductsFlag){
-            BrowseProductsMenu();
+            browseProductsMenu();
         }
         else if (customer.makePurchasesFlag) {
             customer.searchTheCustomer();
@@ -517,10 +522,10 @@ public class Main {
             settingMenuCustomer();
         }
         else if (choice ==2) {
-            logger.log(Level.INFO,"Enter The new Gmail:");
+            logger.log(Level.INFO, ENTER_THE_NEW_GMAIL);
             choice2 = scanner1.nextLine();
             customer.editeGmail(choice2);
-            logger.log(Level.INFO,"The Gmail has been changed successfully");
+            logger.log(Level.INFO, THE_GMAIL_HAS_BEEN_CHANGED_SUCCESSFULLY);
             settingMenuCustomer();
 
         }
@@ -546,7 +551,7 @@ public class Main {
             logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
         }
     }
-    public static void BrowseProductsMenu() {
+    public static void browseProductsMenu() {
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO, """
@@ -564,15 +569,15 @@ public class Main {
             logger.log(Level.INFO,ENTER_THE_NAME_OF_CATEGORY);
             Scanner scanner2 = new Scanner(System.in);
             customer.ShowTheProduct(scanner2.next());
-            BrowseProductsMenu();
+            browseProductsMenu();
         }
         else if (choice == 2) {searchMenu();
-            BrowseProductsMenu();
+            browseProductsMenu();
         } else if (choice==3) {
             Customer_menu(sign.customerName);
         } else {
             logger.log(Level.INFO, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
-            BrowseProductsMenu();
+            browseProductsMenu();
 
         }
     }
@@ -645,7 +650,6 @@ public class Main {
         }
     }
     public static void editAdminProfile() {
-        while (true) {
             int choice;
             Scanner scanner = new Scanner(System.in);
             Scanner scanner1 = new Scanner(System.in);
@@ -660,14 +664,13 @@ public class Main {
                     """;
             logger.log(Level.INFO, enter);
             logger.log(Level.INFO, Admin.getMsg);
-            choice = scanner.nextInt();
-            String choice2, oldPass, newPass, newPassCon;
+            choice = scanner.nextInt(); String choice2; String oldPass; String newPass; String newPassCon;
             if (choice == 1) {
                 logger.log(Level.INFO, "Enter The new user Name:");
                 choice2 = scanner1.nextLine();
                 admin.editeUserName(choice2);
                 logger.log(Level.INFO, "The user name has been changed successfully");
-                continue;
+                editAdminProfile();
             } else if (choice == 2) {
                 logger.log(Level.INFO, ENTER_THE_OLD_PASSWORD);
                 oldPass = scanner1.nextLine();
@@ -676,25 +679,23 @@ public class Main {
                 logger.log(Level.INFO, CONFIRM_THE_PASSWORD);
                 newPassCon = scanner1.nextLine();
                 admin.editePassword(oldPass, newPass, newPassCon);
-                continue;
-
+                editAdminProfile();
             } else if (choice == 3) {
-                logger.log(Level.INFO, "Enter The new Gmail:");
+                logger.log(Level.INFO, ENTER_THE_NEW_GMAIL);
                 choice2 = scanner1.nextLine();
                 admin.editeGmail(choice2);
-                logger.log(Level.INFO, "The Gmail has been changed successfully");
-                continue;
-
+                logger.log(Level.INFO, THE_GMAIL_HAS_BEEN_CHANGED_SUCCESSFULLY);
+                editAdminProfile();
             } else if (choice==4) {
                 menuManageAccountUserAdmin();
             } else {
                 logger.log(Level.WARNING, Admin.INVALID_CHOICE_MESSAGE);
+                editAdminProfile();
             }
-            return;
         }
-    }
-    public static void scheduleAppointment_menu(){
-        installer.setCompletionDate("--");
+
+    public static void scheduleAppointmentMenu(){
+        Installer.setCompletionDate("--");
         int choice;
             logger.log(Level.INFO, """
 
@@ -712,54 +713,55 @@ public class Main {
             choice = scanner.nextInt();
 
         if (choice == 1) {
-            installer.showAllInstallationRequestToAdminANDInstaller("pending");
+            installer.showAllInstallationRequestToAdminANDInstaller(PENDING);
             enterID2();
             approvalOfTheRequestFromAdminOrInstaller(installer.getIdInstallerRequest());
             logger.log(Level.INFO, "The installation requests has been confirmed successfully");
-            scheduleAppointment_menu();
+            scheduleAppointmentMenu();
         } else if (choice == 2) {
-            installer.showAllInstallationRequestToAdminANDInstaller("pending");
+            installer.showAllInstallationRequestToAdminANDInstaller(PENDING);
             enterID2();
-            installer.setDAta(installer.getIdInstallerRequest(),"pending");
+            installer.setDAta(installer.getIdInstallerRequest(),PENDING);
             sendEmailNewDayHour();
-            scheduleAppointment_menu();
+            scheduleAppointmentMenu();
         }
         else if (choice == 3) {
-            installer.showAllInstallationRequestToAdminANDInstaller("pending");
+            installer.showAllInstallationRequestToAdminANDInstaller(PENDING);
             enterID2();
-            installer.setDAta(installer.getIdInstallerRequest(),"pending");
-            order.deleteOrder2("requestInstallation",installer.getNumberOfLine());
-            gmailSend.sendEmail(installer.getGmail(),installer.arrayOfTopic[2],installer.arrayOfMsg[1]);
+            installer.setDAta(installer.getIdInstallerRequest(),PENDING);
+            order.deleteOrder2(REQUEST_INSTALLATION,installer.getNumberOfLine());
+            gmailSend.sendEmail(installer.getGmail(), Installer.arrayOfTopic[2], Installer.arrayOfMsg[1]);
             logger.log(Level.INFO, Installer.BOLD + "Cancelling installation requests successfully");
-            scheduleAppointment_menu();
+            scheduleAppointmentMenu();
         }
         else if (choice ==4) {
-            installer.showAllInstallationRequestToAdminANDInstaller("scheduled");
+            installer.showAllInstallationRequestToAdminANDInstaller(SCHEDULED);
             enterID2();
-            installer.setDAta(Installer.idInstallerRequest,"scheduled");
+
+            installer.setDAta(Installer.idInstallerRequest,SCHEDULED);
             logger.log(Level.WARNING, Installer.BOLD + "Did you accomplish this task?");
             if(yesOrNo()==1){
-                order.deleteOrder2("requestInstallation",installer.getNumberOfLine());
-                installer.setStatusInstalling("completed");
-                installer.setCompletionDate(installer.getPreferredDate());
+                order.deleteOrder2(REQUEST_INSTALLATION,installer.getNumberOfLine());
+                Installer.setStatusInstalling("completed");
+                Installer.setCompletionDate(installer.getPreferredDate());
                 installer.addThisInstallerRequest();
-                gmailSend.sendEmail(installer.getGmail(),installer.arrayOfTopic[3],installer.arrayOfMsg[2]);
-                installer.setCompletionDate("--");
-                scheduleAppointment_menu();
+                gmailSend.sendEmail(installer.getGmail(), Installer.arrayOfTopic[3], Installer.arrayOfMsg[2]);
+                Installer.setCompletionDate("--");
+                scheduleAppointmentMenu();
             }
             else {
-                scheduleAppointment_menu();
+                scheduleAppointmentMenu();
             }
         }
         else if (choice == 5) {
-            installer.showAllInstallationRequestToAdminANDInstaller("scheduled");
-            scheduleAppointment_menu();
+            installer.showAllInstallationRequestToAdminANDInstaller(SCHEDULED);
+            scheduleAppointmentMenu();
         } else if (choice==6) {
             installer_menu(sign.installerName);
 
         } else {
             logger.log(Level.WARNING, INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
-            scheduleAppointment_menu();
+            scheduleAppointmentMenu();
         }
     }
      public static void enterID2() {
@@ -791,23 +793,23 @@ public class Main {
             String msg1 ;
             logger.log(Level.INFO,"Write a message to the customer about the new appointment ");
             msg1=scanner1.nextLine();
-            gmailSend.sendEmail(installer.getGmail(),installer.arrayOfTopic[1],msg1);
+            gmailSend.sendEmail(installer.getGmail(), Installer.arrayOfTopic[1],msg1);
             logger.log(Level.INFO,"The email was sent successfully");
             sendEmailNewDayHour();
 
         } else if (choice == 2) {
             logger.log(Level.INFO,"Write a new day to schedule");
-            installer.setPreferredDate(scanner1.nextLine());
+            Installer.setPreferredDate(scanner1.nextLine());
             installer.putDay(installer.getPreferredDate());
             sendEmailNewDayHour();
         }
         else if (choice == 3) {
             logger.log(Level.INFO,"Write a new hour to schedule ");
-            installer.setPreferredHour(scanner1.nextLine());
+            Installer.setPreferredHour(scanner1.nextLine());
             installer.putTime(installer.getPreferredHour());
             sendEmailNewDayHour();
         } else if (choice==4) {
-            scheduleAppointment_menu();
+            scheduleAppointmentMenu();
         } else {
             logger.log(Level.WARNING,INVALID_CHOICE_PLEASE_ENTER_A_VALID_CHOICE);
             sendEmailNewDayHour();
@@ -815,25 +817,23 @@ public class Main {
     }
     public static void installer_menu(String installerName) {
         installer.setInstallerName(installerName);
-        installer.setViewRequestsFlag(false);
-        installer.setScheduleAppointmentFlag(false);
+        Installer.setViewRequestsFlag(false);
+        Installer.setScheduleAppointmentFlag(false);
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO,"\n\u001B[35m" + "------- Welcome  " + installerName +"  ------\n"+
-                "|                                  |\n"+
                 "|     1.View history requests      |\n"+
                 "|     2.schedule appointment.      |\n"+
                 "|     3.Home                       |\n"+
-                "|                                  |\n"+
                 " ---------------------------------- \n");
         logger.log(Level.INFO,ENTER_YOUR_CHOICE);
 
         choice = scanner.nextInt();
         if (choice == 1) {
-           installer.setViewRequestsFlag(true);
+           Installer.setViewRequestsFlag(true);
             userAccountMenuIns();
         } else if (choice == 2) {
-            installer.setScheduleAppointmentFlag(true);
+            Installer.setScheduleAppointmentFlag(true);
             userAccountMenuIns();
         } else if (choice==3) {
             menu();
@@ -849,22 +849,22 @@ public class Main {
             installer_menu(installer.getInstallerName());
         }
         else if (installer.isScheduleAppointmentFlag()) {
-            scheduleAppointment_menu();
+            scheduleAppointmentMenu();
 
         }
 
     }
     public static void approvalOfTheRequestFromAdminOrInstaller(long idInstallerRequest){
-        installer.setDAta(idInstallerRequest,"pending");
+        installer.setDAta(idInstallerRequest,PENDING);
         logger.log(Level.WARNING, "Do you agree to this request? ");
         if(yesOrNo()==1){
-            order.deleteOrder2("requestInstallation",installer.getNumberOfLine());
-            installer.setStatusInstalling("scheduled");
+            order.deleteOrder2(REQUEST_INSTALLATION,installer.getNumberOfLine());
+            Installer.setStatusInstalling(SCHEDULED);
             installer.addThisInstallerRequest();
-            gmailSend.sendEmail(installer.getGmail(),installer.arrayOfTopic[0],installer.arrayOfMsg[0]);
+            gmailSend.sendEmail(installer.getGmail(), Installer.arrayOfTopic[0], Installer.arrayOfMsg[0]);
         }
         else {
-            scheduleAppointment_menu();
+            scheduleAppointmentMenu();
         }
 
     }
@@ -885,7 +885,7 @@ public class Main {
         return choice;
     }
     public static void menuInstallerAdmin() {
-        installer.setCompletionDate("--");
+        Installer.setCompletionDate("--");
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO, """
@@ -946,10 +946,10 @@ public class Main {
             newPassCon = scanner1.nextLine();
             installer.editePassword(oldPass, newPass, newPassCon);
         } else if (choice == 3) {
-            logger.log(Level.INFO, "Enter The new Gmail:");
+            logger.log(Level.INFO, ENTER_THE_NEW_GMAIL);
             choice2 = scanner1.nextLine();
             installer.editeGmail(choice2);
-            logger.log(Level.INFO, "The Gmail has been changed successfully");
+            logger.log(Level.INFO,THE_GMAIL_HAS_BEEN_CHANGED_SUCCESSFULLY);
         } else if (choice==4) {
             menuInstallerAdmin();
         } else {
@@ -957,7 +957,7 @@ public class Main {
         }
     }
     public static void installerServicesMenu() {
-        installer.setCompletionDate("--");
+        Installer.setCompletionDate("--");
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO, """
@@ -995,7 +995,7 @@ public class Main {
 
     public static void cancelIt() {
         if(installer.isIdInstallationFlag()){
-            order.deleteOrder2("requestInstallation",installer.getNumberOfLine());
+            order.deleteOrder2(REQUEST_INSTALLATION,installer.getNumberOfLine());
             logger.log(Level.WARNING,"The installation requests canceled.");
 
         }
@@ -1098,11 +1098,11 @@ public class Main {
             if(order.isIfOrderExist()) {
                 String name = order.getCustomerName() + "-" + order.getIdCustomer();
                 order.deleteOrder(name);
-                logger.log(Level.INFO, Order.getString2() + "The Order is deleted Successfully");
+                logger.log(Level.INFO, "The Order is deleted Successfully");
                 pendingMenu();
             }
             else{
-                logger.log(Level.WARNING, Order.getString2() + Order.M_THE_ORDER_NOT_FOUND + Order.M);
+                logger.log(Level.WARNING, Order.M_THE_ORDER_NOT_FOUND);
                 pendingMenu();
             }
         } else if (choice==4) {
@@ -1112,7 +1112,7 @@ public class Main {
         }}
     public  static void extractedEdit(Scanner scanner) {
 
-        logger.log(Level.INFO,"Enter The Product ID : "+ Order.M);
+        logger.log(Level.INFO,"Enter The Product ID : ");
         order.setProductID(Integer.parseInt(scanner.next()));
         order.ifProductExitToEdit(order.getProductID(),order.getOrderNumber(),order.getCustomerName(),order.getIdCustomer());
         order.foundNumber2Line(order.getProductID(),order.getOrderNumber());
@@ -1121,7 +1121,7 @@ public class Main {
 
         }
         else{
-            logger.log(Level.WARNING, Order.getString2() + "The Product Not Found" + Order.M);
+            logger.log(Level.WARNING, "The Product Not Found");
             pendingMenu();
         }
     }
@@ -1137,10 +1137,10 @@ public class Main {
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO,order.show);
-        logger.log(Level.INFO, Order.ENTER_YOUR_CHOICE + Order.M);
+        logger.log(Level.INFO, Order.ENTER_YOUR_CHOICE);
         choice = scanner.nextInt();
         if (choice == 1) {
-            logger.log(Level.INFO,"Enter The Number Of Order: "+ Order.M);
+            logger.log(Level.INFO,"Enter The Number Of Order: ");
             order.setOrderNumber(scanner.nextLong());
             order.ifOrderExitDelivered(String.valueOf(order.getOrderNumber()));
             if(order.isIfOrderExist()){
@@ -1151,7 +1151,7 @@ public class Main {
             }
 
             else{
-                logger.log(Level.WARNING, Order.getString2() + Order.M_THE_ORDER_NOT_FOUND + Order.M);
+                logger.log(Level.WARNING, Order.M_THE_ORDER_NOT_FOUND);
                 manageOrderMenu();
             }}
 
