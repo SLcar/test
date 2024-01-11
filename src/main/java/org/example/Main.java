@@ -701,7 +701,7 @@ public class Main {
         }
 
     public static void scheduleAppointmentMenu(){
-        Installer.setCompletionDate("--");
+        installer.setCompletionDate("--");
         int choice;
             logger.log(Level.INFO, """
 
@@ -744,15 +744,15 @@ public class Main {
             installer.showAllInstallationRequestToAdminANDInstaller(SCHEDULED);
             enterID2();
 
-            installer.setDAta(Installer.idInstallerRequest,SCHEDULED);
+            installer.setDAta(installer.idInstallerRequest,SCHEDULED);
             logger.log(Level.WARNING, Installer.BOLD + "Did you accomplish this task?");
             if(yesOrNo()==1){
                 order.deleteOrder2(REQUEST_INSTALLATION,installer.getNumberOfLine());
-                Installer.setStatusInstalling("completed");
-                Installer.setCompletionDate(installer.getPreferredDate());
+                installer.setStatusInstalling("completed");
+                installer.setCompletionDate(installer.getPreferredDate());
                 installer.addThisInstallerRequest();
                 gmailSend.sendEmail(installer.getGmail(), ARRAY_OF_TOPIC[3], ARRAY_OF_MSG[2]);
-                Installer.setCompletionDate("--");
+                installer.setCompletionDate("--");
                 scheduleAppointmentMenu();
             }
             else {
@@ -775,7 +775,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO,"Enter The id Of installation requests: ");
         choice = scanner.nextLong();
-        Installer.setIdInstallerRequest(choice);
+        installer.setIdInstallerRequest(choice);
     }
 
     public static void sendEmailNewDayHour() {
@@ -805,13 +805,13 @@ public class Main {
 
         } else if (choice == 2) {
             logger.log(Level.INFO,"Write a new day to schedule");
-            Installer.setPreferredDate(scanner1.nextLine());
+            installer.setPreferredDate(scanner1.nextLine());
             installer.putDay(installer.getPreferredDate());
             sendEmailNewDayHour();
         }
         else if (choice == 3) {
             logger.log(Level.INFO,"Write a new hour to schedule ");
-            Installer.setPreferredHour(scanner1.nextLine());
+            installer.setPreferredHour(scanner1.nextLine());
             installer.putTime(installer.getPreferredHour());
             sendEmailNewDayHour();
         } else if (choice==4) {
@@ -823,8 +823,8 @@ public class Main {
     }
     public static void installer_menu(String installerName) {
         installer.setInstallerName(installerName);
-        Installer.setViewRequestsFlag(false);
-        Installer.setScheduleAppointmentFlag(false);
+        installer.setViewRequestsFlag(false);
+        installer.setScheduleAppointmentFlag(false);
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO,"------- Welcome  " + installerName +"  ------\n"+
@@ -836,10 +836,10 @@ public class Main {
 
         choice = scanner.nextInt();
         if (choice == 1) {
-           Installer.setViewRequestsFlag(true);
+           installer.setViewRequestsFlag(true);
             userAccountMenuIns();
         } else if (choice == 2) {
-            Installer.setScheduleAppointmentFlag(true);
+            installer.setScheduleAppointmentFlag(true);
             userAccountMenuIns();
         } else if (choice==3) {
             menu();
@@ -865,7 +865,7 @@ public class Main {
         logger.log(Level.WARNING, "Do you agree to this request? ");
         if(yesOrNo()==1){
             order.deleteOrder2(REQUEST_INSTALLATION,installer.getNumberOfLine());
-            Installer.setStatusInstalling(SCHEDULED);
+            installer.setStatusInstalling(SCHEDULED);
             installer.addThisInstallerRequest();
             gmailSend.sendEmail(installer.getGmail(), ARRAY_OF_TOPIC[0], ARRAY_OF_MSG[0]);
         }
@@ -891,7 +891,7 @@ public class Main {
         return choice;
     }
     public static void menuInstallerAdmin() {
-        Installer.setCompletionDate("--");
+        installer.setCompletionDate("--");
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO, """
@@ -963,7 +963,7 @@ public class Main {
         }
     }
     public static void installerServicesMenu() {
-        Installer.setCompletionDate("--");
+        installer.setCompletionDate("--");
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO, """
@@ -979,7 +979,7 @@ public class Main {
         logger.log(Level.INFO,ENTER_CHOICE_MESSAGE+RESET_COLOR);
         choice = scanner.nextInt();
         if (choice == 1) {
-            installer.enterDataOfRequest();
+            enterDataOfRequest();
             installerServicesMenu();
         } else if (choice == 2) {
             installer.showAllInstallationRequest();
@@ -988,7 +988,7 @@ public class Main {
         else if (choice == 3) {
             installer.showAllInstallationRequestPending();
             logger.log(Level.INFO,"Enter the installation requests ID To Cancel it : ");
-            Installer.setIdInstallerRequest(scanner.nextLong());
+            installer.setIdInstallerRequest(scanner.nextLong());
             installer.ifExitIdInstallerRequestPending();
             cancelIt();
             installerServicesMenu();
@@ -1200,7 +1200,21 @@ public class Main {
             returnEnterPass(ob);
         }
     }
-
+    public  static void  enterDataOfRequest(){
+        Scanner scanner = new Scanner(System.in);
+        logger.log(Level.INFO,"Describe the product you need service for : ");
+        installer.setProduct(scanner.nextLine());
+        logger.log(Level.INFO,"Select the preferred date for this service like (1/1/2022) or (Any Date): "+RESET_COLOR);
+        installer.setPreferredDate(scanner.nextLine());
+        logger.log(Level.INFO,"Select the preferred Hour of this date like (10:00 AM) or (Any Time): "+RESET_COLOR);
+        installer.setPreferredHour(scanner.nextLine());
+        logger.log(Level.INFO,"Describe the installing location ( City-Street-Building Name-Floor number\"): "+RESET_COLOR);
+        installer.setLocationInstalling(scanner.nextLine());
+        installer.setStatusInstalling("pending");
+        installer.randomNumberGenerator();
+        installer.ifRandomNumberGeneratorNotFound();
+        installer.dataTrueOrNO();
+    }
 
     public static String enterEmailS(){scanner = new Scanner(System.in);logger.log(Level.INFO,"\u001B[32mEnter the email:" + "\u001B[0m");return scanner.nextLine();}
     public static String enterPassS(){scanner = new Scanner(System.in);logger.log(Level.INFO,"Enter the password:");return scanner.nextLine();}
