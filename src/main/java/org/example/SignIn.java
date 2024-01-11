@@ -27,7 +27,8 @@ public class SignIn {
     String customerName;
     Customer customer = new Customer();
     static Logger logger = Logger.getLogger(SignIn.class.getName());
-    public String installerName, name;
+    public String installerName;
+    public String name;
     private String email;
     private String password;
     private String trueEmail;
@@ -39,9 +40,9 @@ public class SignIn {
 
     private int theUser;
     private int  id;
-    public boolean adminloged;
-    public boolean customerLogin;
-    public boolean  installerLogin;
+     boolean adminloged;
+    boolean customerLogin;
+     boolean  installerLogin;
 
     public boolean getCustomerLogin() {
         return customerLogin;
@@ -143,6 +144,7 @@ public class SignIn {
             }
             notFoundEmailCustomer(email, password);
         } catch (IOException e) {
+
             throw new RuntimeException(e);
         }
     }
@@ -183,7 +185,7 @@ public class SignIn {
         }
     }
 
-    public void AdminLogin(String email, String password) {
+    public void adminLogin(String email, String password) {
         try (RandomAccessFile ref = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_ADMIN_DATA_TXT, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
@@ -197,13 +199,13 @@ public class SignIn {
                     return;
                 }
             }
-            AdminWrongEmail(email, password);
+            adminWrongEmail(email, password);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void AdminWrongEmail(String email, String password) {
+    public void adminWrongEmail(String email, String password) {
         try (RandomAccessFile ref = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_ADMIN_DATA_TXT, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
@@ -212,7 +214,7 @@ public class SignIn {
                 truePassword = loginCustomer[2];
 
                 if (trueEmail.equals(email) && !truePassword.equals(password)) {
-                    AdminWrongPass(email, password);
+                    adminWrongPass(email, password);
                     return;
                 }
             }
@@ -222,7 +224,7 @@ public class SignIn {
         }
     }
 
-    public void AdminWrongPass(String email, String password) {
+    public void adminWrongPass(String email, String password) {
         try (RandomAccessFile ref = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_ADMIN_DATA_TXT, "rw")) {
             String s;
             while ((s = ref.readLine()) != null) {
