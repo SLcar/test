@@ -82,14 +82,14 @@ public class Installer extends RuntimeException {
     public void setIdInstallationFlag(boolean idInstallationFlag) {
        this.idInstallationFlag = idInstallationFlag;
     }
-    boolean idInstallationFlag = false;
-    long  idInstallerRequest =0;
-    String preferredDate = null;
-    String preferredHour;
-    String product;
-    String locationInstalling;
-    String statusInstalling;
-    String completionDate;
+    protected boolean idInstallationFlag;
+    protected long  idInstallerRequest ;
+    protected String preferredDate;
+    protected String preferredHour;
+    protected String product;
+    protected String locationInstalling;
+    protected String statusInstalling;
+    protected String completionDate;
     public static final String REQUEST_INSTALLATION_FILE_PATH = "src/main/resources/Data/requestInstallation.txt";
     public  String getInstallerName() {
         return installerName;
@@ -160,8 +160,8 @@ public class Installer extends RuntimeException {
         this.scheduleAppointmentFlag = scheduleAppointmentFlag;
     }
 
-     boolean scheduleAppointmentFlag;
-    boolean installerLogin;
+    protected boolean scheduleAppointmentFlag;
+    protected boolean installerLogin;
 
     public  void setInstallerLogin(boolean installerLogin) {
         this.installerLogin = installerLogin;
@@ -179,7 +179,7 @@ public class Installer extends RuntimeException {
         this.changeTimeOrHour = changeTimeOrHour;
     }
 
-    boolean changeTimeOrHour;
+    protected boolean changeTimeOrHour;
 
 
 
@@ -580,55 +580,7 @@ public class Installer extends RuntimeException {
             }}
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
     public static void setAddress(String address) {
@@ -666,11 +618,11 @@ public class Installer extends RuntimeException {
     public static void setCustomerName(String customerName) {Installer.customerName = customerName;
     }
 
-    public static String address;
-    public static String idCustomer;
-    public static String phoneCustomer;
-    public static String  gmail;
-    public static String customerName;
+    protected static String address;
+    protected static String idCustomer;
+    protected static String phoneCustomer;
+    protected static String  gmail;
+    protected static String customerName;
 
 
     public  void setInstallerAvailableToCustomer(boolean installerAvailableToCustomer) {
@@ -720,7 +672,7 @@ public class Installer extends RuntimeException {
     public void setChangeStatus(boolean changeStatus) {
         this.changeStatus = changeStatus;
     }
-    public boolean changeStatus;
+    protected boolean changeStatus;
     public void changeStatus(){
         setChangeStatus(true);
     }
@@ -733,7 +685,7 @@ public class Installer extends RuntimeException {
     public void setNumberOfLine(int numberOfLine) {
         this.numberOfLine = numberOfLine;
     }
-    public int numberOfLine;
+    protected int numberOfLine;
     public void setDAta(long idI,String status){
         numberOfLine=-1;
         try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
