@@ -61,10 +61,10 @@ public class Customer {
     }
     public String userName,Gmail,Password,address;
     int id,phone;
-    public void setCustomerLogin(boolean customerLogin) {
-        this.customerLogin = customerLogin;
+    public static void setCustomerLogin(boolean customerLogin) {
+        Customer.customerLogin = customerLogin;
     }
-    public boolean customerLogin;
+    public static boolean customerLogin;
     public boolean browseProductsFlag;
     public boolean settingFlag;
 

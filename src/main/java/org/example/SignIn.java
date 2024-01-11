@@ -1,7 +1,6 @@
 package org.example;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 public class SignIn {
@@ -29,7 +28,6 @@ public class SignIn {
     Admin admin = new Admin();
     Customer customer = new Customer();
     static Logger logger = Logger.getLogger(Registration.class.getName());
-    private Scanner scanner;
     public String installerName, name;
     private String email;
     private String password;
@@ -63,12 +61,11 @@ public class SignIn {
         return theUser;
     }
 
-    public void AdminInInSystem() {
-        admin.setAdminLogin(getAdminloged());
-    }
+    public void adminInInSystem() {
+        Admin.setAdminLogin(getAdminloged());}
 
-    public void CustomerInInSystem() {
-        customer.setCustomerLogin(getCustomerLogin());
+    public void customerInInSystem() {
+        Customer.setCustomerLogin(getCustomerLogin());
     }
 
     public void installerInSystem() {
@@ -136,7 +133,7 @@ public class SignIn {
                 if (TrueEmail.equals(email) && TruePassword.equals(password)) {
                     order.setGmailIs(email);
                     setCustomerLogin(true);
-                    CustomerInInSystem();
+                    customerInInSystem();
                     customer.setTheCustomerIs(numberOfLine);
 
                     return;
@@ -194,7 +191,7 @@ public class SignIn {
                 TruePassword = loginCustomer[2];
                 if (TrueEmail.equals(email) && TruePassword.equals(password)) {
                     setAdminloged(true);
-                    AdminInInSystem();
+                    adminInInSystem();
                     return;
                 }
             }

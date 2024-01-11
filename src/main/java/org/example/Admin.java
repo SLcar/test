@@ -23,10 +23,10 @@ public static final Logger logger = Logger.getLogger(Admin.class.getName());
     public boolean isAdminLogin() {
         return adminLogin;
     }
-    public void setAdminLogin(boolean adminLogin) {
-        this.adminLogin = adminLogin;
+    public static void setAdminLogin(boolean adminLogin) {
+        Admin.adminLogin = adminLogin;
     }
-    private boolean adminLogin ;
+    public static boolean adminLogin ;
     public boolean isProductsFlag() {
         return productsFlag;
     }
