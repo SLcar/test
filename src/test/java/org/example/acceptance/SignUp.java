@@ -2,19 +2,27 @@ package org.example.acceptance;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.example.Order;
 import org.example.Registration;
 import org.junit.Assert;
 
 public class SignUp {
     Registration ob;
+    Order order;
     public SignUp() {
         ob =new Registration();
+        order = new Order();
     }
 
     @Given("the name is {string}")
     public void the_name_is(String name) {
         ob.setName(name);
     }
+    @Given("The phone Number is {string}")
+    public void the_phone_number_is(String string) {
+      ob.setPhone(Integer.parseInt(string));
+    }
+
     @Given("the email {string}")
     public void the_email(String email) {
         ob.setEmail(email);
@@ -31,9 +39,17 @@ public class SignUp {
     public void the_id_is(String id) {
         ob.setId(Integer.parseInt(id));
     }
+
+    @Given("The Address is {string}")
+    public void the_address_is(String string) {
+        ob.setAddress(string);
+    }
     @Then("customer can sign up")
     public void customer_can_sign_up() {
+        String dD =ob.getName()+"," +ob.getEmail() + "," + ob.getPassword() + "," + ob.getAddress() + "," + ob.getId()+","+ob.getPhone()+"\n";
+        ob.storeDataToFile(dD);
         ob.isCustomerRegistrationCompleted(ob.getPassword(),ob.getComPassword());
+        order.deleteOrder2("custumorData",4);
         Assert.assertTrue(ob.getCustomerRegistrationCompleted());
 
     }
