@@ -34,80 +34,80 @@ public class Installer extends RuntimeException {
     public long getIdInstallerRequest() {
         return idInstallerRequest;
     }
-    public static void setIdInstallerRequest(long idInstallerRequest) {
-        Installer.idInstallerRequest = idInstallerRequest;
+    public void setIdInstallerRequest(long idInstallerRequest) {
+       this.idInstallerRequest = idInstallerRequest;
     }
     public String getPreferredDate() {
         return preferredDate;
     }
-    public  static void setPreferredDate(String preferredDate) {
-        Installer.preferredDate = preferredDate;
+    public void setPreferredDate(String preferredDate) {
+        this.preferredDate = preferredDate;
     }
     public String getPreferredHour() {
         return preferredHour;
     }
-    public static void setPreferredHour(String preferredHour) {
-        Installer.preferredHour = preferredHour;
+    public void setPreferredHour(String preferredHour) {
+        this.preferredHour = preferredHour;
     }
     public String getLocationInstalling() {
         return locationInstalling;
     }
-    public static void setLocationInstalling(String locationInstalling) {
-        Installer.locationInstalling = locationInstalling;
+    public void setLocationInstalling(String locationInstalling) {
+        this.locationInstalling = locationInstalling;
     }
     public String getProduct() {
         return product;
     }
-    public static void setProduct(String product) {
-        Installer.product = product;
+    public void setProduct(String product) {
+        this.product = product;
     }
     public String getStatusInstalling() {
         return statusInstalling;
     }
-    public  static void setStatusInstalling(String statusInstalling) {
-        Installer.statusInstalling = statusInstalling;
+    public void setStatusInstalling(String statusInstalling) {
+        this.statusInstalling = statusInstalling;
     }
     public String getCompletionDate() {
         return completionDate;
     }
-    public static  void setCompletionDate(String completionDate) {
-        Installer.completionDate = completionDate;
+    public void setCompletionDate(String completionDate) {
+        this.completionDate = completionDate;
     }
 
     public boolean isIdInstallationFlag() {
         return idInstallationFlag;
     }
 
-    public static void setIdInstallationFlag(boolean idInstallationFlag) {
-        Installer.idInstallationFlag = idInstallationFlag;
+    public void setIdInstallationFlag(boolean idInstallationFlag) {
+       this.idInstallationFlag = idInstallationFlag;
     }
-    static  boolean idInstallationFlag = false;
-    static long idInstallerRequest =0;
-    static String preferredDate= null;
-    static String preferredHour;
-    static String product;
-    static String locationInstalling;
-    static String statusInstalling;
-    static String completionDate;
+    boolean idInstallationFlag = false;
+    long  idInstallerRequest =0;
+    String preferredDate = null;
+    String preferredHour;
+    String product;
+    String locationInstalling;
+    String statusInstalling;
+    String completionDate;
     public static final String REQUEST_INSTALLATION_FILE_PATH = "src/main/resources/Data/requestInstallation.txt";
     public  String getInstallerName() {
         return installerName;
     }
-    public  static void   setInstallerName(String setInstallerName) {
+    public   void   setInstallerName(String setInstallerName) {
         installerName = setInstallerName;
     }
-    static String installerName;
+    String installerName;
     ArrayList<String> listPrint = new ArrayList<>();
 
     public boolean isTheDataCancel() {
         return theDataCancel;
     }
 
-    public static void setTheDataCancel(boolean theDataCancel) {
-        Installer.theDataCancel = theDataCancel;
+    public  void setTheDataCancel(boolean theDataCancel) {
+        this.theDataCancel = theDataCancel;
     }
 
-    static boolean theDataCancel;
+    boolean theDataCancel;
     public  static final SecureRandom secureRandom = new SecureRandom();
 
     public void randomNumberGenerator() {
@@ -145,25 +145,25 @@ public class Installer extends RuntimeException {
         return viewRequestsFlag;
     }
 
-    public static void setViewRequestsFlag(boolean viewRequestsFlag) {
-        Installer.viewRequestsFlag = viewRequestsFlag;
+    public  void setViewRequestsFlag(boolean viewRequestsFlag) {
+        this.viewRequestsFlag = viewRequestsFlag;
     }
 
-    static boolean  viewRequestsFlag;
+    boolean  viewRequestsFlag;
 
     public boolean isScheduleAppointmentFlag() {
         return scheduleAppointmentFlag;
     }
 
-    public static void setScheduleAppointmentFlag(boolean scheduleAppointmentFlag) {
-        Installer.scheduleAppointmentFlag = scheduleAppointmentFlag;
+    public void setScheduleAppointmentFlag(boolean scheduleAppointmentFlag) {
+        this.scheduleAppointmentFlag = scheduleAppointmentFlag;
     }
 
-    static boolean scheduleAppointmentFlag;
-    static boolean installerLogin;
+     boolean scheduleAppointmentFlag;
+    boolean installerLogin;
 
-    public  static void setInstallerLogin(boolean installerLogin) {
-        Installer.installerLogin = installerLogin;
+    public  void setInstallerLogin(boolean installerLogin) {
+        this.installerLogin = installerLogin;
     }
 
 
@@ -174,13 +174,13 @@ public class Installer extends RuntimeException {
         return changeTimeOrHour;
     }
 
-    public static void setChangeTimeOrHour(boolean changeTimeOrHour) {
-        Installer.changeTimeOrHour = changeTimeOrHour;
+    public  void setChangeTimeOrHour(boolean changeTimeOrHour) {
+        this.changeTimeOrHour = changeTimeOrHour;
     }
 
-    static boolean changeTimeOrHour;
+    boolean changeTimeOrHour;
 
-    
+
 
 
 
@@ -276,8 +276,8 @@ public class Installer extends RuntimeException {
         return third;
     }
 
-    public  static String sec;
-    public static String third;
+    public  String sec;
+    public String third;
     public void fileFunction(){
 
         try (RandomAccessFile raf = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA_INSTALLER_TXT, "rw")) {
@@ -313,7 +313,7 @@ public class Installer extends RuntimeException {
 
 
     public void ifExitIdInstallerRequestPending() {
-        numberOfLine=-1;
+        numberOfLine= -1;
         try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH, "rw")) {
             String s;
             String IdInstallation = String.valueOf(getIdInstallerRequest());
@@ -334,10 +334,13 @@ public class Installer extends RuntimeException {
         }
     }
     public void ifExitIdInstallerRequestPendingToAdmin() {
+        numberOfLine= -1;
         try (RandomAccessFile ref = new RandomAccessFile(REQUEST_INSTALLATION_FILE_PATH , "rw")) {
             String s;
             String IdInstallation = String.valueOf(getIdInstallerRequest());
             while ((s = ref.readLine()) != null) {
+                numberOfLine=numberOfLine+1;
+                System.out.println(numberOfLine);
                 String[] productInfo = s.split(",");
                 if(productInfo[0].equals(IdInstallation) && productInfo[9].equals("pending")){
                     setIdInstallationFlag(true);
@@ -518,39 +521,24 @@ public class Installer extends RuntimeException {
             throw new Installer("Error during customer login", e);
         }
     }
-    public  void  enterDataOfRequest(){
-        Scanner scanner = new Scanner(System.in);
-        logger.log(Level.INFO,"Describe the product you need service for : "+RESET_COLOR);
-        setProduct(scanner.nextLine());
-        logger.log(Level.INFO,"Select the preferred date for this service like (1/1/2022) or (Any Date): "+RESET_COLOR);
-        setPreferredDate(scanner.nextLine());
-        logger.log(Level.INFO,"Select the preferred Hour of this date like (10:00 AM) or (Any Time): "+RESET_COLOR);
-        setPreferredHour(scanner.nextLine());
-        logger.log(Level.INFO,"Describe the installing location ( City-Street-Building Name-Floor number\"): "+RESET_COLOR);
-        setLocationInstalling(scanner.nextLine());
-        setStatusInstalling("pending");
-        randomNumberGenerator();
-        ifRandomNumberGeneratorNotFound();
-        dataTrueOrNO();
-    }
+
     public void  dataTrueOrNO() {
         if (ifDataTrue()) {
             checkIfDayAndHourAppropriate(getPreferredDate(), getPreferredHour());
             if (installerAvailableToCustomer || getPreferredHour().equals("Any Time") || getPreferredDate().equals("Any Day")) {
                 addThisInstallerRequest();
-                logger.log(Level.INFO, BOLD + "\u001B[34m The request sent to installation to conform, " +
+                logger.log(Level.INFO, BOLD + "The request sent to installation to conform, " +
                         "You will be contacted via email and phone," +
-                        "and the time and day will be confirmed if appropriate to the installer " + RESET_COLOR);
+                        "and the time and day will be confirmed if appropriate to the installer ");
             }
             else {
-                logger.log(Level.WARNING, BOLD + "\u001B[31m The installer Not available enter Another day and Hour." + RESET_COLOR);
+                logger.log(Level.WARNING, "The installer Not available enter Another day and Hour.");
                 enterNewDayAndTime();
             }
         }
 
         else{
-            logger.log(Level.WARNING, BOLD + "\u001B[31m The information you entered is incomplete. Re-enter the information and fill it correctly." + RESET_COLOR);
-            enterDataOfRequest();
+            logger.log(Level.WARNING, BOLD + "The information you entered is incomplete. Re-enter the information and fill it correctly.");
         }
 
     }
@@ -708,8 +696,6 @@ public class Installer extends RuntimeException {
         order.deleteOrder2("requestInstallation",getNumberOfLine());
         checkIfDayAndHourAppropriate(getPreferredDate(),anyTime);
         dataTrueOrNO();
-        //   addThisInstallerRequest();
-
     }
     public void putDayAndTime(String anyDay,String time) {
         setPreferredDate(anyDay);
