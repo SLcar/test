@@ -5,7 +5,6 @@ import java.io.RandomAccessFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,9 +24,9 @@ public class Order extends RuntimeException  {
     public static final String M = "\u001B[0m";
     public static final String ENTER_YOUR_CHOICE = "Enter your choice: ";
     public static final String SRC_MAIN_RESOURCES_DATA = "src/main/resources/Data/";
-    public List <Integer> lines = new ArrayList<>();
+    public ArrayList<Integer> lines = new ArrayList<>();
     protected static final  String[] arrayOfTopic =  {"Order confirmation", "Receiving the order", "Cancel the order"}; // Creating an array that can hold 3 strings
-    protected   static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
+    protected    static final String[] arrayOfMsg = {"The order has been confirmed", "The order was delivered successfully. Thank you for taking it from our store. We always welcome you. If there is a problem, please contact the number:059233522","We are sorry, but the order has been canceled due to logistical restrictions beyond our store's control"}; // Creating an array that can hold 3 strings
     public static final Logger logger = Logger.getLogger(Order.class.getName());
     public final SecureRandom secureRandom = new SecureRandom();
     public boolean isSendEmailConfirmation() {
@@ -54,9 +53,9 @@ public class Order extends RuntimeException  {
         this.sendEmailCancel = sendEmailCancel;
     }
 
-    boolean sendEmailConfirmation=false;
-    boolean sendEmailReceiving=false;
-    boolean sendEmailCancel=false;
+    protected boolean sendEmailConfirmation=false;
+    protected boolean sendEmailReceiving=false;
+    protected boolean sendEmailCancel=false;
     public String delivered = getDelivered();
     public void  ifEmailSending (String status){
 
@@ -97,8 +96,8 @@ public class Order extends RuntimeException  {
         return numberOfLine3;
     }
 
-    int numberOfLine2;
-    int numberOfLine3;
+    protected int numberOfLine2;
+    protected int numberOfLine3;
 
     public String getDateOfReceiptOfTheOrder() {
         return dateOfReceiptOfTheOrder;
