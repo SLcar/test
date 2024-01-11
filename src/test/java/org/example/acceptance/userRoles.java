@@ -117,7 +117,7 @@ public class userRoles {
     public void the_admin_edit_the_email_password_phone_of_installer() {
         installer.showInstallerAccount();
         installer.setInstallerName("lamees");
-        installer.setGmail("lameesahmed257@gmail.com");
+        Installer.setGmail("lameesahmed257@gmail.com");
         installer.editeUserName(installer.getInstallerName());
         installer.editeGmail(installer.getGmail());
         installer.editePassword("121","121","121");
