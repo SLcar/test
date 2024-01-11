@@ -82,8 +82,8 @@ public class Installer extends RuntimeException {
         Installer.idInstallationFlag = idInstallationFlag;
     }
     static  boolean idInstallationFlag = false;
-    static long idInstallerRequest;
-    static String preferredDate;
+    static long idInstallerRequest =0;
+    static String preferredDate= null;
     static String preferredHour;
     static String product;
     static String locationInstalling;
@@ -141,7 +141,7 @@ public class Installer extends RuntimeException {
 
 
 
-    public boolean isViewRequestsFlag() {
+   public boolean isViewRequestsFlag() {
         return viewRequestsFlag;
     }
 
@@ -149,7 +149,7 @@ public class Installer extends RuntimeException {
         Installer.viewRequestsFlag = viewRequestsFlag;
     }
 
-    public  static boolean  viewRequestsFlag;
+    static boolean  viewRequestsFlag;
 
     public boolean isScheduleAppointmentFlag() {
         return scheduleAppointmentFlag;
@@ -159,7 +159,8 @@ public class Installer extends RuntimeException {
         Installer.scheduleAppointmentFlag = scheduleAppointmentFlag;
     }
 
-    public static boolean scheduleAppointmentFlag,installerLogin;
+    static boolean scheduleAppointmentFlag;
+    static boolean installerLogin;
 
     public  static void setInstallerLogin(boolean installerLogin) {
         Installer.installerLogin = installerLogin;
@@ -177,16 +178,14 @@ public class Installer extends RuntimeException {
         Installer.changeTimeOrHour = changeTimeOrHour;
     }
 
-    public static boolean changeTimeOrHour;
+    static boolean changeTimeOrHour;
+
+    
 
 
 
-
-
-
-
-    public boolean truepass (String pass, String ConfirmPass){
-        return pass.equals(ConfirmPass);
+    public boolean truepass (String pass, String confirmPass){
+        return pass.equals(confirmPass);
     }
     public void editePassword(String oldPass, String newPass, String newPassCon) {
         fileFunction();
