@@ -3,8 +3,15 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-public class Customer {
-     public static final Logger logger = Logger.getLogger(Customer.class.getName());
+public class Customer extends RuntimeException {
+
+    public Customer(String message, Throwable cause) {
+        super(message, cause);
+
+    }
+
+
+    public static final Logger logger = Logger.getLogger(Customer.class.getName());
     public static final String CUSTUMOR_DATA = "custumorData";
     public static final String SRC_MAIN_RESOURCES_DATA_CUSTUMOR_DATA_TXT = "src/main/resources/Data/custumorData.txt";
     Product product = new Product();
@@ -58,14 +65,18 @@ public class Customer {
     public void setPhone(int phone) {
         this.phone = phone;
     }
-    public String userName,Gmail,Password,address;
-    int id,phone;
+    protected String userName;
+    protected String Gmail;
+    protected String Password;
+    protected String address;
+    protected int id;
+    protected int phone;
     public static void setCustomerLogin(boolean customerLogin) {
         Customer.customerLogin = customerLogin;
     }
-    public static boolean customerLogin;
-    public boolean browseProductsFlag;
-    public boolean settingFlag;
+    protected static boolean customerLogin;
+    protected boolean browseProductsFlag;
+    protected boolean settingFlag;
 
     public boolean isEditData() {
         return editData;
@@ -115,8 +126,8 @@ public class Customer {
         this.viewOrdersFlag = viewOrdersFlag;
     }
 
-    public boolean makePurchasesFlag;
-    public boolean viewOrdersFlag;
+    protected boolean makePurchasesFlag;
+    protected boolean viewOrdersFlag;
     public Customer() {
         customerLogin = true;
         browseProductsFlag=false;
@@ -229,7 +240,7 @@ public void deleteLine() {
         raf.close();
 
     } catch (IOException e) {
-        throw new RuntimeException(e);
+        throw new Customer("Error during customer login", e);
     }
 
 }
@@ -262,7 +273,7 @@ public void deleteLine() {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Customer("Error during customer login", e);
         }
     }
     public  void searchTheCustomerNewLine() {
@@ -281,7 +292,7 @@ public void deleteLine() {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Customer("Error during customer login", e);
         }
     }
     }
