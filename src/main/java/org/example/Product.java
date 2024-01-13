@@ -13,6 +13,7 @@ public class Product
     public static final Logger logger = Logger.getLogger(Product.class.getName());
     public static final String CYAN_COLOR = "\u001B[36m";
     public static final String RESET_COLOR = "\u001B[0m";
+    public static final String ENTER_YOUR_CHOICE = "Enter your choice: ";
     int numberOfLine;
     public int getNumberOfLine() {
         return numberOfLine;
@@ -178,7 +179,7 @@ public class Product
         logger.log(Level.INFO, "\u001B[35m" + "What categories of product do you want to add ?");
         printAllCategory();
         logger.log(Level.INFO, CYAN_COLOR + "new categories" + getString2());
-        logger.log(Level.INFO, getString() + getString2());
+        logger.log(Level.INFO,ENTER_YOUR_CHOICE + getString2());
 
         categoryName = scanner.nextLine();
         if (categoryName.equals("new categories")) {
@@ -288,7 +289,7 @@ public class Product
                 +"\u001B[34m The Description:\u001B[35m "+getDescriptionProduct()+" |"
                 +"\u001B[34m The Price:\u001B[35m "+getPriceProduct()+"$ |"
                 +"\u001B[34m The Availability:\u001B[35m "+getAvailability()+" |"
-                +"\u001B[34m The img:\u001B[35m "+getImgProduct()+" |");
+                +"\u001B[34m The img:\u001B[35m "+getImgProduct()+" |"+getString5()+getString2()+getString4()+getString3());
     }
 
 
@@ -304,6 +305,7 @@ public class Product
             printAllProductAndCategories(categoryName);
             logger.log(Level.INFO, "\u001B[34m" + "What is the product ID that you want to delete?");
             String id = scanner.nextLine();
+
             ifProductIdExist(categoryName,id);
             if(isiDExistFlag()) {
                 deleteThisProduct(categoryName);
@@ -548,9 +550,8 @@ public class Product
     }
 
 
-    public static String getString() {
-        return "Enter your choice: ";
-    }
+
+
 
     public void extractedSearchById(String catName, int productID) {
         if (isiDExistFlag()){
