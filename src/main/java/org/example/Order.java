@@ -19,9 +19,9 @@ public class Order extends RuntimeException  {
     public Order (){
 
     }
+    public static final String MSG ="Error during order login";
     public static final String M_THE_ORDER_NOT_FOUND = "\u001B[31m The order Not Found";
     public static final String M_INVALID_VALUE = "\u001B[31mInvalid value ";
-    public static final String M = "\u001B[0m";
     public static final String ENTER_YOUR_CHOICE = "Enter your choice: ";
     public static final String SRC_MAIN_RESOURCES_DATA = "src/main/resources/Data/";
     public ArrayList<Integer> lines = new ArrayList<>();
@@ -108,24 +108,24 @@ public class Order extends RuntimeException  {
     }
 
     String dateOfReceiptOfTheOrder;
-
+    
+    public void setStatusOrder(String statusOrder) {
+        Order.statusOrder = statusOrder;
+    }
     public String getStatusOrder() {
         return statusOrder;
     }
 
+    
+    
     public String getOrderDate() {
         return orderDate;
     }
-
     public void setOrderDate(String orderDate) {
         this.orderDate = orderDate;
     }
-
     String orderDate;
 
-    public void setStatusOrder(String statusOrder) {
-        Order.statusOrder = statusOrder;
-    }
 
     public float getTotalPriceProduct() {
         return totalPriceProduct;
@@ -182,7 +182,11 @@ public class Order extends RuntimeException  {
 
 
     public String  show;
-
+    public static String statusOrder;
+    public static  long orderNumber;
+    public static String idCustomer;
+    public static float orderPrice;
+    public static int quantitiesProduct;
 
 
 
@@ -190,94 +194,7 @@ public class Order extends RuntimeException  {
         return "\u001B[1m";
     }
 
-    public void editProductMenu() {
-        int productID = getProductID();
 
-        int choice;
-        Scanner scanner = new Scanner(System.in);
-        Scanner scanner2 = new Scanner(System.in);
-
-        show= """
-
-                \u001B[32m --------------- <3 ---------------
-                |     1. Modify the product quantity    |
-                |     2. Delete The Product             |
-                ----------------------------------------
-                """;
-        logger.log(Level.INFO,show);
-
-        logger.log(Level.INFO, ENTER_YOUR_CHOICE + M);
-        choice = scanner.nextInt();
-        if(choice==1){
-            viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
-            setProductID(productID);
-            logger.log(Level.INFO,"\n\u001B[32mWhat is the new quantity?");
-            int newQuantity = scanner2.nextInt();
-            ifQuantitiesAllowed(String.valueOf(newQuantity));
-            ifQuantitiesGraterThan(newQuantity);
-
-        } else if (choice==2) {
-            show= """
-        
-            \u001B[35m---------------------
-            |                       |
-            |      1. YES           |
-            |      2. NO            |
-            |                       |\s
-            -------------------------
-            """;
-            viewPendingOrderProduct(getIdCustomer(),getCustomerName(), String.valueOf(getOrderNumber()));
-            setProductID(productID);
-            String name = getCustomerName()+"-"+getIdCustomer();
-            if(ifFileOfCustomerOrderNoItem(getCustomerName())){
-                logger.log(Level.INFO,"Do you want to cancel the order?"+  M);
-                logger.log(Level.INFO, show);
-
-
-                if (scanner2.nextInt()==1){
-                    deleteOrder(name);
-                    logger.log(Level.INFO, getString2() + "\u001B[31m The Order is canceled Successfully" +  M);
-
-                }
-                else {
-                    editProductMenu();
-                }
-            }
-            else{
-                logger.log(Level.INFO,"Do you want to delete the product?"+ M);
-                logger.log(Level.INFO, """
-            
-            \u001B[35m---------------------
-            |                       |
-            |      1. YES           |
-            |      2. NO            |
-            -------------------------
-            """);
-                if(scanner2.nextInt()==1){
-                    deleteThisProductFromCustomer(name,getNumberOfLine());
-                    deleteThisProductFromCustomer("orderToAdmin",getNumberOfLine2());
-                    deleteThisProductFromCustomer("orderAllProduct",getNumberOfLine3());
-                    LocalDate currentDate = LocalDate.now();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    String formattedDate = currentDate.format(formatter);
-                    calculateTheTotalCost(getCustomerName(),getIdCustomer());
-                    String product2 =getOrderNumber()+","+getCustomerName()+","+getIdCustomer()+","+getOrderPrice()+","+formattedDate+","+"--"+","+"pending"+"\n";
-                    addNewOrderPending(product2);
-                    logger.log(Level.INFO,"The product is deleted and the Total cost is :" +getOrderPrice() +  M);
-
-                }
-                else{
-                    logger.log(Level.INFO,"The product Not deleted"+  M);
-                }
-            }
-        }
-
-        else{
-            logger.log(Level.WARNING, getString2() + M_INVALID_VALUE +  M);
-
-        }
-
-    }
 
     public void whatSetProductPrice(String categoryName,String id) {
         try (RandomAccessFile ref = new RandomAccessFile(SRC_MAIN_RESOURCES_DATA + categoryName + ".txt", "rw")) {
@@ -292,7 +209,7 @@ public class Order extends RuntimeException  {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order( MSG, e);
         }
     }
 
@@ -315,11 +232,6 @@ public class Order extends RuntimeException  {
         Order.quantitiesProduct = quantitiesProduct;
     }
 
-    public static String statusOrder;
-    public static  long orderNumber;
-    public static String idCustomer;
-    public static float orderPrice;
-    public static int quantitiesProduct;
 
     public int getProductID() {
         return productID;
@@ -445,7 +357,7 @@ public class Order extends RuntimeException  {
             extracted3(scanner1);
         }
         else{
-            logger.log(Level.WARNING, getString2() +"\u001B[31m The quantity is greater than 0."+ M);
+            logger.log(Level.WARNING, "\u001B[31m The quantity is greater than 0.");
             returnEnterQuantities();
         }
     }
@@ -557,7 +469,7 @@ public class Order extends RuntimeException  {
                 }
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
     }
 
@@ -575,7 +487,7 @@ public class Order extends RuntimeException  {
                 }
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
 
 
@@ -600,7 +512,7 @@ public class Order extends RuntimeException  {
                 }
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
     }
 
@@ -665,7 +577,7 @@ public class Order extends RuntimeException  {
 
 
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
 
     }
@@ -694,7 +606,7 @@ public class Order extends RuntimeException  {
                 logger.info("There is no delivered Orders");
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
     }
 
@@ -721,7 +633,7 @@ public class Order extends RuntimeException  {
                 }
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
 
     }
@@ -745,7 +657,7 @@ public class Order extends RuntimeException  {
 
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
 
     }
@@ -769,7 +681,7 @@ public class Order extends RuntimeException  {
                 }}
 
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
 
     }
@@ -814,7 +726,7 @@ public class Order extends RuntimeException  {
                 setIfCustomerCancelPendingOrder(false);
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
     }
     public void ifEnterOrderExitToChangeSt(long idOrder){
@@ -834,7 +746,7 @@ public class Order extends RuntimeException  {
                 setIfOrderExist(false);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order( MSG, e);
         }
     }
     public void ifOrderExitDelivered(String idOrder){
@@ -851,7 +763,7 @@ public class Order extends RuntimeException  {
                 setIfOrderExist(false);
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
     }
 
@@ -878,7 +790,7 @@ public class Order extends RuntimeException  {
     }
 
     public void ifOrderExit(Scanner scanner) {
-        logger.log(Level.INFO,"Enter The Number Of Order: "+M);
+        logger.log(Level.INFO,"Enter The Number Of Order: ");
         setOrderNumber(Long.parseLong(scanner.next()));
         ifEnterOrderExitToCancelPending(String.valueOf(getOrderNumber()));
     }
@@ -943,7 +855,7 @@ public class Order extends RuntimeException  {
 
 
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
     }
 
@@ -960,15 +872,13 @@ public class Order extends RuntimeException  {
                 deleteAndEdit();
             }
             else{
-                logger.log(Level.WARNING, getString2() + "\u001B[31m This product is no longer available" + M);
+                logger.log(Level.WARNING, "\u001B[31m This product is no longer available");
 
             }
 
         }
         else{
-            logger.log(Level.WARNING, getString2() + "\u001B[31mInvalid value " + M);
-            editProductMenu();
-
+            logger.log(Level.WARNING, "\u001B[31mInvalid value ");
         }
     }
 
@@ -985,7 +895,7 @@ public class Order extends RuntimeException  {
         calculateTheTotalCost(getCustomerName(),getIdCustomer());
         String product2 =getOrderNumber()+","+getCustomerName()+","+getIdCustomer()+","+getOrderPrice()+","+formattedDate+","+"--"+","+"pending"+"\n";
         addNewOrderPending(product2);
-        logger.log(Level.INFO,"The new Total cost is :" +getOrderPrice() +  M);
+        logger.log(Level.INFO,"The new Total cost is :" +getOrderPrice());
 
     }
 
@@ -1004,10 +914,9 @@ public class Order extends RuntimeException  {
             }
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order( MSG, e);
         }
 
-        System.out.println("out");
         return false;
     }
 
@@ -1023,7 +932,7 @@ public class Order extends RuntimeException  {
                 }
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
     }
 
@@ -1051,7 +960,7 @@ public class Order extends RuntimeException  {
 
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
 
     }
@@ -1071,7 +980,7 @@ public class Order extends RuntimeException  {
 
             }
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
 
     }
@@ -1111,7 +1020,7 @@ public class Order extends RuntimeException  {
 
 
         } catch (IOException e) {
-            throw new Order("Error during Order", e);
+            throw new Order( MSG, e);
         }
     }
 
@@ -1132,16 +1041,16 @@ public class Order extends RuntimeException  {
         {
             gmail.sendEmail(getGmailIs(),arrayOfTopic[2],arrayOfMsg[2]);
             logger.log(Level.INFO, getString2() + "\u001B[31m The Order is canceled " +
-                    "Successfully and send email to customer" +  M);
+                    "Successfully and send email to customer");
         }
         else if (getStatusOrder().equals("shipped")){
             gmail.sendEmail(getGmailIs(),arrayOfTopic[0],arrayOfMsg[0]);
             logger.log(Level.INFO, getString2() + "\u001B[31m The Order is shipped " +
-         "Successfully and send email to customer" +  M);}
+         "Successfully and send email to customer");}
         else if (getStatusOrder().equals(getDelivered())){
             gmail.sendEmail(getGmailIs(),arrayOfTopic[1],arrayOfMsg[1]);
             logger.log(Level.INFO, getString2() + "\u001B[31m The Order is updated " +
-                    "Successfully and send email to customer" +  M);}
+                    "Successfully and send email to customer");}
     }
 
 
@@ -1174,7 +1083,7 @@ public class Order extends RuntimeException  {
 
         } catch (IOException e)
         {
-            throw new RuntimeException(e);
+            throw new Order( MSG, e);
         }
         finally
         {
@@ -1201,7 +1110,7 @@ public class Order extends RuntimeException  {
             }
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new Order( MSG, e);
         }
         finally
         {
