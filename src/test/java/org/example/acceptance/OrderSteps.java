@@ -197,10 +197,13 @@ public class OrderSteps {
     public void admin_view_orders(String string) {
         order.viewAllOrderToAdmin();
         order.ifFileOfCustomerOrderNoItem("Saja");
-        order.ifOrderExitDelivered("0");
+        order.ifOrderExitDelivered(String.valueOf(order.getNumberOfLine3()));
+        order.ifOrderExitDelivered(String.valueOf(order.getNumberOfLine2()));
+        order.ifOrderExitDelivered(String.valueOf(order.getNumberOfLine()));
         order.setCountOfLine(3);
         order.setIfCustomerShowDeliveredOrder(true);
-        order.setDateOfReceiptOfTheOrder("Ddd");
+        order.setDateOfReceiptOfTheOrder(Order.getDelivered());
+        order.setProductAvailable(order.isProductAvailable());
     }
 
 }
