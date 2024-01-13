@@ -316,7 +316,7 @@ public class Main {
                 ----------------------------------
                 """;
         logger.info( enter);
-        logger.info(Product.getString() + Product.getString1());
+        logger.info(ENTER_YOUR_CHOICE + Product.getString1());
 
         choice = scanner.nextInt();
         if(choice==1)
@@ -372,7 +372,7 @@ public class Main {
                 ----------------------------------
                 """;
         logger.info( enter);
-        logger.info(Product.getString() + Product.getString2());
+        logger.info(ENTER_YOUR_CHOICE + Product.getString2());
 
         choice = scanner.nextInt();
         if(choice==1)
@@ -1263,7 +1263,7 @@ public class Main {
 
                 if (scanner2.nextInt()==1){
                     order.deleteOrder(name);
-                    logger.log(Level.INFO, Order.getString2() + "\u001B[31m The Order is canceled Successfully");
+                    logger.log(Level.INFO, "\u001B[31m The Order is canceled Successfully");
 
                 }
                 else {
