@@ -1,5 +1,7 @@
 package org.example;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.logging.Level;
 
@@ -1027,7 +1029,7 @@ public class Main {
         int choice;
         Scanner scanner = new Scanner(System.in);
         logger.log(Level.INFO,order.show);
-        logger.log(Level.INFO, Order.ENTER_YOUR_CHOICE + Order.M);
+        logger.log(Level.INFO, Order.ENTER_YOUR_CHOICE );
         choice = scanner.nextInt();
         if (choice == 1) {
             order.viewPendingOrder(Order.pending,order.getIdCustomer());
@@ -1123,7 +1125,7 @@ public class Main {
         order.ifProductExitToEdit(order.getProductID(),order.getOrderNumber(),order.getCustomerName(),order.getIdCustomer());
         order.foundNumber2Line(order.getProductID(),order.getOrderNumber());
         if(order.isProductExitFlag()){
-            order.editProductMenu();
+            editOrderMenu();
 
         }
         else{
@@ -1215,7 +1217,93 @@ public class Main {
         installer.ifRandomNumberGeneratorNotFound();
         installer.dataTrueOrNO();
     }
+    public static void editOrderMenu() {
+        int productID = order.getProductID();
 
+        int choice;
+        Scanner scanner = new Scanner(System.in);
+        Scanner scanner2 = new Scanner(System.in);
+
+        order.show= """
+
+                \u001B[32m --------------- <3 ---------------
+                |     1. Modify the product quantity    |
+                |     2. Delete The Product             |
+                ----------------------------------------
+                """;
+        logger.log(Level.INFO,order.show);
+
+        logger.log(Level.INFO, ENTER_YOUR_CHOICE);
+        choice = scanner.nextInt();
+        if(choice==1){
+            order.viewPendingOrderProduct(order.getIdCustomer(),order.getCustomerName(), String.valueOf(order.getOrderNumber()));
+            order.setProductID(productID);
+            logger.log(Level.INFO,"\n\u001B[32mWhat is the new quantity?");
+            int newQuantity = scanner2.nextInt();
+            order.ifQuantitiesAllowed(String.valueOf(newQuantity));
+            order.ifQuantitiesGraterThan(newQuantity);
+
+        } else if (choice==2) {
+            order.show= """
+        
+            \u001B[35m---------------------
+            |                       |
+            |      1. YES           |
+            |      2. NO            |
+            |                       |\s
+            -------------------------
+            """;
+            order.viewPendingOrderProduct(order.getIdCustomer(),order.getCustomerName(), String.valueOf(order.getOrderNumber()));
+            order.setProductID(productID);
+            String name = order.getCustomerName()+"-"+order.getIdCustomer();
+            if(order.ifFileOfCustomerOrderNoItem(order.getCustomerName())){
+                logger.log(Level.INFO,"Do you want to cancel the order?");
+                logger.log(Level.INFO,order.show);
+
+
+                if (scanner2.nextInt()==1){
+                    order.deleteOrder(name);
+                    logger.log(Level.INFO, Order.getString2() + "\u001B[31m The Order is canceled Successfully");
+
+                }
+                else {
+                    editOrderMenu();                }
+            }
+            else{
+                logger.log(Level.INFO,"Do you want to delete the product?");
+                logger.log(Level.INFO, """
+            
+            \u001B[35m---------------------
+            |                       |
+            |      1. YES           |
+            |      2. NO            |
+            -------------------------
+            """);
+                if(scanner2.nextInt()==1){
+                    order.deleteThisProductFromCustomer(name,product.getNumberOfLine());
+                    order.deleteThisProductFromCustomer("orderToAdmin",order.getNumberOfLine2());
+                    order.deleteThisProductFromCustomer("orderAllProduct",order.getNumberOfLine3());
+                    LocalDate currentDate = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    String formattedDate = currentDate.format(formatter);
+                    order.calculateTheTotalCost(order.getCustomerName(),order.getIdCustomer());
+                    String product2 =order.getOrderNumber()+","+order.getCustomerName()+","+order.getIdCustomer()+","+order.getOrderPrice()+","+formattedDate+","+"--"+","+"pending"+"\n";
+                    order.addNewOrderPending(product2);
+                    logger.log(Level.INFO,"The product is deleted and the Total cost is :" +order.getOrderPrice());
+
+                }
+                else{
+                    logger.log(Level.INFO,"The product Not deleted");
+                }
+            }
+        }
+
+        else{
+            logger.log(Level.WARNING, Order.M_INVALID_VALUE);
+
+        }
+
+    }
     public static String enterEmailS(){scanner = new Scanner(System.in);logger.log(Level.INFO,"\u001B[32mEnter the email:" + "\u001B[0m");return scanner.nextLine();}
     public static String enterPassS(){scanner = new Scanner(System.in);logger.log(Level.INFO,"Enter the password:");return scanner.nextLine();}
 
